@@ -57,9 +57,7 @@
         /* Estilo para o link de navegação ativo */
         .nav-link.active {
             color: white;
-        }
-        .nav-link.active .active-indicator {
-            opacity: 1;
+            background-color: rgba(239, 68, 68, 0.8); /* Vermelho com transparência */
         }
         /* Estilos do Carrossel (Swiper) */
         .swiper-button-next, .swiper-button-prev {
@@ -69,8 +67,10 @@
             background-color: white !important;
         }
         .swiper-slide {
-            background-size: cover;
+            background-size: contain; /* Mostra a imagem inteira */
             background-position: center;
+            background-repeat: no-repeat;
+            background-color: #000; /* Fundo preto para as bordas */
         }
     </style>
 </head>
@@ -96,19 +96,10 @@
                 Pica-Pau
             </h1>
             <!-- Navegação para Desktop -->
-            <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
-                 <a href="#" id="nav-highlights" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
-                    Destaques
-                    <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
-                </a>
-                <a href="#" id="nav-drawings" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
-                    Desenhos
-                    <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
-                </a>
-                <a href="#" id="nav-movies" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
-                    Filmes
-                    <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
-                </a>
+            <nav class="hidden md:flex space-x-2 items-center text-sm font-medium">
+                 <a href="#" id="nav-highlights" class="nav-link text-slate-300 hover:text-white transition-all duration-300 relative px-4 py-2 rounded-md">Destaques</a>
+                <a href="#" id="nav-drawings" class="nav-link text-slate-300 hover:text-white transition-all duration-300 relative px-4 py-2 rounded-md">Desenhos</a>
+                <a href="#" id="nav-movies" class="nav-link text-slate-300 hover:text-white transition-all duration-300 relative px-4 py-2 rounded-md">Filmes</a>
             </nav>
             <div class="flex items-center gap-4">
                  <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
@@ -134,12 +125,12 @@
 
 
     <!-- Conteúdo Principal (Inicialmente oculto) -->
-    <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10 max-w-7xl">
+    <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10 max-w-6xl">
         
         <!-- PÁGINA: DESTAQUES (CARROSSEL) -->
         <div id="highlightsPage" class="content-page">
             <!-- Swiper -->
-            <div class="swiper h-[35vh] md:h-[50vh] rounded-lg">
+            <div class="swiper h-[30vh] md:h-[45vh] rounded-lg">
                 <div class="swiper-wrapper" id="highlights-carousel">
                     <!-- Slides serão inseridos aqui pelo JavaScript -->
                 </div>
@@ -300,8 +291,8 @@
 
             const contentPages = document.querySelectorAll('.content-page');
             const backToDetailsBtn = document.getElementById('backToDetailsBtn');
-            const backToMoviesBtn = document.getElementById('backToMoviesFromIframe');
-            const backToOtherMoviesBtn = document.getElementById('backToMoviesFromVideo');
+            const backToMoviesFromIframe = document.getElementById('backToMoviesFromIframe');
+            const backToMoviesFromVideo = document.getElementById('backToMoviesFromVideo');
             const seasonsGrid = document.getElementById('seasonsGrid');
             const moviesGrid = document.getElementById('moviesGrid');
             const highlightsCarousel = document.getElementById('highlights-carousel');
@@ -318,8 +309,6 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
-            let currentEpisodeUrl = null;
-            let currentEpisodeTitle = null;
             let lastPage = 'highlightsPage';
 
             function updateNavActiveState(activePageId) {
@@ -329,11 +318,9 @@
                  }
                 
                 navLinks.forEach(link => {
-                    const indicator = link.querySelector('.active-indicator');
+                    link.classList.remove('active');
                     if (link.id === `nav-${activeId.replace('Page', '')}`) {
                         link.classList.add('active');
-                    } else {
-                        link.classList.remove('active');
                     }
                 });
 
@@ -434,12 +421,12 @@
                 if (!item) return;
 
                 detailsPage.innerHTML = `
-                    <div class="relative -mx-4 -mt-20 sm:-mt-24 h-[50vh] sm:h-[60vh]">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url(${item.cover})"></div>
+                    <div class="relative -mx-4 -mt-20 sm:-mt-24 h-[40vh] md:h-[50vh]">
+                        <div class="absolute inset-0 bg-contain bg-no-repeat bg-center" style="background-image: url(${item.cover}); background-color: #000;"></div>
                         <div class="absolute inset-0 bg-gradient-to-t from-[#081526] via-[#081526]/80 to-transparent"></div>
                     </div>
-                    <div class="relative -mt-24 sm:-mt-32 px-4">
-                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-8 items-center">
+                    <div class="relative px-4">
+                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-8 items-center -mt-24 sm:-mt-32">
                             <img src="${item.cover}" class="w-32 sm:w-48 aspect-[2/3] object-cover rounded-lg shadow-lg flex-shrink-0">
                             <div class="flex-grow text-center sm:text-left">
                                 <h2 class="text-3xl sm:text-5xl font-bold text-white">${item.title}</h2>
@@ -477,7 +464,15 @@
                             <div class="flex-grow">
                                 <h4 class="font-semibold text-slate-100">${ep.title}</h4>
                             </div>
-                            <i data-feather="play-circle" class="text-slate-400"></i>
+                            <div class="flex items-center gap-3">
+                                <a href="${ep.videoUrl}" download="${ep.title}.mp4" class="download-btn text-slate-400 hover:text-white" title="Fazer Download" onclick="event.stopPropagation();">
+                                   <i data-feather="download" class="w-5 h-5"></i>
+                                </a>
+                                <button class="cast-episode-btn text-slate-400 hover:text-white" title="Transmitir" data-url="${ep.videoUrl}" data-title="${ep.title}" onclick="event.stopPropagation();">
+                                   <i data-feather="cast" class="w-5 h-5"></i>
+                                </button>
+                                <i data-feather="play-circle" class="text-slate-400"></i>
+                            </div>
                         `;
                         epItem.addEventListener('click', () => playEpisode(item.id, index));
                         detailsEpisodeList.appendChild(epItem);
@@ -561,17 +556,27 @@
                  showPage('detailsPage', false);
             });
 
-            backToMoviesBtn.addEventListener('click', () => {
+            backToMoviesFromIframe.addEventListener('click', () => {
                 moviePlayerIframe.src = ''; 
                 showPage('moviesPage', false);
             });
 
-            backToOtherMoviesBtn.addEventListener('click', () => {
+            backToMoviesFromVideo.addEventListener('click', () => {
                 videoPlayer.pause();
                 videoPlayer.src = '';
                 showPage('moviesPage', false);
             });
             
+            detailsPage.addEventListener('click', (e) => {
+                const castButton = e.target.closest('.cast-episode-btn');
+                if (castButton) {
+                    const urlToCast = castButton.dataset.url;
+                    const titleToCast = castButton.dataset.title;
+                    const url = `wvc-x-callback://open?url=${encodeURIComponent(urlToCast)}&title=${encodeURIComponent(titleToCast)}`;
+                    window.location.href = url;
+                }
+            });
+
             highlightsCarousel.addEventListener('click', (e) => {
                 const button = e.target.closest('.play-highlight-btn');
                 if (button) {
