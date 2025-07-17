@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pica-Pau - O Desenho</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilo base para a fonte */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #0c4a6e; /* Azul do Pica-Pau */
+        }
+        /* Fonte especial para o título/logo */
+        .font-logo {
+            font-family: 'Luckiest Guy', cursive;
+        }
+        /* Gradiente para a seção de destaque */
+        .hero-gradient {
+            background: linear-gradient(to top, rgba(12, 74, 110, 1) 10%, rgba(12, 74, 110, 0.7) 40%, rgba(12, 74, 110, 0) 100%);
+        }
+        /* Esconde a barra de rolagem no modal */
+        .modal-open {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-sky-900 text-gray-200">
+
+    <!-- Cabeçalho -->
+    <header class="fixed top-0 left-0 right-0 bg-sky-900 bg-opacity-70 backdrop-blur-sm z-40">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="font-logo text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;">
+                Pica-Pau
+            </h1>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="#" class="text-gray-300 hover:text-white transition">Início</a>
+                <a href="#" class="text-white font-semibold">Desenhos</a>
+                <a href="#" class="text-gray-300 hover:text-white transition">Filmes</a>
+            </nav>
+            <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Usuário" class="rounded-full border-2 border-red-500">
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main>
+        <!-- Seção de Destaque (Hero) -->
+        <section class="relative h-[70vh] md:h-[80vh] flex items-end bg-cover bg-center" style="background-image: url('https://placehold.co/1920x1080/0891b2/ffffff?text=Cena+do+Pica-Pau');">
+            <div class="absolute inset-0 hero-gradient"></div>
+            <div class="relative z-10 p-6 md:p-12 max-w-2xl">
+                <h2 class="text-4xl md:text-6xl font-extrabold text-yellow-300 mb-4">Pica-Pau Ataca Novamente</h2>
+                <p class="text-gray-200 mb-6 text-lg">
+                    Acompanhe as travessuras do Pica-Pau, o pássaro mais maluco da floresta, enquanto ele perturba seus vizinhos e se mete nas mais hilárias confusões.
+                </p>
+                <button class="play-video-btn bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition-transform transform hover:scale-105 flex items-center space-x-2" data-video-url="https://files.catbox.moe/mj23l1.mp4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>Assistir Agora</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Galeria de Episódios -->
+        <section class="container mx-auto px-6 py-12">
+            <h3 class="text-2xl font-bold mb-6 text-gray-100">Episódios Clássicos</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                <!-- Card Episódio 1 -->
+                <div class="play-video-btn group cursor-pointer" data-video-url="https://files.catbox.moe/mj23l1.mp4">
+                    <div class="relative bg-sky-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
+                        <img src="https://placehold.co/300x170/ef4444/ffffff?text=Episódio+1" alt="Thumbnail Episódio 1" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.118v3.764a1 1 0 001.555.832l3.197-1.882a1 1 0 000-1.664l-3.197-1.882z" clip-rule="evenodd" /></svg>
+                        </div>
+                    </div>
+                    <h4 class="font-semibold text-gray-100 mt-2">Pica-Pau Ataca Novamente</h4>
+                </div>
+                <!-- Card Episódio 2 -->
+                <div class="group cursor-not-allowed">
+                    <div class="relative bg-sky-800 rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/300x170/f97316/ffffff?text=Episódio+2" alt="Thumbnail Episódio 2" class="w-full h-auto filter grayscale">
+                    </div>
+                    <h4 class="font-semibold text-gray-500 mt-2">O Barbeiro de Sevilha</h4>
+                </div>
+                <!-- Card Episódio 3 -->
+                <div class="group cursor-not-allowed">
+                    <div class="relative bg-sky-800 rounded-lg overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/300x170/eab308/ffffff?text=Episódio+3" alt="Thumbnail Episódio 3" class="w-full h-auto filter grayscale">
+                    </div>
+                    <h4 class="font-semibold text-gray-500 mt-2">Pica-Pau, o Rei do Gatilho</h4>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="border-t border-sky-800 mt-12">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2024 Pica-Pau. He-he-he-HÉ-he!</p>
+        </div>
+    </footer>
+
+    <!-- Modal do Player de Vídeo -->
+    <div id="videoModal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
+        <div class="relative w-full max-w-4xl bg-black rounded-lg shadow-lg">
+            <button id="closeModalBtn" class="absolute -top-4 -right-4 text-white bg-red-600 rounded-full h-10 w-10 flex items-center justify-center text-2xl z-10">&times;</button>
+            <div class="aspect-w-16 aspect-h-9">
+                <video id="videoPlayer" class="w-full h-full rounded-lg" controls autoplay></video>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Seleciona os elementos do DOM
+        const videoModal = document.getElementById('videoModal');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const playButtons = document.querySelectorAll('.play-video-btn');
+        const body = document.body;
+
+        // Função para abrir o modal
+        const openModal = (videoUrl) => {
+            if (videoUrl) {
+                videoPlayer.src = videoUrl;
+                videoModal.classList.remove('hidden');
+                body.classList.add('modal-open');
+                videoPlayer.play();
+            }
+        };
+
+        // Função para fechar o modal
+        const closeModal = () => {
+            videoModal.classList.add('hidden');
+            body.classList.remove('modal-open');
+            videoPlayer.pause();
+            videoPlayer.src = ''; // Interrompe o carregamento do vídeo em segundo plano
+        };
+
+        // Adiciona evento de clique para todos os botões de play
+        playButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const videoUrl = button.dataset.videoUrl;
+                openModal(videoUrl);
+            });
+        });
+
+        // Adiciona evento de clique para o botão de fechar
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Fecha o modal se o usuário clicar fora da área do vídeo
+        videoModal.addEventListener('click', (event) => {
+            if (event.target === videoModal) {
+                closeModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
