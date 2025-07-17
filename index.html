@@ -44,7 +44,7 @@
             background: #64748b;
         }
         /* Efeito de gradiente no card da temporada */
-        .season-card .overlay {
+        .season-card .overlay, .movie-card .overlay {
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%);
         }
         /* Animação para a tela de início */
@@ -52,6 +52,14 @@
             opacity: 0;
             transition: opacity 0.5s ease-out;
         }
+        /* Estilo para o link de navegação ativo */
+        .nav-link.active {
+            color: white;
+        }
+        .nav-link.active .active-indicator {
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body class="bg-[#081526]">
@@ -77,12 +85,14 @@
             </h1>
             <!-- Navegação para Desktop -->
             <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
-                <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Início</a>
-                <a href="#" class="text-white relative">
+                <a href="#" id="nav-drawings" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
                     Desenhos
-                    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full"></span>
+                    <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
                 </a>
-                <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
+                <a href="#" id="nav-movies" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
+                    Filmes
+                    <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
+                </a>
             </nav>
             <div class="flex items-center gap-4">
                  <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
@@ -97,9 +107,8 @@
     <!-- Menu Mobile (Overlay) -->
     <div id="mobile-menu" class="hidden fixed inset-0 bg-[#081526]/95 backdrop-blur-md z-30 md:hidden">
         <nav class="flex flex-col items-center justify-center h-full space-y-8 text-xl">
-             <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Início</a>
-             <a href="#" class="text-white font-bold">Desenhos</a>
-             <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
+             <a href="#" id="mobile-nav-drawings" class="mobile-nav-link text-white font-bold">Desenhos</a>
+             <a href="#" id="mobile-nav-movies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
         </nav>
         <button id="menu-close" class="absolute top-5 right-5 text-white p-2">
             <i data-feather="x" class="w-8 h-8"></i>
@@ -110,16 +119,38 @@
     <!-- Conteúdo Principal (Inicialmente oculto) -->
     <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10">
         
-        <!-- PÁGINA INICIAL: SELEÇÃO DE TEMPORADAS -->
-        <div id="seasonsPage">
+        <!-- PÁGINA: SELEÇÃO DE TEMPORADAS -->
+        <div id="seasonsPage" class="content-page">
             <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Temporadas</h2>
             <div id="seasonsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
                 <!-- Cards das temporadas serão inseridos aqui pelo JavaScript -->
             </div>
         </div>
 
+        <!-- PÁGINA: FILMES -->
+        <div id="moviesPage" class="content-page hidden">
+            <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Filmes</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                <!-- Card do Filme -->
+                <div id="movie-card" class="movie-card group cursor-pointer" title="Pica-Pau: O Filme (2017)">
+                    <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
+                        <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/5N83hN2T3n5wL54sLVyOq2Vd2S.jpg" alt="Capa de Pica-Pau: O Filme" class="w-full h-auto aspect-[2/3] object-cover">
+                        <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
+                             <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">Pica-Pau: O Filme</h4>
+                             <p class="text-xs text-slate-300">2017</p>
+                        </div>
+                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                                <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- PÁGINA DE EPISÓDIOS (Inicialmente oculta) -->
-        <div id="episodesPage" class="hidden">
+        <div id="episodesPage" class="content-page hidden">
             <button id="backToSeasonsBtn" class="mb-6 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
                 <i data-feather="arrow-left" class="w-5 h-5"></i>
                 Voltar
@@ -153,6 +184,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA DO PLAYER DE FILME (Inicialmente oculta) -->
+        <div id="moviePlayerPage" class="content-page hidden">
+             <button id="backToMoviesBtn" class="mb-6 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
+                <i data-feather="arrow-left" class="w-5 h-5"></i>
+                Voltar para Filmes
+            </button>
+            <div id="moviePlayerContainer" class="aspect-w-16 aspect-h-9 bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
+                <!-- O Iframe do filme será inserido aqui -->
             </div>
         </div>
     </main>
@@ -212,10 +254,10 @@
                 ]
             };
 
-            const seasonsPage = document.getElementById('seasonsPage');
-            const episodesPage = document.getElementById('episodesPage');
-            const seasonsGrid = document.getElementById('seasonsGrid');
+            const contentPages = document.querySelectorAll('.content-page');
             const backToSeasonsBtn = document.getElementById('backToSeasonsBtn');
+            const backToMoviesBtn = document.getElementById('backToMoviesBtn');
+            const seasonsGrid = document.getElementById('seasonsGrid');
             
             const mainVideoPlayer = document.getElementById('mainVideoPlayer');
             const episodeTitle = document.getElementById('episodeTitle');
@@ -225,12 +267,46 @@
             const castButton = document.getElementById('castButton');
             const castError = document.getElementById('castError');
 
+            const movieCard = document.getElementById('movie-card');
+            const moviePlayerContainer = document.getElementById('moviePlayerContainer');
+
+
+            // Nav Links
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
             let currentSeasonId = null;
-            let currentEpisodeIndex = 0;
+
+            function updateNavActiveState(activePageId) {
+                let activeId = activePageId;
+                if (activePageId === 'episodesPage') activeId = 'seasonsPage';
+                if (activePageId === 'moviePlayerPage') activeId = 'moviesPage';
+                
+                navLinks.forEach(link => {
+                    const indicator = link.querySelector('.active-indicator');
+                    if (link.id === `nav-${activeId.replace('Page', 's')}`) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                 mobileNavLinks.forEach(link => {
+                    if (link.id === `mobile-nav-${activeId.replace('Page', 's')}`) {
+                        link.classList.add('text-white', 'font-bold');
+                        link.classList.remove('text-slate-300');
+                    } else {
+                        link.classList.remove('text-white', 'font-bold');
+                        link.classList.add('text-slate-300');
+                    }
+                });
+            }
 
             function showPage(pageId) {
-                seasonsPage.classList.toggle('hidden', pageId !== 'seasonsPage');
-                episodesPage.classList.toggle('hidden', pageId !== 'episodesPage');
+                contentPages.forEach(page => {
+                    page.classList.toggle('hidden', page.id !== pageId);
+                });
+                updateNavActiveState(pageId);
                 window.scrollTo(0, 0); 
             }
 
@@ -309,7 +385,6 @@
             }
 
             function playEpisode(index) {
-                currentEpisodeIndex = index;
                 const season = db.seasons.find(s => s.id === currentSeasonId);
                 const episodeData = season?.episodes[index];
                 if (!episodeData) return;
@@ -327,12 +402,39 @@
                 mainVideoPlayer.play();
             }
 
+            function playMovie(url) {
+                moviePlayerContainer.innerHTML = ''; // Limpa o container
+                const iframe = document.createElement('iframe');
+                iframe.src = url.replace('/video/', '/embed/'); // Adapta a URL para o formato de incorporação
+                iframe.className = 'w-full h-full';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allowfullscreen', 'true');
+                iframe.setAttribute('webkitallowfullscreen', 'true');
+                iframe.setAttribute('mozallowfullscreen', 'true');
+                moviePlayerContainer.appendChild(iframe);
+                showPage('moviePlayerPage');
+            }
+
+            // Event Listeners
+            document.getElementById('nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); });
+            document.getElementById('nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); });
+            document.getElementById('mobile-nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); toggleMenu(); });
+            document.getElementById('mobile-nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); toggleMenu(); });
+
             backToSeasonsBtn.addEventListener('click', () => {
                 mainVideoPlayer.pause();
                 showPage('seasonsPage');
             });
+
+            backToMoviesBtn.addEventListener('click', () => {
+                moviePlayerContainer.innerHTML = ''; // Para a reprodução ao sair
+                showPage('moviesPage');
+            });
+
+            movieCard.addEventListener('click', () => {
+                playMovie("https://www.tokyvideo.com/video/pica-pau-o-filme-2017-comedia-infantil-1h-34m");
+            });
             
-            // Lógica do botão de transmissão (Cast)
             if (castButton && 'remote' in mainVideoPlayer) {
                 castButton.addEventListener('click', () => {
                     mainVideoPlayer.remote.prompt().catch(error => {
@@ -345,12 +447,11 @@
                     });
                 });
             } else if (castButton) {
-                // Esconde o botão se a API não for suportada
                 castButton.style.display = 'none';
             }
             
-            // Carrega as temporadas na página inicial
             loadSeasons();
+            showPage('seasonsPage'); // Define a página inicial
         });
     </script>
 </body>
