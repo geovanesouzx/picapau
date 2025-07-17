@@ -69,9 +69,8 @@
             background-color: white !important;
         }
         .swiper-slide {
-            background-size: 100% 100%; /* Estica a imagem para preencher */
+            background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
         }
     </style>
 </head>
@@ -135,7 +134,7 @@
 
 
     <!-- Conteúdo Principal (Inicialmente oculto) -->
-    <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10">
+    <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10 max-w-7xl">
         
         <!-- PÁGINA: DESTAQUES (CARROSSEL) -->
         <div id="highlightsPage" class="content-page">
@@ -155,7 +154,7 @@
         <!-- PÁGINA: SELEÇÃO DE TEMPORADAS -->
         <div id="seasonsPage" class="content-page hidden">
             <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Temporadas</h2>
-            <div id="seasonsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+            <div id="seasonsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                 <!-- Cards das temporadas serão inseridos aqui pelo JavaScript -->
             </div>
         </div>
@@ -163,7 +162,7 @@
         <!-- PÁGINA: FILMES -->
         <div id="moviesPage" class="content-page hidden">
             <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Filmes</h2>
-            <div id="moviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+            <div id="moviesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                 <!-- Cards de filmes serão inseridos aqui pelo JavaScript -->
             </div>
         </div>
@@ -310,8 +309,7 @@
             
             const mainVideoPlayer = document.getElementById('mainVideoPlayer');
             const episodeTitle = document.getElementById('episodeTitle');
-            const webCastButton = document.getElementById('webCastButton');
-
+            
             const moviePlayerIframe = document.getElementById('movie_player_iframe');
             
             const videoPlayer = document.getElementById('videoPlayer');
