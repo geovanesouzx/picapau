@@ -20,20 +20,17 @@
         .font-logo {
             font-family: 'Luckiest Guy', cursive;
         }
-        /* Gradiente para a seção de destaque */
-        .hero-gradient {
-            background: linear-gradient(to top, rgba(12, 74, 110, 1) 10%, rgba(12, 74, 110, 0.7) 40%, rgba(12, 74, 110, 0) 100%);
-        }
-        /* Esconde a barra de rolagem no modal */
-        .modal-open {
-            overflow: hidden;
+        /* Estilo para o item ativo na lista de episódios */
+        .episode-item.active {
+            background-color: #075985;
+            border-color: #ef4444;
         }
     </style>
 </head>
 <body class="bg-sky-900 text-gray-200">
 
     <!-- Cabeçalho -->
-    <header class="fixed top-0 left-0 right-0 bg-sky-900 bg-opacity-70 backdrop-blur-sm z-40">
+    <header class="fixed top-0 left-0 right-0 bg-sky-900 bg-opacity-80 backdrop-blur-sm z-40 border-b border-sky-700">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="font-logo text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;">
                 Pica-Pau
@@ -48,113 +45,164 @@
     </header>
 
     <!-- Conteúdo Principal -->
-    <main>
-        <!-- Seção de Destaque (Hero) -->
-        <section class="relative h-[70vh] md:h-[80vh] flex items-end bg-cover bg-center" style="background-image: url('https://placehold.co/1920x1080/0891b2/ffffff?text=Cena+do+Pica-Pau');">
-            <div class="absolute inset-0 hero-gradient"></div>
-            <div class="relative z-10 p-6 md:p-12 max-w-2xl">
-                <h2 class="text-4xl md:text-6xl font-extrabold text-yellow-300 mb-4">Pica-Pau Ataca Novamente</h2>
-                <p class="text-gray-200 mb-6 text-lg">
-                    Acompanhe as travessuras do Pica-Pau, o pássaro mais maluco da floresta, enquanto ele perturba seus vizinhos e se mete nas mais hilárias confusões.
-                </p>
-                <button class="play-video-btn bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition-transform transform hover:scale-105 flex items-center space-x-2" data-video-url="https://files.catbox.moe/mj23l1.mp4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <span>Assistir Agora</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- Galeria de Episódios -->
-        <section class="container mx-auto px-6 py-12">
-            <h3 class="text-2xl font-bold mb-6 text-gray-100">Episódios Clássicos</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                <!-- Card Episódio 1 -->
-                <div class="play-video-btn group cursor-pointer" data-video-url="https://files.catbox.moe/mj23l1.mp4">
+    <main class="container mx-auto px-6 py-24">
+        
+        <!-- PÁGINA INICIAL: SELEÇÃO DE TEMPORADAS -->
+        <div id="seasonsPage">
+            <h2 class="text-3xl font-bold text-yellow-300 mb-6">Temporadas</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <!-- Card Temporada 1 -->
+                <div id="season-1" class="season-card group cursor-pointer">
                     <div class="relative bg-sky-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
-                        <img src="https://placehold.co/300x170/ef4444/ffffff?text=Episódio+1" alt="Thumbnail Episódio 1" class="w-full h-auto">
-                        <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.118v3.764a1 1 0 001.555.832l3.197-1.882a1 1 0 000-1.664l-3.197-1.882z" clip-rule="evenodd" /></svg>
+                        <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Capa de Pica-Pau 1940" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.118v3.764a1 1 0 001.555.832l3.197-1.882a1 1 0 000-1.664l-3.197-1.882z" clip-rule="evenodd" /></svg>
                         </div>
                     </div>
-                    <h4 class="font-semibold text-gray-100 mt-2">Pica-Pau Ataca Novamente</h4>
-                </div>
-                <!-- Card Episódio 2 -->
-                <div class="group cursor-not-allowed">
-                    <div class="relative bg-sky-800 rounded-lg overflow-hidden shadow-lg">
-                        <img src="https://placehold.co/300x170/f97316/ffffff?text=Episódio+2" alt="Thumbnail Episódio 2" class="w-full h-auto filter grayscale">
-                    </div>
-                    <h4 class="font-semibold text-gray-500 mt-2">O Barbeiro de Sevilha</h4>
-                </div>
-                <!-- Card Episódio 3 -->
-                <div class="group cursor-not-allowed">
-                    <div class="relative bg-sky-800 rounded-lg overflow-hidden shadow-lg">
-                        <img src="https://placehold.co/300x170/eab308/ffffff?text=Episódio+3" alt="Thumbnail Episódio 3" class="w-full h-auto filter grayscale">
-                    </div>
-                    <h4 class="font-semibold text-gray-500 mt-2">Pica-Pau, o Rei do Gatilho</h4>
+                    <h4 class="font-semibold text-gray-100 mt-2 text-center">Pica-Pau 1940</h4>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- PÁGINA DE EPISÓDIOS (Inicialmente oculta) -->
+        <div id="episodesPage" class="hidden">
+            <button id="backToSeasonsBtn" class="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>
+                Voltar para Temporadas
+            </button>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Coluna Principal: Player e Detalhes -->
+                <div class="w-full lg:w-2/3">
+                    <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden shadow-lg">
+                        <video id="mainVideoPlayer" class="w-full h-full" controls autoplay>
+                            <source src="https://files.catbox.moe/mj23l1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="mt-6">
+                        <h2 id="episodeTitle" class="text-3xl font-extrabold text-yellow-300 mb-2">Pica-Pau Ataca Novamente</h2>
+                        <div class="flex items-center gap-4">
+                            <p id="episodeDescription" class="text-gray-300 flex-grow">Acompanhe as travessuras do Pica-Pau...</p>
+                            <!-- Wrapper for cast button and message -->
+                            <div class="relative">
+                                <button id="castButton" class="bg-gray-700 hover:bg-gray-600 text-white font-bold p-2 rounded-full flex-shrink-0" title="Transmitir para a TV">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                    </svg>
+                                </button>
+                                <div id="castError" class="hidden absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md shadow-lg whitespace-nowrap">
+                                    Nenhum dispositivo encontrado.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna Lateral: Lista de Episódios -->
+                <div class="w-full lg:w-1/3">
+                    <div class="bg-sky-800/50 rounded-lg p-4">
+                        <h3 class="text-xl font-bold mb-4 text-gray-100">Episódios - Pica-Pau 1940</h3>
+                        <div id="episodeList" class="space-y-3">
+                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
+                                <div class="episode-item active flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/mj23l1.mp4" data-title="Pica-Pau Ataca Novamente" data-description="Acompanhe as travessuras do Pica-Pau, o pássaro mais maluco da floresta.">
+                                    <img src="https://placehold.co/120x70/ef4444/ffffff?text=Episódio+1" alt="Thumbnail" class="w-28 rounded">
+                                    <div>
+                                        <h4 class="font-semibold text-gray-100">Pica-Pau Ataca Novamente</h4>
+                                        <p class="text-sm text-gray-400">7 min</p>
+                                    </div>
+                                </div>
+                                <a href="https://files.catbox.moe/mj23l1.mp4" download="Pica-Pau Ataca Novamente.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- Rodapé -->
-    <footer class="border-t border-sky-800 mt-12">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
-            <p>&copy; 2024 Pica-Pau. He-he-he-HÉ-he!</p>
-        </div>
-    </footer>
-
-    <!-- Modal do Player de Vídeo -->
-    <div id="videoModal" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
-        <div class="relative w-full max-w-4xl bg-black rounded-lg shadow-lg">
-            <button id="closeModalBtn" class="absolute -top-4 -right-4 text-white bg-red-600 rounded-full h-10 w-10 flex items-center justify-center text-2xl z-10">&times;</button>
-            <div class="aspect-w-16 aspect-h-9">
-                <video id="videoPlayer" class="w-full h-full rounded-lg" controls autoplay></video>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Seleciona os elementos do DOM
-        const videoModal = document.getElementById('videoModal');
-        const videoPlayer = document.getElementById('videoPlayer');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const playButtons = document.querySelectorAll('.play-video-btn');
-        const body = document.body;
+        document.addEventListener('DOMContentLoaded', () => {
+            // Seletores das "páginas" e botões de navegação
+            const seasonsPage = document.getElementById('seasonsPage');
+            const episodesPage = document.getElementById('episodesPage');
+            const seasonCards = document.querySelectorAll('.season-card');
+            const backToSeasonsBtn = document.getElementById('backToSeasonsBtn');
 
-        // Função para abrir o modal
-        const openModal = (videoUrl) => {
-            if (videoUrl) {
-                videoPlayer.src = videoUrl;
-                videoModal.classList.remove('hidden');
-                body.classList.add('modal-open');
-                videoPlayer.play();
+            // Seletores dos elementos da página de episódios
+            const mainVideoPlayer = document.getElementById('mainVideoPlayer');
+            const episodeTitle = document.getElementById('episodeTitle');
+            const episodeDescription = document.getElementById('episodeDescription');
+            const episodeItems = document.querySelectorAll('.episode-item');
+            const castButton = document.getElementById('castButton');
+            const castError = document.getElementById('castError');
+
+            // Função para mostrar a página de episódios
+            function showEpisodesPage() {
+                seasonsPage.classList.add('hidden');
+                episodesPage.classList.remove('hidden');
             }
-        };
 
-        // Função para fechar o modal
-        const closeModal = () => {
-            videoModal.classList.add('hidden');
-            body.classList.remove('modal-open');
-            videoPlayer.pause();
-            videoPlayer.src = ''; // Interrompe o carregamento do vídeo em segundo plano
-        };
+            // Função para mostrar a página de temporadas
+            function showSeasonsPage() {
+                episodesPage.classList.add('hidden');
+                seasonsPage.classList.remove('hidden');
+                mainVideoPlayer.pause();
+            }
 
-        // Adiciona evento de clique para todos os botões de play
-        playButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const videoUrl = button.dataset.videoUrl;
-                openModal(videoUrl);
+            // Navegação: Clicar na capa da temporada
+            seasonCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    showEpisodesPage();
+                });
             });
-        });
 
-        // Adiciona evento de clique para o botão de fechar
-        closeModalBtn.addEventListener('click', closeModal);
+            // Navegação: Clicar no botão "Voltar"
+            backToSeasonsBtn.addEventListener('click', showSeasonsPage);
 
-        // Fecha o modal se o usuário clicar fora da área do vídeo
-        videoModal.addEventListener('click', (event) => {
-            if (event.target === videoModal) {
-                closeModal();
+            // Lógica do player de vídeo
+            episodeItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    episodeItems.forEach(el => el.classList.remove('active'));
+                    item.classList.add('active');
+
+                    const videoUrl = item.dataset.videoUrl;
+                    const title = item.dataset.title;
+                    const description = item.dataset.description;
+
+                    mainVideoPlayer.src = videoUrl;
+                    episodeTitle.textContent = title;
+                    episodeDescription.textContent = description;
+                    mainVideoPlayer.play();
+                });
+            });
+
+            // Lógica de Transmissão (Casting)
+            if ('remote' in mainVideoPlayer) {
+                // Deixa o botão sempre visível
+                castButton.classList.remove('hidden');
+                
+                castButton.addEventListener('click', () => {
+                    mainVideoPlayer.remote.prompt().catch(error => {
+                        // Se o erro for "Nenhum dispositivo encontrado", mostre uma mensagem amigável
+                        if (error.name === 'NotFoundError') {
+                            castError.classList.remove('hidden');
+                            // Esconde a mensagem após 3 segundos
+                            setTimeout(() => {
+                                castError.classList.add('hidden');
+                            }, 3000);
+                        } else {
+                            console.error('Erro ao tentar transmitir:', error);
+                        }
+                    });
+                });
+            } else {
+                // Se a API não existir, o botão permanecerá escondido
+                console.log('A API de Reprodução Remota não é suportada neste navegador.');
             }
+
         });
     </script>
 
