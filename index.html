@@ -14,7 +14,7 @@
         /* Estilo base para a fonte */
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: #0c4a6e; /* Azul do Pica-Pau */
+            background-color: #082f49; /* Azul escuro de fundo */
         }
         /* Fonte especial para o título/logo */
         .font-logo {
@@ -31,30 +31,49 @@
             height: 4.5rem; /* 72px */
             object-fit: cover; /* Preenche o container cortando o excesso */
         }
+        /* Gradiente para a seção de destaque */
+        .hero-gradient {
+            background: linear-gradient(to top, rgba(8, 47, 73, 1) 5%, rgba(8, 47, 73, 0.7) 40%, rgba(8, 47, 73, 0) 100%);
+        }
     </style>
 </head>
 <body class="bg-sky-900 text-gray-200">
 
     <!-- Cabeçalho -->
-    <header class="fixed top-0 left-0 right-0 bg-sky-900 bg-opacity-80 backdrop-blur-sm z-40 border-b border-sky-700">
+    <header class="fixed top-0 left-0 right-0 bg-black/20 backdrop-blur-lg z-40 border-b border-white/10">
         <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
             <h1 class="font-logo text-3xl sm:text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;">
                 Pica-Pau
             </h1>
-            <nav class="hidden md:flex space-x-6 items-center">
-                <a href="#" class="text-gray-300 hover:text-white transition">Início</a>
-                <a href="#" class="text-white font-semibold">Desenhos</a>
-                <a href="#" class="text-gray-300 hover:text-white transition">Filmes</a>
+            <nav class="hidden md:flex space-x-6 items-center text-white font-semibold">
+                <a href="#" class="hover:text-red-400 transition">Início</a>
+                <a href="#" class="text-red-400">Desenhos</a>
+                <a href="#" class="hover:text-red-400 transition">Filmes</a>
             </nav>
             <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Usuário" class="rounded-full border-2 border-red-500">
         </div>
     </header>
 
     <!-- Conteúdo Principal -->
-    <main class="container mx-auto px-4 sm:px-6 pt-20 pb-10">
-        
-        <!-- PÁGINA INICIAL: SELEÇÃO DE TEMPORADAS -->
-        <div id="seasonsPage">
+    <main>
+        <!-- PÁGINA DE ABERTURA (HERO) -->
+        <div id="heroPage">
+            <section class="relative h-screen flex items-center justify-center text-center bg-cover bg-center" style="background-image: url('https://placehold.co/1920x1080/0891b2/ffffff?text=Pica-Pau');">
+                <div class="absolute inset-0 bg-black/50"></div>
+                <div class="relative z-10 p-6 max-w-3xl">
+                    <h2 class="font-logo text-6xl md:text-8xl font-extrabold text-red-500 mb-4" style="text-shadow: 3px 3px 0 #fff;">Pica-Pau</h2>
+                    <p class="text-gray-200 mb-8 text-lg md:text-xl max-w-xl mx-auto">
+                        A série clássica de um dos personagens mais amados dos desenhos animados. Prepare-se para muitas risadas e confusões!
+                    </p>
+                    <button id="viewSeasonsBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition-transform transform hover:scale-105">
+                        Ver Temporadas
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- PÁGINA DE TEMPORADAS (Inicialmente oculta) -->
+        <div id="seasonsPage" class="hidden container mx-auto px-4 sm:px-6 pt-24 pb-10">
             <h2 class="text-2xl sm:text-3xl font-bold text-yellow-300 mb-6">Temporadas</h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
                 <!-- Card Temporada 1 -->
@@ -71,15 +90,15 @@
         </div>
 
         <!-- PÁGINA DE EPISÓDIOS (Inicialmente oculta) -->
-        <div id="episodesPage" class="hidden">
-            <button id="backToSeasonsBtn" class="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2">
+        <div id="episodesPage" class="hidden container mx-auto px-4 sm:px-6 pt-24 pb-10">
+            <button id="backToSeasonsBtn" class="mb-6 bg-red-600/80 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>
-                Voltar para Temporadas
+                Voltar
             </button>
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Coluna Principal: Player e Detalhes -->
                 <div class="w-full lg:w-2/3">
-                    <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden shadow-lg">
+                    <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden shadow-2xl">
                         <video id="mainVideoPlayer" class="w-full h-full" controls autoplay>
                             <source src="https://files.catbox.moe/mj23l1.mp4" type="video/mp4">
                         </video>
@@ -88,9 +107,8 @@
                         <h2 id="episodeTitle" class="text-2xl lg:text-3xl font-extrabold text-yellow-300 mb-2">Pica-Pau Ataca Novamente</h2>
                         <div class="flex items-start gap-4">
                             <p id="episodeDescription" class="text-gray-300 flex-grow text-sm sm:text-base">Acompanhe as travessuras do Pica-Pau...</p>
-                            <!-- Wrapper for cast button and message -->
                             <div class="relative">
-                                <button id="castButton" class="bg-gray-700 hover:bg-gray-600 text-white font-bold p-2 rounded-full flex-shrink-0" title="Transmitir para a TV">
+                                <button id="castButton" class="bg-gray-700/50 hover:bg-gray-600/50 text-white font-bold p-2 rounded-full flex-shrink-0 transition" title="Transmitir para a TV">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                     </svg>
@@ -105,135 +123,10 @@
 
                 <!-- Coluna Lateral: Lista de Episódios -->
                 <div class="w-full lg:w-1/3">
-                    <div class="bg-sky-800/50 rounded-lg p-4">
+                    <div class="bg-sky-900/50 rounded-lg p-4 backdrop-blur-sm">
                         <h3 class="text-xl font-bold mb-4 text-gray-100">Episódios - Pica-Pau 1940</h3>
-                        <div id="episodeList" class="space-y-3 max-h-[60vh] lg:max-h-full overflow-y-auto">
-                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item active flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/mj23l1.mp4" data-title="Pica-Pau Ataca Novamente" data-description="Acompanhe as travessuras do Pica-Pau, o pássaro mais maluco da floresta.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">Pica-Pau Ataca Novamente</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/mj23l1.mp4" download="Pica-Pau Ataca Novamente.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/1onuvg.mp4" data-title="O Pica-Pau Biruta" data-description="O Pica-Pau enlouquece um psiquiatra com suas travessuras incessantes.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">O Pica-Pau Biruta</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/1onuvg.mp4" download="O Pica-Pau Biruta.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
-                             <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/fm8er6.mp4" data-title="O Biruta" data-description="O Pica-Pau causa problemas em um hotel de luxo.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">O Biruta</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/fm8er6.mp4" download="O Biruta.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/3vlf67.mp4" data-title="Pânico na Cozinha" data-description="O Pica-Pau transforma a cozinha de um restaurante em um verdadeiro caos.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">Pânico na Cozinha</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/3vlf67.mp4" download="Pânico na Cozinha.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/opgp7j.mp4" data-title="O Matador de Hollywood" data-description="O Pica-Pau se infiltra em um estúdio de Hollywood.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">O Matador de Hollywood</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/opgp7j.mp4" download="O Matador de Hollywood.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/13r6tn.mp4" data-title="Um Ás de Mais" data-description="O Pica-Pau se torna um piloto de avião.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">Um Ás de Mais</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/13r6tn.mp4" download="Um Ás de Mais.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/2tsdpm.mp4" data-title="A Loja do Prego" data-description="O Pica-Pau inferniza o Leôncio em sua loja.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">A Loja do Prego</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/2tsdpm.mp4" download="A Loja do Prego.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/eg8s85.mp4" data-title="Beisebol Maluco" data-description="Uma partida de beisebol caótica com o Pica-Pau.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">Beisebol Maluco</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/eg8s85.mp4" download="Beisebol Maluco.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
-                            <div class="episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50">
-                                <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-video-url="https://files.catbox.moe/3lths3.mp4" data-title="O Acrobata Maluco" data-description="O Pica-Pau apronta todas no circo.">
-                                    <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                                    <div>
-                                        <h4 class="font-semibold text-gray-100 text-sm sm:text-base">O Acrobata Maluco</h4>
-                                        <p class="text-sm text-gray-400">7 min</p>
-                                    </div>
-                                </div>
-                                <a href="https://files.catbox.moe/3lths3.mp4" download="O Acrobata Maluco.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                </a>
-                            </div>
+                        <div id="episodeList" class="space-y-3 max-h-[60vh] lg:max-h-full overflow-y-auto pr-2">
+                             <!-- Episódios serão inseridos aqui pelo JS -->
                         </div>
                     </div>
                 </div>
@@ -243,84 +136,100 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Seletores das "páginas" e botões de navegação
+            const episodesData = [
+                { videoUrl: "https://files.catbox.moe/mj23l1.mp4", title: "Pica-Pau Ataca Novamente", description: "Acompanhe as travessuras do Pica-Pau, o pássaro mais maluco da floresta.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
+                { videoUrl: "https://files.catbox.moe/1onuvg.mp4", title: "O Pica-Pau Biruta", description: "O Pica-Pau enlouquece um psiquiatra com suas travessuras incessantes.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
+                { videoUrl: "https://files.catbox.moe/fm8er6.mp4", title: "O Biruta", description: "O Pica-Pau causa problemas em um hotel de luxo.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
+                { videoUrl: "https://files.catbox.moe/3vlf67.mp4", title: "Pânico na Cozinha", description: "O Pica-Pau transforma a cozinha de um restaurante em um verdadeiro caos.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
+                { videoUrl: "https://files.catbox.moe/opgp7j.mp4", title: "O Matador de Hollywood", description: "O Pica-Pau se infiltra em um estúdio de Hollywood.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
+                { videoUrl: "https://files.catbox.moe/13r6tn.mp4", title: "Um Ás de Mais", description: "O Pica-Pau se torna um piloto de avião.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
+                { videoUrl: "https://files.catbox.moe/2tsdpm.mp4", title: "A Loja do Prego", description: "O Pica-Pau inferniza o Leôncio em sua loja.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
+                { videoUrl: "https://files.catbox.moe/eg8s85.mp4", title: "Beisebol Maluco", description: "Uma partida de beisebol caótica com o Pica-Pau.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
+                { videoUrl: "https://files.catbox.moe/3lths3.mp4", title: "O Acrobata Maluco", description: "O Pica-Pau apronta todas no circo.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" }
+            ];
+
+            const heroPage = document.getElementById('heroPage');
             const seasonsPage = document.getElementById('seasonsPage');
             const episodesPage = document.getElementById('episodesPage');
+            const viewSeasonsBtn = document.getElementById('viewSeasonsBtn');
             const seasonCards = document.querySelectorAll('.season-card');
             const backToSeasonsBtn = document.getElementById('backToSeasonsBtn');
-
-            // Seletores dos elementos da página de episódios
+            
             const mainVideoPlayer = document.getElementById('mainVideoPlayer');
             const episodeTitle = document.getElementById('episodeTitle');
             const episodeDescription = document.getElementById('episodeDescription');
-            const episodeItems = document.querySelectorAll('.episode-item');
+            const episodeList = document.getElementById('episodeList');
             const castButton = document.getElementById('castButton');
             const castError = document.getElementById('castError');
 
-            // Função para mostrar a página de episódios
-            function showEpisodesPage() {
-                seasonsPage.classList.add('hidden');
-                episodesPage.classList.remove('hidden');
+            function showPage(pageId) {
+                [heroPage, seasonsPage, episodesPage].forEach(page => page.classList.add('hidden'));
+                document.getElementById(pageId).classList.remove('hidden');
             }
 
-            // Função para mostrar a página de temporadas
-            function showSeasonsPage() {
-                episodesPage.classList.add('hidden');
-                seasonsPage.classList.remove('hidden');
-                mainVideoPlayer.pause();
-            }
-
-            // Navegação: Clicar na capa da temporada
-            seasonCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    showEpisodesPage();
+            function populateEpisodeList() {
+                episodeList.innerHTML = '';
+                episodesData.forEach((ep, index) => {
+                    const episodeElement = document.createElement('div');
+                    episodeElement.className = 'episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50';
+                    episodeElement.innerHTML = `
+                        <div class="episode-item flex-grow flex items-center gap-4 cursor-pointer" data-index="${index}">
+                            <img src="${ep.thumbnail}" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
+                            <div>
+                                <h4 class="font-semibold text-gray-100 text-sm sm:text-base">${ep.title}</h4>
+                                <p class="text-sm text-gray-400">7 min</p>
+                            </div>
+                        </div>
+                        <a href="${ep.videoUrl}" download="${ep.title}.mp4" class="ml-2 p-2 rounded-full hover:bg-red-600 transition" title="Fazer Download">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                        </a>
+                    `;
+                    episodeList.appendChild(episodeElement);
                 });
-            });
-
-            // Navegação: Clicar no botão "Voltar"
-            backToSeasonsBtn.addEventListener('click', showSeasonsPage);
-
-            // Lógica do player de vídeo
-            episodeItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    episodeItems.forEach(el => el.classList.remove('active'));
-                    item.classList.add('active');
-
-                    const videoUrl = item.dataset.videoUrl;
-                    const title = item.dataset.title;
-                    const description = item.dataset.description;
-
-                    mainVideoPlayer.src = videoUrl;
-                    episodeTitle.textContent = title;
-                    episodeDescription.textContent = description;
-                    mainVideoPlayer.play();
-                });
-            });
-
-            // Lógica de Transmissão (Casting)
-            if ('remote' in mainVideoPlayer) {
-                // Deixa o botão sempre visível
-                castButton.classList.remove('hidden');
                 
+                document.querySelectorAll('.episode-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const index = parseInt(item.dataset.index);
+                        playEpisode(index);
+                    });
+                });
+            }
+
+            function playEpisode(index) {
+                const ep = episodesData[index];
+                if (!ep) return;
+
+                document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
+                document.querySelector(`.episode-item[data-index='${index}']`).classList.add('active');
+
+                mainVideoPlayer.src = ep.videoUrl;
+                episodeTitle.textContent = ep.title;
+                episodeDescription.textContent = ep.description;
+                mainVideoPlayer.play();
+            }
+
+            viewSeasonsBtn.addEventListener('click', () => showPage('seasonsPage'));
+            seasonCards.forEach(card => card.addEventListener('click', () => showPage('episodesPage')));
+            backToSeasonsBtn.addEventListener('click', () => showPage('seasonsPage'));
+
+            if ('remote' in mainVideoPlayer) {
+                castButton.classList.remove('hidden');
                 castButton.addEventListener('click', () => {
                     mainVideoPlayer.remote.prompt().catch(error => {
-                        // Se o erro for "Nenhum dispositivo encontrado", mostre uma mensagem amigável
                         if (error.name === 'NotFoundError') {
                             castError.classList.remove('hidden');
-                            // Esconde a mensagem após 3 segundos
-                            setTimeout(() => {
-                                castError.classList.add('hidden');
-                            }, 3000);
+                            setTimeout(() => castError.classList.add('hidden'), 3000);
                         } else {
                             console.error('Erro ao tentar transmitir:', error);
                         }
                     });
                 });
-            } else {
-                // Se a API não existir, o botão permanecerá escondido
-                console.log('A API de Reprodução Remota não é suportada neste navegador.');
             }
 
+            // Inicialização
+            populateEpisodeList();
+            playEpisode(0); // Inicia com o primeiro episódio carregado
+            showPage('heroPage'); // Começa na página de abertura
         });
     </script>
 
