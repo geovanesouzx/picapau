@@ -113,21 +113,8 @@
         <!-- PÁGINA INICIAL: SELEÇÃO DE TEMPORADAS -->
         <div id="seasonsPage">
             <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Temporadas</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-                <!-- Card Temporada 1 -->
-                <div id="season-1940" class="season-card group cursor-pointer" title="Pica-Pau 1940">
-                    <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
-                        <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Capa de Pica-Pau 1940" class="w-full h-auto aspect-[2/3] object-cover">
-                        <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
-                             <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">Pica-Pau 1940</h4>
-                        </div>
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
-                                <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="seasonsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                <!-- Cards das temporadas serão inseridos aqui pelo JavaScript -->
             </div>
         </div>
 
@@ -172,10 +159,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Inicializa os ícones
             feather.replace();
 
-            // --- LÓGICA DA TELA DE INÍCIO E MENU MOBILE ---
             const startScreen = document.getElementById('startScreen');
             const enterButton = document.getElementById('enterButton');
             const mainContent = document.getElementById('main-content');
@@ -185,7 +170,6 @@
 
             enterButton.addEventListener('click', () => {
                 startScreen.classList.add('fade-out');
-                // Após a animação, esconde a tela de início e mostra o conteúdo
                 startScreen.addEventListener('transitionend', () => {
                     startScreen.style.display = 'none';
                     mainContent.classList.remove('hidden');
@@ -196,22 +180,31 @@
             menuToggle.addEventListener('click', toggleMenu);
             menuClose.addEventListener('click', toggleMenu);
 
-            // --- LÓGICA DO PLAYER DE VÍDEO (EXISTENTE) ---
             const db = {
                 seasons: [
                     {
                         id: "season-1940",
                         title: "Pica-Pau 1940",
+                        cover: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg",
                         episodes: [
-                            { videoUrl: "https://files.catbox.moe/mj23l1.mp4", title: "Pica-Pau Ataca Novamente", description: "Acompanhe as travessuras do Pica-Pau, o pássaro mais maluco da floresta.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
-                            { videoUrl: "https://files.catbox.moe/1onuvg.mp4", title: "O Pica-Pau Biruta", description: "O Pica-Pau enlouquece um psiquiatra com suas travessuras incessantes.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
-                            { videoUrl: "https://files.catbox.moe/fm8er6.mp4", title: "O Biruta", description: "O Pica-Pau causa problemas em um hotel de luxo.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
-                            { videoUrl: "https://files.catbox.moe/3vlf67.mp4", title: "Pânico na Cozinha", description: "O Pica-Pau transforma a cozinha de um restaurante em um verdadeiro caos.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
-                            { videoUrl: "https://files.catbox.moe/opgp7j.mp4", title: "O Matador de Hollywood", description: "O Pica-Pau se infiltra em um estúdio de Hollywood.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
-                            { videoUrl: "https://files.catbox.moe/13r6tn.mp4", title: "Um Ás de Mais", description: "O Pica-Pau se torna um piloto de avião.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
-                            { videoUrl: "https://files.catbox.moe/2tsdpm.mp4", title: "A Loja do Prego", description: "O Pica-Pau inferniza o Leôncio em sua loja.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
-                            { videoUrl: "https://files.catbox.moe/eg8s85.mp4", title: "Beisebol Maluco", description: "Uma partida de beisebol caótica com o Pica-Pau.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" },
-                            { videoUrl: "https://files.catbox.moe/3lths3.mp4", title: "O Acrobata Maluco", description: "O Pica-Pau apronta todas no circo.", thumbnail: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" }
+                            { videoUrl: "https://files.catbox.moe/mj23l1.mp4", title: "Pica-Pau Ataca Novamente", description: "Acompanhe as travessuras do Pica-Pau, o pássaro mais maluco da floresta." },
+                            { videoUrl: "https://files.catbox.moe/1onuvg.mp4", title: "O Pica-Pau Biruta", description: "O Pica-Pau enlouquece um psiquiatra com suas travessuras incessantes." },
+                        ]
+                    },
+                    {
+                        id: "season-1950",
+                        title: "Pica-Pau 1950",
+                        cover: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r2s7h4soC3aOq2gIeLz2p22tG3.jpg",
+                        episodes: [
+                            { videoUrl: "#", title: "Episódio Exemplo 1", description: "Descrição do episódio 1." },
+                        ]
+                    },
+                    {
+                        id: "season-1960",
+                        title: "Pica-Pau 1960",
+                        cover: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5iN24a1p4e0kC2j9dt5sTz9iC1C.jpg",
+                        episodes: [
+                             { videoUrl: "#", title: "Episódio Exemplo 2", description: "Descrição do episódio 2." },
                         ]
                     }
                 ]
@@ -219,7 +212,7 @@
 
             const seasonsPage = document.getElementById('seasonsPage');
             const episodesPage = document.getElementById('episodesPage');
-            const seasonCards = document.querySelectorAll('.season-card');
+            const seasonsGrid = document.getElementById('seasonsGrid');
             const backToSeasonsBtn = document.getElementById('backToSeasonsBtn');
             
             const mainVideoPlayer = document.getElementById('mainVideoPlayer');
@@ -238,24 +231,35 @@
                 episodesPage.classList.toggle('hidden', pageId !== 'episodesPage');
                 window.scrollTo(0, 0); 
             }
-            
-            function preloadNextVideo(seasonId, episodeIndex) {
-                const season = db.seasons.find(s => s.id === seasonId);
-                const nextEpisode = season?.episodes[episodeIndex + 1];
 
-                const oldPreloadLink = document.getElementById('video-preload-link');
-                if (oldPreloadLink) oldPreloadLink.remove();
-
-                if (nextEpisode) {
-                    const preloadLink = document.createElement('link');
-                    preloadLink.id = 'video-preload-link';
-                    preloadLink.rel = 'preload';
-                    preloadLink.href = nextEpisode.videoUrl;
-                    preloadLink.as = 'video';
-                    document.head.appendChild(preloadLink);
-                }
+            function loadSeasons() {
+                seasonsGrid.innerHTML = '';
+                db.seasons.forEach(season => {
+                    const card = document.createElement('div');
+                    card.className = 'season-card group cursor-pointer';
+                    card.title = season.title;
+                    card.innerHTML = `
+                        <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
+                            <img src="${season.cover}" alt="Capa de ${season.title}" class="w-full h-auto aspect-[2/3] object-cover">
+                            <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
+                                <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">${season.title}</h4>
+                            </div>
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                                    <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        loadEpisodes(season.id);
+                        showPage('episodesPage');
+                    });
+                    seasonsGrid.appendChild(card);
+                });
+                feather.replace();
             }
-
+            
             function loadEpisodes(seasonId) {
                 currentSeasonId = seasonId;
                 const season = db.seasons.find(s => s.id === seasonId);
@@ -271,7 +275,7 @@
                     item.innerHTML = `
                         <span class="text-slate-400 font-mono text-sm sm:text-base w-6 text-center flex-shrink-0">${index + 1}</span>
                         <div class="relative flex-shrink-0">
-                            <img src="${ep.thumbnail}" alt="Thumbnail" class="w-24 sm:w-28 aspect-video object-cover rounded-md">
+                            <img src="${season.cover}" alt="Thumbnail" class="w-24 sm:w-28 aspect-video object-cover rounded-md">
                             <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <i data-feather="play" class="w-5 h-5 text-white"></i>
                             </div>
@@ -310,38 +314,15 @@
                 episodeTitle.textContent = episodeData.title;
                 episodeDescription.textContent = episodeData.description;
                 mainVideoPlayer.play();
-                
-                preloadNextVideo(currentSeasonId, currentEpisodeIndex);
             }
-
-            seasonCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    loadEpisodes(card.id);
-                    showPage('episodesPage');
-                });
-            });
 
             backToSeasonsBtn.addEventListener('click', () => {
                 mainVideoPlayer.pause();
                 showPage('seasonsPage');
             });
-
-            if ('remote' in mainVideoPlayer) {
-                castButton.classList.remove('hidden');
-                castButton.addEventListener('click', () => {
-                    mainVideoPlayer.remote.prompt().catch(error => {
-                        if (error.name === 'NotFoundError') {
-                            castError.classList.remove('hidden');
-                            setTimeout(() => castError.classList.add('hidden'), 3000);
-                        } else {
-                            console.error('Erro ao tentar transmitir:', error);
-                        }
-                    });
-                });
-            }
             
-            // Não mostra nenhuma página de conteúdo até que o usuário clique em "Entrar"
-            // showPage('seasonsPage');
+            // Carrega as temporadas na página inicial
+            loadSeasons();
         });
     </script>
 </body>
