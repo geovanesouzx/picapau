@@ -140,7 +140,7 @@
         <!-- PÁGINA: DESTAQUES (CARROSSEL) -->
         <div id="highlightsPage" class="content-page">
             <!-- Swiper -->
-            <div class="swiper h-[40vh] sm:h-[50vh] md:h-[60vh] rounded-lg">
+            <div class="swiper h-[45vh] md:h-[60vh] rounded-lg">
                 <div class="swiper-wrapper" id="highlights-carousel">
                     <!-- Slides serão inseridos aqui pelo JavaScript -->
                 </div>
@@ -271,6 +271,8 @@
                 startScreen.addEventListener('transitionend', () => {
                     startScreen.style.display = 'none';
                     mainContent.classList.remove('hidden');
+                    // Inicializa o Swiper DEPOIS que o conteúdo principal estiver visível
+                    initSwiper(); 
                 }, { once: true });
             });
             
@@ -623,13 +625,8 @@
                 }
             });
             
-            loadSeasons();
-            loadOtherMovies();
-            loadHighlights();
-            
-            // Inicializa o Swiper
-            setTimeout(() => {
-                new Swiper('.swiper', {
+            function initSwiper() {
+                 new Swiper('.swiper', {
                     loop: true,
                     autoplay: {
                         delay: 5000,
@@ -644,10 +641,14 @@
                         prevEl: '.swiper-button-prev',
                     },
                 });
-            }, 100);
+            }
 
-            showPage('highlightsPage'); // Define a página inicial
+            loadSeasons();
+            loadOtherMovies();
+            loadHighlights();
             feather.replace();
+            
+            showPage('highlightsPage'); // Define a página inicial
         });
     </script>
 </body>
