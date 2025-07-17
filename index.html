@@ -134,7 +134,7 @@
                 <!-- Card do Filme -->
                 <div id="movie-card" class="movie-card group cursor-pointer" title="Pica-Pau: O Filme (2017)">
                     <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
-                        <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/5N83hN2T3n5wL54sLVyOq2Vd2S.jpg" alt="Capa de Pica-Pau: O Filme" class="w-full h-auto aspect-[2/3] object-cover">
+                        <img src="https://br.web.img2.acsta.net/pictures/17/08/25/19/04/419991.jpg" alt="Capa de Pica-Pau: O Filme" class="w-full h-auto aspect-[2/3] object-cover">
                         <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
                              <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">Pica-Pau: O Filme</h4>
                              <p class="text-xs text-slate-300">2017</p>
@@ -251,7 +251,12 @@
                         episodes: [
                             { videoUrl: "https://files.catbox.moe/04glch.mp4", title: "O Barbeiro de Sevilha", description: "Pica-Pau assume o comando de uma barbearia e cria o caos." },
                             { videoUrl: "https://files.catbox.moe/0w74ed.mp4", title: "O Doido da Praia", description: "O Pica-Pau resolve curtir um dia na praia, mas o Leôncio não vai deixar barato." },
-                            { videoUrl: "https://files.catbox.moe/rxt33w.mp4", title: "Ski Para Dois", description: "Uma competição de esqui maluca entre o Pica-Pau e o Leôncio." }
+                            { videoUrl: "https://files.catbox.moe/rxt33w.mp4", title: "Ski Para Dois", description: "Uma competição de esqui maluca entre o Pica-Pau e o Leôncio." },
+                            { videoUrl: "https://files.catbox.moe/2jn2cq.mp4", title: "Uma Dama Muito Fina", description: "Pica-Pau tenta se passar por uma dama para entrar em um evento de gala." },
+                            { videoUrl: "https://files.catbox.moe/ainphs.mp4", title: "O Pica-Pau Come Fora", description: "Pica-Pau tenta almoçar em um restaurante chique, mas é impedido pelo garçom." },
+                            { videoUrl: "https://files.catbox.moe/tj1f0o.mp4", title: "O Famoso Diplomata", description: "O Pica-Pau se passa por um diplomata para conseguir comida e abrigo." },
+                            { videoUrl: "https://files.catbox.moe/z9vbpa.mp4", title: "O Biruta à Solta", description: "As travessuras do Pica-Pau levam o Leôncio à loucura." },
+                            { videoUrl: "https://files.catbox.moe/ha4ilo.mp4", title: "Quem Cozinha Quem", description: "Pica-Pau e Zeca Urubu disputam para ver quem será o prato principal." }
                         ]
                     }
                 ]
@@ -402,7 +407,17 @@
                 mainVideoPlayer.src = episodeData.videoUrl;
                 episodeTitle.textContent = episodeData.title;
                 episodeDescription.textContent = episodeData.description;
-                mainVideoPlayer.play();
+                
+                const playPromise = mainVideoPlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        // A interrupção do play() por uma nova carga é normal.
+                        // Ignoramos o AbortError para evitar poluir o console.
+                        if (error.name !== 'AbortError') {
+                            console.error("Erro ao tentar reproduzir o vídeo:", error);
+                        }
+                    });
+                }
             }
 
             function playMovie() {
@@ -418,6 +433,7 @@
 
             backToSeasonsBtn.addEventListener('click', () => {
                 mainVideoPlayer.pause();
+                mainVideoPlayer.src = '';
                 showPage('seasonsPage');
             });
 
