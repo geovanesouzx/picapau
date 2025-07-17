@@ -189,22 +189,13 @@
                         episodes: [
                             { videoUrl: "https://files.catbox.moe/mj23l1.mp4", title: "Pica-Pau Ataca Novamente", description: "Acompanhe as travessuras do Pica-Pau, o pássaro mais maluco da floresta." },
                             { videoUrl: "https://files.catbox.moe/1onuvg.mp4", title: "O Pica-Pau Biruta", description: "O Pica-Pau enlouquece um psiquiatra com suas travessuras incessantes." },
-                        ]
-                    },
-                    {
-                        id: "season-1950",
-                        title: "Pica-Pau 1950",
-                        cover: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/r2s7h4soC3aOq2gIeLz2p22tG3.jpg",
-                        episodes: [
-                            { videoUrl: "#", title: "Episódio Exemplo 1", description: "Descrição do episódio 1." },
-                        ]
-                    },
-                    {
-                        id: "season-1960",
-                        title: "Pica-Pau 1960",
-                        cover: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5iN24a1p4e0kC2j9dt5sTz9iC1C.jpg",
-                        episodes: [
-                             { videoUrl: "#", title: "Episódio Exemplo 2", description: "Descrição do episódio 2." },
+                            { videoUrl: "https://files.catbox.moe/fm8er6.mp4", title: "O Biruta", description: "O Pica-Pau causa problemas em um hotel de luxo." },
+                            { videoUrl: "https://files.catbox.moe/3vlf67.mp4", title: "Pânico na Cozinha", description: "O Pica-Pau transforma a cozinha de um restaurante em um verdadeiro caos." },
+                            { videoUrl: "https://files.catbox.moe/opgp7j.mp4", title: "O Matador de Hollywood", description: "O Pica-Pau se infiltra em um estúdio de Hollywood." },
+                            { videoUrl: "https://files.catbox.moe/13r6tn.mp4", title: "Um Ás de Mais", description: "O Pica-Pau se torna um piloto de avião." },
+                            { videoUrl: "https://files.catbox.moe/2tsdpm.mp4", title: "A Loja do Prego", description: "O Pica-Pau inferniza o Leôncio em sua loja." },
+                            { videoUrl: "https://files.catbox.moe/eg8s85.mp4", title: "Beisebol Maluco", description: "Uma partida de beisebol caótica com o Pica-Pau." },
+                            { videoUrl: "https://files.catbox.moe/3lths3.mp4", title: "O Acrobata Maluco", description: "O Pica-Pau apronta todas no circo." }
                         ]
                     }
                 ]
@@ -320,6 +311,23 @@
                 mainVideoPlayer.pause();
                 showPage('seasonsPage');
             });
+            
+            // Lógica do botão de transmissão (Cast)
+            if (castButton && 'remote' in mainVideoPlayer) {
+                castButton.addEventListener('click', () => {
+                    mainVideoPlayer.remote.prompt().catch(error => {
+                        if (error.name === 'NotFoundError') {
+                            castError.classList.remove('hidden');
+                            setTimeout(() => castError.classList.add('hidden'), 3000);
+                        } else {
+                            console.error('Erro ao tentar transmitir:', error);
+                        }
+                    });
+                });
+            } else if (castButton) {
+                // Esconde o botão se a API não for suportada
+                castButton.style.display = 'none';
+            }
             
             // Carrega as temporadas na página inicial
             loadSeasons();
