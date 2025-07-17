@@ -125,20 +125,22 @@
 
 
     <!-- Conteúdo Principal (Inicialmente oculto) -->
-    <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10 max-w-6xl">
+    <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10 max-w-7xl">
         
         <!-- PÁGINA: DESTAQUES (CARROSSEL) -->
         <div id="highlightsPage" class="content-page">
-            <!-- Swiper -->
-            <div class="swiper h-[30vh] md:h-[45vh] rounded-lg">
-                <div class="swiper-wrapper" id="highlights-carousel">
-                    <!-- Slides serão inseridos aqui pelo JavaScript -->
+            <div class="max-w-5xl mx-auto">
+                <!-- Swiper -->
+                <div class="swiper h-[30vh] md:h-[45vh] rounded-lg">
+                    <div class="swiper-wrapper" id="highlights-carousel">
+                        <!-- Slides serão inseridos aqui pelo JavaScript -->
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Add Navigation -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
                 </div>
-                <!-- Add Pagination -->
-                <div class="swiper-pagination"></div>
-                <!-- Add Navigation -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
         </div>
 
@@ -514,11 +516,8 @@
                 const episodeData = season?.episodes[index];
                 if (!episodeData) return;
 
-                currentEpisodeUrl = episodeData.videoUrl;
-                currentEpisodeTitle = episodeData.title;
-
-                mainVideoPlayer.src = currentEpisodeUrl;
-                episodeTitle.textContent = currentEpisodeTitle;
+                mainVideoPlayer.src = episodeData.videoUrl;
+                episodeTitle.textContent = episodeData.title;
                 
                 const playPromise = mainVideoPlayer.play();
                 if (playPromise !== undefined) {
