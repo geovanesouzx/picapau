@@ -193,9 +193,12 @@
                 <i data-feather="arrow-left" class="w-5 h-5"></i>
                 Voltar para Filmes
             </button>
-            <div id="moviePlayerContainer" class="aspect-w-16 aspect-h-9 bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
-                <!-- O Iframe do filme será inserido aqui -->
+            <div class="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
+                <iframe id="movie_player_iframe" class="w-full h-full absolute top-0 left-0" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen scrolling="no"></iframe>
             </div>
+             <p class="text-center text-sm text-slate-400 mt-4">
+                Filme fornecido por <a href="https://www.tokyvideo.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">tokyvideo.com</a>
+            </p>
         </div>
     </main>
 
@@ -268,7 +271,7 @@
             const castError = document.getElementById('castError');
 
             const movieCard = document.getElementById('movie-card');
-            const moviePlayerContainer = document.getElementById('moviePlayerContainer');
+            const moviePlayerIframe = document.getElementById('movie_player_iframe');
 
 
             // Nav Links
@@ -402,16 +405,8 @@
                 mainVideoPlayer.play();
             }
 
-            function playMovie(url) {
-                moviePlayerContainer.innerHTML = ''; // Limpa o container
-                const iframe = document.createElement('iframe');
-                iframe.src = url.replace('/video/', '/embed/'); // Adapta a URL para o formato de incorporação
-                iframe.className = 'w-full h-full';
-                iframe.setAttribute('frameborder', '0');
-                iframe.setAttribute('allowfullscreen', 'true');
-                iframe.setAttribute('webkitallowfullscreen', 'true');
-                iframe.setAttribute('mozallowfullscreen', 'true');
-                moviePlayerContainer.appendChild(iframe);
+            function playMovie() {
+                moviePlayerIframe.src = "https://www.tokyvideo.com/embed/409976";
                 showPage('moviePlayerPage');
             }
 
@@ -427,12 +422,12 @@
             });
 
             backToMoviesBtn.addEventListener('click', () => {
-                moviePlayerContainer.innerHTML = ''; // Para a reprodução ao sair
+                moviePlayerIframe.src = ''; // Para a reprodução e limpa o iframe
                 showPage('moviesPage');
             });
 
             movieCard.addEventListener('click', () => {
-                playMovie("https://www.tokyvideo.com/video/pica-pau-o-filme-2017-comedia-infantil-1h-34m");
+                playMovie();
             });
             
             if (castButton && 'remote' in mainVideoPlayer) {
