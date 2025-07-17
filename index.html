@@ -47,9 +47,27 @@
         .season-card .overlay {
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%);
         }
+        /* Animação para a tela de início */
+        #startScreen.fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
     </style>
 </head>
 <body class="bg-[#081526]">
+
+    <!-- TELA DE INÍCIO (SPLASH SCREEN) -->
+    <div id="startScreen" class="fixed inset-0 bg-[#081526] z-50 flex flex-col items-center justify-center p-4">
+        <div class="text-center">
+            <h1 class="font-logo text-6xl sm:text-8xl font-bold text-red-500" style="text-shadow: 3px 3px 0 #fff, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 5px 5px 8px rgba(0,0,0,0.4);">
+                Pica-Pau
+            </h1>
+            <p class="text-yellow-400 text-lg sm:text-2xl mt-2 font-semibold">O Desenho</p>
+            <button id="enterButton" class="mt-12 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-10 rounded-full text-lg tracking-wider transform hover:scale-105 transition-all duration-300 shadow-lg shadow-red-500/30">
+                Entrar
+            </button>
+        </div>
+    </div>
 
     <!-- Cabeçalho -->
     <header class="fixed top-0 left-0 right-0 bg-[#081526]/80 backdrop-blur-lg z-40 border-b border-slate-700/50">
@@ -57,6 +75,7 @@
             <h1 class="font-logo text-2xl sm:text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.3);">
                 Pica-Pau
             </h1>
+            <!-- Navegação para Desktop -->
             <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
                 <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Início</a>
                 <a href="#" class="text-white relative">
@@ -65,12 +84,31 @@
                 </a>
                 <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
             </nav>
-            <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
+            <div class="flex items-center gap-4">
+                 <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
+                 <!-- Botão do Menu Hambúrguer para Mobile -->
+                 <button id="menu-toggle" class="md:hidden text-white p-2">
+                    <i data-feather="menu" class="w-6 h-6"></i>
+                 </button>
+            </div>
         </div>
     </header>
+    
+    <!-- Menu Mobile (Overlay) -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-[#081526]/95 backdrop-blur-md z-30 md:hidden">
+        <nav class="flex flex-col items-center justify-center h-full space-y-8 text-xl">
+             <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Início</a>
+             <a href="#" class="text-white font-bold">Desenhos</a>
+             <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
+        </nav>
+        <button id="menu-close" class="absolute top-5 right-5 text-white p-2">
+            <i data-feather="x" class="w-8 h-8"></i>
+        </button>
+    </div>
 
-    <!-- Conteúdo Principal -->
-    <main class="container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10">
+
+    <!-- Conteúdo Principal (Inicialmente oculto) -->
+    <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10">
         
         <!-- PÁGINA INICIAL: SELEÇÃO DE TEMPORADAS -->
         <div id="seasonsPage">
@@ -90,7 +128,6 @@
                         </div>
                     </div>
                 </div>
-                 <!-- Adicione mais cards de temporada aqui se necessário -->
             </div>
         </div>
 
@@ -100,9 +137,7 @@
                 <i data-feather="arrow-left" class="w-5 h-5"></i>
                 Voltar
             </button>
-            <!-- Layout responsivo: lg:flex-row para telas grandes, flex-col (padrão) para mobile -->
             <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Coluna Principal: Player e Detalhes -->
                 <div class="w-full lg:w-2/3">
                     <div class="aspect-w-16 aspect-h-9 bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
                         <video id="mainVideoPlayer" class="w-full h-full" controls autoplay controlsList="nodownload">
@@ -113,7 +148,6 @@
                         <h2 id="episodeTitle" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-yellow-400 mb-3">Pica-Pau Ataca Novamente</h2>
                         <div class="flex items-start gap-4">
                             <p id="episodeDescription" class="text-slate-300 flex-grow text-sm">Acompanhe as travessuras do Pica-Pau...</p>
-                            <!-- Wrapper for cast button and message -->
                             <div class="relative">
                                 <button id="castButton" class="bg-slate-700 hover:bg-slate-600 text-white font-bold p-2 sm:p-3 rounded-full flex-shrink-0 transition-colors duration-300" title="Transmitir para a TV">
                                     <i data-feather="cast" class="w-5 h-5"></i>
@@ -125,14 +159,10 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Coluna Lateral: Lista de Episódios -->
                 <div class="w-full lg:w-1/3">
                     <div class="bg-slate-800/50 rounded-lg p-4 h-full">
                         <h3 id="episodeListTitle" class="text-lg sm:text-xl font-bold mb-4 text-slate-100 pb-3 border-b border-slate-700">Episódios - Pica-Pau 1940</h3>
-                        <!-- A altura máxima da lista é ajustada para mobile e desktop -->
                         <div id="episodeList" class="space-y-2 overflow-y-auto pr-2 max-h-[60vh] lg:max-h-[500px]">
-                            <!-- Os episódios serão gerados aqui pelo JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -141,10 +171,32 @@
     </main>
 
     <script>
-        // Substitui os ícones do Feather
-        feather.replace();
-
         document.addEventListener('DOMContentLoaded', () => {
+            // Inicializa os ícones
+            feather.replace();
+
+            // --- LÓGICA DA TELA DE INÍCIO E MENU MOBILE ---
+            const startScreen = document.getElementById('startScreen');
+            const enterButton = document.getElementById('enterButton');
+            const mainContent = document.getElementById('main-content');
+            const menuToggle = document.getElementById('menu-toggle');
+            const menuClose = document.getElementById('menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            enterButton.addEventListener('click', () => {
+                startScreen.classList.add('fade-out');
+                // Após a animação, esconde a tela de início e mostra o conteúdo
+                startScreen.addEventListener('transitionend', () => {
+                    startScreen.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                }, { once: true });
+            });
+            
+            const toggleMenu = () => mobileMenu.classList.toggle('hidden');
+            menuToggle.addEventListener('click', toggleMenu);
+            menuClose.addEventListener('click', toggleMenu);
+
+            // --- LÓGICA DO PLAYER DE VÍDEO (EXISTENTE) ---
             const db = {
                 seasons: [
                     {
@@ -192,9 +244,7 @@
                 const nextEpisode = season?.episodes[episodeIndex + 1];
 
                 const oldPreloadLink = document.getElementById('video-preload-link');
-                if (oldPreloadLink) {
-                    oldPreloadLink.remove();
-                }
+                if (oldPreloadLink) oldPreloadLink.remove();
 
                 if (nextEpisode) {
                     const preloadLink = document.createElement('link');
@@ -215,11 +265,9 @@
                 episodeList.innerHTML = ''; 
                 season.episodes.forEach((ep, index) => {
                     const item = document.createElement('div');
-                    // Classes responsivas para o item da lista
                     item.className = 'episode-item flex items-center gap-2 sm:gap-4 cursor-pointer p-2 rounded-lg border-l-4 border-transparent transition-all duration-300 hover:bg-slate-700/60';
                     item.dataset.index = index;
                     
-                    // HTML do item da lista com classes responsivas
                     item.innerHTML = `
                         <span class="text-slate-400 font-mono text-sm sm:text-base w-6 text-center flex-shrink-0">${index + 1}</span>
                         <div class="relative flex-shrink-0">
@@ -238,10 +286,7 @@
                     `;
                     
                     episodeList.appendChild(item);
-
-                    item.addEventListener('click', () => {
-                        playEpisode(index);
-                    });
+                    item.addEventListener('click', () => playEpisode(index));
                 });
                 
                 feather.replace(); 
@@ -295,8 +340,8 @@
                 });
             }
             
-            showPage('seasonsPage');
-
+            // Não mostra nenhuma página de conteúdo até que o usuário clique em "Entrar"
+            // showPage('seasonsPage');
         });
     </script>
 </body>
