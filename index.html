@@ -259,8 +259,6 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            feather.replace();
-
             const startScreen = document.getElementById('startScreen');
             const enterButton = document.getElementById('enterButton');
             const mainContent = document.getElementById('main-content');
@@ -428,7 +426,6 @@
                     const card = createCard(season, () => showDetailsPage('season', season.id));
                     seasonsGrid.appendChild(card);
                 });
-                feather.replace();
             }
 
             function loadOtherMovies() {
@@ -437,7 +434,6 @@
                     const card = createCard(movie, () => showDetailsPage('movie', movie.id));
                     otherMoviesGrid.appendChild(card);
                 });
-                feather.replace();
             }
 
             function loadHighlights() {
@@ -462,7 +458,6 @@
                     `;
                     highlightsCarousel.appendChild(slide);
                 });
-                feather.replace();
             }
             
             function showDetailsPage(type, id) {
@@ -633,23 +628,26 @@
             loadHighlights();
             
             // Inicializa o Swiper
-            new Swiper('.swiper', {
-                loop: true,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            });
+            setTimeout(() => {
+                new Swiper('.swiper', {
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                });
+            }, 100);
 
             showPage('highlightsPage'); // Define a página inicial
+            feather.replace();
         });
     </script>
 </body>
