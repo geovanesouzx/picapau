@@ -9,12 +9,15 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Ícones (Feather Icons) -->
+    <script src="https://unpkg.com/feather-icons"></script>
     <style>
         /* Estilo base para a fonte */
         body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #0c4a6e; /* Azul do Pica-Pau */
+            font-family: 'Inter', sans-serif;
+            background-color: #081526; /* Um azul mais escuro e profundo */
+            color: #e0e0e0;
         }
         /* Fonte especial para o título/logo */
         .font-logo {
@@ -22,78 +25,103 @@
         }
         /* Estilo para o item ativo na lista de episódios */
         .episode-item.active {
-            background-color: #075985;
-            border-color: #ef4444;
+            background-color: #1e40af; /* Azul mais vibrante para destaque */
+            border-color: #facc15; /* Amarelo para a borda ativa */
         }
         /* Garante que a imagem da thumbnail cubra o espaço sem distorcer */
         .thumbnail-img {
-            width: 7rem; /* 112px */
-            height: 4.5rem; /* 72px */
-            object-fit: cover; /* Preenche o container cortando o excesso */
+            width: 100px; 
+            height: 56px;
+            object-fit: cover;
+        }
+        /* Estilização da barra de rolagem para a lista de episódios */
+        #episodeList::-webkit-scrollbar {
+            width: 8px;
+        }
+        #episodeList::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        #episodeList::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 10px;
+        }
+        #episodeList::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        /* Efeito de gradiente no card da temporada */
+        .season-card .overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%);
         }
     </style>
 </head>
-<body class="bg-sky-900 text-gray-200">
+<body class="bg-[#081526]">
 
     <!-- Cabeçalho -->
-    <header class="fixed top-0 left-0 right-0 bg-sky-900 bg-opacity-80 backdrop-blur-sm z-40 border-b border-sky-700">
-        <div class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-            <h1 class="font-logo text-3xl sm:text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;">
+    <header class="fixed top-0 left-0 right-0 bg-[#081526]/80 backdrop-blur-lg z-40 border-b border-slate-700/50">
+        <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <h1 class="font-logo text-3xl sm:text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.3);">
                 Pica-Pau
             </h1>
-            <nav class="hidden md:flex space-x-6 items-center">
-                <a href="#" class="text-gray-300 hover:text-white transition">Início</a>
-                <a href="#" class="text-white font-semibold">Desenhos</a>
-                <a href="#" class="text-gray-300 hover:text-white transition">Filmes</a>
+            <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
+                <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Início</a>
+                <a href="#" class="text-white relative">
+                    Desenhos
+                    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full"></span>
+                </a>
+                <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
             </nav>
-            <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="rounded-full border-2 border-red-500">
+            <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
         </div>
     </header>
 
     <!-- Conteúdo Principal -->
-    <main class="container mx-auto px-4 sm:px-6 pt-20 pb-10">
+    <main class="container mx-auto px-4 sm:px-6 pt-24 pb-10">
         
         <!-- PÁGINA INICIAL: SELEÇÃO DE TEMPORADAS -->
         <div id="seasonsPage">
-            <h2 class="text-2xl sm:text-3xl font-bold text-yellow-300 mb-6">Temporadas</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-8 tracking-wide">Temporadas</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 sm:gap-6">
                 <!-- Card Temporada 1 -->
-                <div id="season-1940" class="season-card group cursor-pointer">
-                    <div class="relative bg-sky-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
-                        <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Capa de Pica-Pau 1940" class="w-full h-auto">
-                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.118v3.764a1 1 0 001.555.832l3.197-1.882a1 1 0 000-1.664l-3.197-1.882z" clip-rule="evenodd" /></svg>
+                <div id="season-1940" class="season-card group cursor-pointer" title="Pica-Pau 1940">
+                    <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
+                        <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Capa de Pica-Pau 1940" class="w-full h-auto aspect-[2/3] object-cover">
+                        <div class="absolute inset-0 overlay flex flex-col justify-end p-4">
+                             <h4 class="font-bold text-white text-lg tracking-tight">Pica-Pau 1940</h4>
+                        </div>
+                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-16 h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                                <i data-feather="play" class="w-8 h-8 text-white"></i>
+                            </div>
                         </div>
                     </div>
-                    <h4 class="font-semibold text-gray-100 mt-2 text-center text-sm sm:text-base">Pica-Pau 1940</h4>
                 </div>
+                 <!-- Adicione mais cards de temporada aqui se necessário -->
             </div>
         </div>
 
         <!-- PÁGINA DE EPISÓDIOS (Inicialmente oculta) -->
         <div id="episodesPage" class="hidden">
-            <button id="backToSeasonsBtn" class="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>
+            <button id="backToSeasonsBtn" class="mb-6 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
+                <i data-feather="arrow-left" class="w-5 h-5"></i>
                 Voltar para Temporadas
             </button>
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Coluna Principal: Player e Detalhes -->
                 <div class="w-full lg:w-2/3">
-                    <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden shadow-lg">
-                        <video id="mainVideoPlayer" class="w-full h-full" controls autoplay>
+                    <div class="aspect-w-16 aspect-h-9 bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
+                        <video id="mainVideoPlayer" class="w-full h-full" controls autoplay controlsList="nodownload">
                             <source src="https://files.catbox.moe/mj23l1.mp4" type="video/mp4">
                         </video>
                     </div>
-                    <div class="mt-4">
-                        <h2 id="episodeTitle" class="text-2xl lg:text-3xl font-extrabold text-yellow-300 mb-2">Pica-Pau Ataca Novamente</h2>
+                    <div class="mt-4 bg-slate-800/50 rounded-lg p-5">
+                        <h2 id="episodeTitle" class="text-2xl lg:text-3xl font-extrabold text-yellow-400 mb-3">Pica-Pau Ataca Novamente</h2>
                         <div class="flex items-start gap-4">
-                            <p id="episodeDescription" class="text-gray-300 flex-grow text-sm sm:text-base">Acompanhe as travessuras do Pica-Pau...</p>
+                            <p id="episodeDescription" class="text-slate-300 flex-grow text-sm sm:text-base">Acompanhe as travessuras do Pica-Pau...</p>
                             <!-- Wrapper for cast button and message -->
                             <div class="relative">
-                                <button id="castButton" class="bg-gray-700 hover:bg-gray-600 text-white font-bold p-2 rounded-full flex-shrink-0" title="Transmitir para a TV">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                    </svg>
+                                <button id="castButton" class="bg-slate-700 hover:bg-slate-600 text-white font-bold p-3 rounded-full flex-shrink-0 transition-colors duration-300" title="Transmitir para a TV">
+                                    <i data-feather="cast" class="w-5 h-5"></i>
                                 </button>
                                 <div id="castError" class="hidden absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md shadow-lg whitespace-nowrap">
                                     Nenhum dispositivo encontrado.
@@ -105,9 +133,9 @@
 
                 <!-- Coluna Lateral: Lista de Episódios -->
                 <div class="w-full lg:w-1/3">
-                    <div class="bg-sky-800/50 rounded-lg p-4">
-                        <h3 id="episodeListTitle" class="text-xl font-bold mb-4 text-gray-100">Episódios - Pica-Pau 1940</h3>
-                        <div id="episodeList" class="space-y-3 overflow-y-auto">
+                    <div class="bg-slate-800/50 rounded-lg p-4 h-full">
+                        <h3 id="episodeListTitle" class="text-xl font-bold mb-4 text-slate-100 pb-3 border-b border-slate-700">Episódios - Pica-Pau 1940</h3>
+                        <div id="episodeList" class="space-y-2 overflow-y-auto pr-2" style="max-height: 500px;">
                             <!-- Os episódios serão gerados aqui pelo JavaScript -->
                         </div>
                     </div>
@@ -117,6 +145,10 @@
     </main>
 
     <script>
+        // Substitui os ícones do Feather
+        feather.replace();
+
+        // SEU CÓDIGO JAVASCRIPT ORIGINAL (MODIFICADO)
         document.addEventListener('DOMContentLoaded', () => {
             const db = {
                 seasons: [
@@ -157,20 +189,18 @@
             function showPage(pageId) {
                 seasonsPage.classList.toggle('hidden', pageId !== 'seasonsPage');
                 episodesPage.classList.toggle('hidden', pageId !== 'episodesPage');
+                window.scrollTo(0, 0); // Rola para o topo ao mudar de página
             }
             
-            // *** NOVO: Função para pré-carregar o próximo vídeo ***
             function preloadNextVideo(seasonId, episodeIndex) {
                 const season = db.seasons.find(s => s.id === seasonId);
                 const nextEpisode = season?.episodes[episodeIndex + 1];
 
-                // Remove qualquer preload antigo
                 const oldPreloadLink = document.getElementById('video-preload-link');
                 if (oldPreloadLink) {
                     oldPreloadLink.remove();
                 }
 
-                // Se houver um próximo episódio, cria o link de preload
                 if (nextEpisode) {
                     const preloadLink = document.createElement('link');
                     preloadLink.id = 'video-preload-link';
@@ -190,40 +220,36 @@
                 episodeList.innerHTML = ''; // Limpa a lista
                 season.episodes.forEach((ep, index) => {
                     const itemContainer = document.createElement('div');
-                    itemContainer.className = 'episode-item-container flex items-center p-2 rounded-lg hover:bg-sky-700/50';
                     
                     const item = document.createElement('div');
-                    item.className = 'episode-item flex-grow flex items-center gap-4 cursor-pointer border-l-4 border-transparent';
+                    item.className = 'episode-item flex items-center gap-3 cursor-pointer p-2 rounded-lg border-l-4 border-transparent transition-all duration-300 hover:bg-slate-700/60';
                     item.dataset.index = index;
                     
                     item.innerHTML = `
-                        <img src="${ep.thumbnail}" alt="Thumbnail" class="thumbnail-img rounded flex-shrink-0">
-                        <div>
-                            <h4 class="font-semibold text-gray-100 text-sm sm:text-base">${ep.title}</h4>
-                            <p class="text-sm text-gray-400">7 min</p>
+                        <span class="text-slate-400 font-mono text-lg w-6 text-center flex-shrink-0">${index + 1}</span>
+                        <div class="relative flex-shrink-0">
+                            <img src="${ep.thumbnail}" alt="Thumbnail" class="thumbnail-img rounded">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i data-feather="play" class="w-5 h-5 text-white"></i>
+                            </div>
                         </div>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-slate-100 text-sm leading-tight">${ep.title}</h4>
+                            <p class="text-xs text-slate-400">7 min</p>
+                        </div>
+                        <a href="${ep.videoUrl}" download="${ep.title}.mp4" class="download-btn ml-2 p-2 rounded-full hover:bg-red-600 text-slate-400 hover:text-white transition-colors" title="Fazer Download" onclick="event.stopPropagation();">
+                           <i data-feather="download" class="w-4 h-4"></i>
+                        </a>
                     `;
                     
-                    const downloadLink = document.createElement('a');
-                    downloadLink.href = ep.videoUrl;
-                    downloadLink.download = `${ep.title}.mp4`;
-                    downloadLink.className = 'ml-2 p-2 rounded-full hover:bg-red-600 transition';
-                    downloadLink.title = 'Fazer Download';
-                    downloadLink.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                    `;
-
-                    itemContainer.appendChild(item);
-                    itemContainer.appendChild(downloadLink);
-                    episodeList.appendChild(itemContainer);
+                    episodeList.appendChild(item);
 
                     item.addEventListener('click', () => {
                         playEpisode(index);
                     });
                 });
                 
+                feather.replace(); // Atualiza os ícones criados dinamicamente
                 playEpisode(0);
             }
 
@@ -237,6 +263,7 @@
                 const activeItem = document.querySelector(`.episode-item[data-index='${index}']`);
                 if (activeItem) {
                     activeItem.classList.add('active');
+                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
 
                 mainVideoPlayer.src = episodeData.videoUrl;
@@ -244,7 +271,6 @@
                 episodeDescription.textContent = episodeData.description;
                 mainVideoPlayer.play();
                 
-                // *** Otimização: Chama a função de preload ***
                 preloadNextVideo(currentSeasonId, currentEpisodeIndex);
             }
 
@@ -278,6 +304,5 @@
 
         });
     </script>
-
 </body>
 </html>
