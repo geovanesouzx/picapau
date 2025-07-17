@@ -28,12 +28,6 @@
             background-color: #1e40af; /* Azul mais vibrante para destaque */
             border-color: #facc15; /* Amarelo para a borda ativa */
         }
-        /* Garante que a imagem da thumbnail cubra o espaço sem distorcer */
-        .thumbnail-img {
-            width: 100px; 
-            height: 56px;
-            object-fit: cover;
-        }
         /* Estilização da barra de rolagem para a lista de episódios */
         #episodeList::-webkit-scrollbar {
             width: 8px;
@@ -59,8 +53,8 @@
 
     <!-- Cabeçalho -->
     <header class="fixed top-0 left-0 right-0 bg-[#081526]/80 backdrop-blur-lg z-40 border-b border-slate-700/50">
-        <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <h1 class="font-logo text-3xl sm:text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.3);">
+        <div class="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+            <h1 class="font-logo text-2xl sm:text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.3);">
                 Pica-Pau
             </h1>
             <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
@@ -71,27 +65,27 @@
                 </a>
                 <a href="#" class="text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
             </nav>
-            <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
+            <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
         </div>
     </header>
 
     <!-- Conteúdo Principal -->
-    <main class="container mx-auto px-4 sm:px-6 pt-24 pb-10">
+    <main class="container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10">
         
         <!-- PÁGINA INICIAL: SELEÇÃO DE TEMPORADAS -->
         <div id="seasonsPage">
-            <h2 class="text-3xl sm:text-4xl font-bold text-yellow-400 mb-8 tracking-wide">Temporadas</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 sm:gap-6">
+            <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Temporadas</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
                 <!-- Card Temporada 1 -->
                 <div id="season-1940" class="season-card group cursor-pointer" title="Pica-Pau 1940">
                     <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
                         <img src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg" alt="Capa de Pica-Pau 1940" class="w-full h-auto aspect-[2/3] object-cover">
-                        <div class="absolute inset-0 overlay flex flex-col justify-end p-4">
-                             <h4 class="font-bold text-white text-lg tracking-tight">Pica-Pau 1940</h4>
+                        <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
+                             <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">Pica-Pau 1940</h4>
                         </div>
                         <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="w-16 h-16 bg-red-600/80 rounded-full flex items-center justify-center">
-                                <i data-feather="play" class="w-8 h-8 text-white"></i>
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                                <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
                             </div>
                         </div>
                     </div>
@@ -104,8 +98,9 @@
         <div id="episodesPage" class="hidden">
             <button id="backToSeasonsBtn" class="mb-6 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
                 <i data-feather="arrow-left" class="w-5 h-5"></i>
-                Voltar para Temporadas
+                Voltar
             </button>
+            <!-- Layout responsivo: lg:flex-row para telas grandes, flex-col (padrão) para mobile -->
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Coluna Principal: Player e Detalhes -->
                 <div class="w-full lg:w-2/3">
@@ -114,13 +109,13 @@
                             <source src="https://files.catbox.moe/mj23l1.mp4" type="video/mp4">
                         </video>
                     </div>
-                    <div class="mt-4 bg-slate-800/50 rounded-lg p-5">
-                        <h2 id="episodeTitle" class="text-2xl lg:text-3xl font-extrabold text-yellow-400 mb-3">Pica-Pau Ataca Novamente</h2>
+                    <div class="mt-4 bg-slate-800/50 rounded-lg p-4 sm:p-5">
+                        <h2 id="episodeTitle" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-yellow-400 mb-3">Pica-Pau Ataca Novamente</h2>
                         <div class="flex items-start gap-4">
-                            <p id="episodeDescription" class="text-slate-300 flex-grow text-sm sm:text-base">Acompanhe as travessuras do Pica-Pau...</p>
+                            <p id="episodeDescription" class="text-slate-300 flex-grow text-sm">Acompanhe as travessuras do Pica-Pau...</p>
                             <!-- Wrapper for cast button and message -->
                             <div class="relative">
-                                <button id="castButton" class="bg-slate-700 hover:bg-slate-600 text-white font-bold p-3 rounded-full flex-shrink-0 transition-colors duration-300" title="Transmitir para a TV">
+                                <button id="castButton" class="bg-slate-700 hover:bg-slate-600 text-white font-bold p-2 sm:p-3 rounded-full flex-shrink-0 transition-colors duration-300" title="Transmitir para a TV">
                                     <i data-feather="cast" class="w-5 h-5"></i>
                                 </button>
                                 <div id="castError" class="hidden absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1 bg-red-600 text-white text-sm rounded-md shadow-lg whitespace-nowrap">
@@ -134,8 +129,9 @@
                 <!-- Coluna Lateral: Lista de Episódios -->
                 <div class="w-full lg:w-1/3">
                     <div class="bg-slate-800/50 rounded-lg p-4 h-full">
-                        <h3 id="episodeListTitle" class="text-xl font-bold mb-4 text-slate-100 pb-3 border-b border-slate-700">Episódios - Pica-Pau 1940</h3>
-                        <div id="episodeList" class="space-y-2 overflow-y-auto pr-2" style="max-height: 500px;">
+                        <h3 id="episodeListTitle" class="text-lg sm:text-xl font-bold mb-4 text-slate-100 pb-3 border-b border-slate-700">Episódios - Pica-Pau 1940</h3>
+                        <!-- A altura máxima da lista é ajustada para mobile e desktop -->
+                        <div id="episodeList" class="space-y-2 overflow-y-auto pr-2 max-h-[60vh] lg:max-h-[500px]">
                             <!-- Os episódios serão gerados aqui pelo JavaScript -->
                         </div>
                     </div>
@@ -148,7 +144,6 @@
         // Substitui os ícones do Feather
         feather.replace();
 
-        // SEU CÓDIGO JAVASCRIPT ORIGINAL (MODIFICADO)
         document.addEventListener('DOMContentLoaded', () => {
             const db = {
                 seasons: [
@@ -189,7 +184,7 @@
             function showPage(pageId) {
                 seasonsPage.classList.toggle('hidden', pageId !== 'seasonsPage');
                 episodesPage.classList.toggle('hidden', pageId !== 'episodesPage');
-                window.scrollTo(0, 0); // Rola para o topo ao mudar de página
+                window.scrollTo(0, 0); 
             }
             
             function preloadNextVideo(seasonId, episodeIndex) {
@@ -217,28 +212,28 @@
                 if (!season) return;
 
                 episodeListTitle.textContent = `Episódios - ${season.title}`;
-                episodeList.innerHTML = ''; // Limpa a lista
+                episodeList.innerHTML = ''; 
                 season.episodes.forEach((ep, index) => {
-                    const itemContainer = document.createElement('div');
-                    
                     const item = document.createElement('div');
-                    item.className = 'episode-item flex items-center gap-3 cursor-pointer p-2 rounded-lg border-l-4 border-transparent transition-all duration-300 hover:bg-slate-700/60';
+                    // Classes responsivas para o item da lista
+                    item.className = 'episode-item flex items-center gap-2 sm:gap-4 cursor-pointer p-2 rounded-lg border-l-4 border-transparent transition-all duration-300 hover:bg-slate-700/60';
                     item.dataset.index = index;
                     
+                    // HTML do item da lista com classes responsivas
                     item.innerHTML = `
-                        <span class="text-slate-400 font-mono text-lg w-6 text-center flex-shrink-0">${index + 1}</span>
+                        <span class="text-slate-400 font-mono text-sm sm:text-base w-6 text-center flex-shrink-0">${index + 1}</span>
                         <div class="relative flex-shrink-0">
-                            <img src="${ep.thumbnail}" alt="Thumbnail" class="thumbnail-img rounded">
+                            <img src="${ep.thumbnail}" alt="Thumbnail" class="w-24 sm:w-28 aspect-video object-cover rounded-md">
                             <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <i data-feather="play" class="w-5 h-5 text-white"></i>
                             </div>
                         </div>
-                        <div class="flex-grow">
-                            <h4 class="font-semibold text-slate-100 text-sm leading-tight">${ep.title}</h4>
+                        <div class="flex-grow min-w-0">
+                            <h4 class="font-semibold text-slate-100 text-sm truncate">${ep.title}</h4>
                             <p class="text-xs text-slate-400">7 min</p>
                         </div>
-                        <a href="${ep.videoUrl}" download="${ep.title}.mp4" class="download-btn ml-2 p-2 rounded-full hover:bg-red-600 text-slate-400 hover:text-white transition-colors" title="Fazer Download" onclick="event.stopPropagation();">
-                           <i data-feather="download" class="w-4 h-4"></i>
+                        <a href="${ep.videoUrl}" download="${ep.title}.mp4" class="download-btn ml-auto p-2 rounded-full hover:bg-red-600 text-slate-400 hover:text-white transition-colors" title="Fazer Download" onclick="event.stopPropagation();">
+                           <i data-feather="download" class="w-5 h-5"></i>
                         </a>
                     `;
                     
@@ -249,7 +244,7 @@
                     });
                 });
                 
-                feather.replace(); // Atualiza os ícones criados dinamicamente
+                feather.replace(); 
                 playEpisode(0);
             }
 
