@@ -85,6 +85,10 @@
             </h1>
             <!-- Navegação para Desktop -->
             <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
+                 <a href="#" id="nav-highlights" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
+                    Destaques
+                    <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
+                </a>
                 <a href="#" id="nav-drawings" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
                     Desenhos
                     <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
@@ -93,7 +97,7 @@
                     Filmes
                     <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
                 </a>
-                <a href="#" id="nav-other-movies" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
+                <a href="#" id="nav-otherMovies" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
                     Outros Filmes
                     <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
                 </a>
@@ -111,9 +115,10 @@
     <!-- Menu Mobile (Overlay) -->
     <div id="mobile-menu" class="hidden fixed inset-0 bg-[#081526]/95 backdrop-blur-md z-30 md:hidden">
         <nav class="flex flex-col items-center justify-center h-full space-y-8 text-xl">
-             <a href="#" id="mobile-nav-drawings" class="mobile-nav-link text-white font-bold">Desenhos</a>
+             <a href="#" id="mobile-nav-highlights" class="mobile-nav-link text-white font-bold">Destaques</a>
+             <a href="#" id="mobile-nav-drawings" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Desenhos</a>
              <a href="#" id="mobile-nav-movies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
-             <a href="#" id="mobile-nav-other-movies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Outros Filmes</a>
+             <a href="#" id="mobile-nav-otherMovies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Outros Filmes</a>
         </nav>
         <button id="menu-close" class="absolute top-5 right-5 text-white p-2">
             <i data-feather="x" class="w-8 h-8"></i>
@@ -124,8 +129,16 @@
     <!-- Conteúdo Principal (Inicialmente oculto) -->
     <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10">
         
+        <!-- PÁGINA: DESTAQUES -->
+        <div id="highlightsPage" class="content-page">
+            <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Destaques</h2>
+            <div id="highlightsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                <!-- Cards dos destaques serão inseridos aqui pelo JavaScript -->
+            </div>
+        </div>
+
         <!-- PÁGINA: SELEÇÃO DE TEMPORADAS -->
-        <div id="seasonsPage" class="content-page">
+        <div id="seasonsPage" class="content-page hidden">
             <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Temporadas</h2>
             <div id="seasonsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
                 <!-- Cards das temporadas serão inseridos aqui pelo JavaScript -->
@@ -157,22 +170,8 @@
         <!-- PÁGINA: OUTROS FILMES -->
         <div id="otherMoviesPage" class="content-page hidden">
             <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Outros Filmes</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-                <!-- Card do Filme "O Segredo dos Animais" -->
-                <div id="other-movie-card" class="movie-card group cursor-pointer" title="O Segredo dos Animais">
-                    <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
-                        <img src="https://i.ibb.co/Txc5mmKp/f2fe6431067e73e3d4dd5c30a5dcaf0f6e8fb6e087d6a6038d7a20451535f49a.jpg" alt="Capa de O Segredo dos Animais" class="w-full h-auto aspect-[2/3] object-cover">
-                        <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
-                             <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">O Segredo dos Animais</h4>
-                             <p class="text-xs text-slate-300">2006</p>
-                        </div>
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
-                                <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="otherMoviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                <!-- Cards de outros filmes serão inseridos aqui pelo JavaScript -->
             </div>
         </div>
 
@@ -316,6 +315,17 @@
                             { videoUrl: "https://files.catbox.moe/6czmzf.mp4", title: "Motorista Desleixado", description: "Pica-Pau decide tirar a carteira de motorista e enlouquece o instrutor." }
                         ]
                     }
+                ],
+                otherMovies: [
+                    { id: "other-movie-1", title: "O Segredo dos Animais", year: "2006", cover: "https://i.ibb.co/Txc5mmKp/f2fe6431067e73e3d4dd5c30a5dcaf0f6e8fb6e087d6a6038d7a20451535f49a.jpg", videoUrl: "https://1a-1791.com/video/fww1/ab/s8/2/o/e/2/s/oe2sy.gaa.mp4" },
+                    { id: "other-movie-2", title: "A Nova Onda do Imperador", year: "2000", cover: "https://image.tmdb.org/t/p/original/qqnnA0mnokmgt5dtzYz5WlLka22.jpg", videoUrl: "https://1a-1791.com/video/fwe1/8b/s8/2/k/P/h/x/kPhxy.caa.mp4" },
+                    { id: "other-movie-3", title: "Orion e o Escuro", year: "2024", cover: "https://image.tmdb.org/t/p/original/qSN76JBBTZ3JjhFYVhvrgGLvjsq.jpg", videoUrl: "https://1a-1791.com/video/fww1/ae/s8/2/4/B/G/w/4BGwy.gaa.mp4" },
+                    { id: "other-movie-4", title: "Patos!", year: "2023", cover: "https://i.ibb.co/6ccXQW8v/d-Mm-BIb-NA2qt-Wau-Gc-Mo-SJav-Fi-Dv2.jpg", videoUrl: "https://1a-1791.com/video/fww1/26/s8/2/G/0/G/w/G0Gwy.gaa.mp4" },
+                    { id: "other-movie-5", title: "WiFi Ralph", year: "2018", cover: "https://i.ibb.co/VpWmFd17/88po-TBTaf-MXaz73v-Yi3c74g0y2k.jpg", videoUrl: "https://1a-1791.com/video/fww1/45/s8/2/6/1/J/w/61Jwy.gaa.mp4" },
+                    { id: "other-movie-6", title: "Detona Ralph", year: "2012", cover: "https://image.tmdb.org/t/p/original/hEIyL9G7QpXKEonUx2HAHRZ1Yqc.jpg", videoUrl: "https://1a-1791.com/video/fww1/b0/s8/2/0/1/J/w/01Jwy.gaa.mp4" },
+                    { id: "other-movie-7", title: "Enrolados", year: "2010", cover: "https://image.tmdb.org/t/p/original/mUQBWnG6zDeoD0TfAq0InjQRmSm.jpg", videoUrl: "https://1a-1791.com/video/fww1/5f/s8/2/g/J/K/t/gJKty.gaa.mp4" },
+                    { id: "other-movie-8", title: "Elementos", year: "2023", cover: "https://image.tmdb.org/t/p/original/67kvbJTMhqneAfRHbukdjAKuS76.jpg", videoUrl: "https://1a-1791.com/video/fww1/eb/s8/2/c/y/v/u/cyvuy.gaa.mp4" },
+                    { id: "other-movie-9", title: "Moana 2", year: "2024", cover: "https://image.tmdb.org/t/p/original/e7W9DlmFQkIvqxPZOIEjH2t34Mt.jpg", videoUrl: "https://1a-1791.com/video/fwe2/04/s8/2/s/x/t/s/sxtsy.gaa.mp4" }
                 ]
             };
 
@@ -324,6 +334,8 @@
             const backToMoviesBtn = document.getElementById('backToMoviesBtn');
             const backToOtherMoviesBtn = document.getElementById('backToOtherMoviesBtn');
             const seasonsGrid = document.getElementById('seasonsGrid');
+            const otherMoviesGrid = document.getElementById('otherMoviesGrid');
+            const highlightsGrid = document.getElementById('highlightsGrid');
             
             const mainVideoPlayer = document.getElementById('mainVideoPlayer');
             const episodeTitle = document.getElementById('episodeTitle');
@@ -338,7 +350,6 @@
             const moviePlayerIframe = document.getElementById('movie_player_iframe');
             const webCastMovieBtn = document.getElementById('webCastMovieBtn');
             
-            const otherMovieCard = document.getElementById('other-movie-card');
             const otherMovieVideoPlayer = document.getElementById('otherMovieVideoPlayer');
             const webCastOtherMovieBtn = document.getElementById('webCastOtherMovieBtn');
 
@@ -352,13 +363,13 @@
 
             function updateNavActiveState(activePageId) {
                 let activeId = activePageId;
-                if (activePageId === 'episodesPage') activeId = 'seasonsPage';
-                if (activePageId === 'moviePlayerPage') activeId = 'moviesPage';
-                if (activePageId === 'otherMoviePlayerPage') activeId = 'otherMoviesPage';
+                 if (activePageId === 'episodesPage') activeId = 'seasonsPage';
+                 if (activePageId === 'moviePlayerPage') activeId = 'moviesPage';
+                 if (activePageId === 'otherMoviePlayerPage') activeId = 'otherMoviesPage';
                 
                 navLinks.forEach(link => {
                     const indicator = link.querySelector('.active-indicator');
-                    if (link.id === `nav-${activeId.replace('Page', 's').replace('other-m','other-m')}`) {
+                    if (link.id === `nav-${activeId.replace('Page', '')}`) {
                         link.classList.add('active');
                     } else {
                         link.classList.remove('active');
@@ -366,7 +377,7 @@
                 });
 
                  mobileNavLinks.forEach(link => {
-                    if (link.id === `mobile-nav-${activeId.replace('Page', 's').replace('other-m','other-m')}`) {
+                    if (link.id === `mobile-nav-${activeId.replace('Page', '')}`) {
                         link.classList.add('text-white', 'font-bold');
                         link.classList.remove('text-slate-300');
                     } else {
@@ -409,6 +420,89 @@
                     });
                     seasonsGrid.appendChild(card);
                 });
+                feather.replace();
+            }
+
+            function loadOtherMovies() {
+                otherMoviesGrid.innerHTML = '';
+                db.otherMovies.forEach(movie => {
+                    const card = document.createElement('div');
+                    card.className = 'movie-card group cursor-pointer';
+                    card.title = movie.title;
+                    card.innerHTML = `
+                        <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
+                            <img src="${movie.cover}" alt="Capa de ${movie.title}" class="w-full h-auto aspect-[2/3] object-cover">
+                            <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
+                                <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">${movie.title}</h4>
+                                <p class="text-xs text-slate-300">${movie.year}</p>
+                            </div>
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                                    <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        playOtherMovie(movie.videoUrl, movie.title);
+                    });
+                    otherMoviesGrid.appendChild(card);
+                });
+                feather.replace();
+            }
+
+            function loadHighlights() {
+                highlightsGrid.innerHTML = '';
+                // Adiciona as temporadas
+                db.seasons.forEach(season => {
+                    const card = document.createElement('div');
+                    card.className = 'season-card group cursor-pointer';
+                    card.title = season.title;
+                    card.innerHTML = `
+                        <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
+                            <img src="${season.cover}" alt="Capa de ${season.title}" class="w-full h-auto aspect-[2/3] object-cover">
+                            <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
+                                <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">${season.title}</h4>
+                            </div>
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                                    <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        loadEpisodes(season.id);
+                        showPage('episodesPage');
+                    });
+                    highlightsGrid.appendChild(card);
+                });
+
+                // Adiciona os 3 primeiros filmes de "Outros Filmes"
+                db.otherMovies.slice(0, 3).forEach(movie => {
+                     const card = document.createElement('div');
+                    card.className = 'movie-card group cursor-pointer';
+                    card.title = movie.title;
+                    card.innerHTML = `
+                        <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
+                            <img src="${movie.cover}" alt="Capa de ${movie.title}" class="w-full h-auto aspect-[2/3] object-cover">
+                            <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
+                                <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">${movie.title}</h4>
+                                <p class="text-xs text-slate-300">${movie.year}</p>
+                            </div>
+                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                                    <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        playOtherMovie(movie.videoUrl, movie.title);
+                    });
+                    highlightsGrid.appendChild(card);
+                });
+
                 feather.replace();
             }
             
@@ -487,14 +581,23 @@
                 }
             }
 
+            function playOtherMovie(url, title) {
+                otherMovieVideoPlayer.src = url;
+                webCastOtherMovieBtn.setAttribute('data-url', url);
+                webCastOtherMovieBtn.setAttribute('data-title', title);
+                showPage('otherMoviePlayerPage');
+            }
+
             // Event Listeners
+            document.getElementById('nav-highlights').addEventListener('click', (e) => { e.preventDefault(); showPage('highlightsPage'); });
             document.getElementById('nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); });
             document.getElementById('nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); });
-            document.getElementById('nav-other-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('otherMoviesPage'); });
+            document.getElementById('nav-otherMovies').addEventListener('click', (e) => { e.preventDefault(); showPage('otherMoviesPage'); });
             
+            document.getElementById('mobile-nav-highlights').addEventListener('click', (e) => { e.preventDefault(); showPage('highlightsPage'); toggleMenu(); });
             document.getElementById('mobile-nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); toggleMenu(); });
             document.getElementById('mobile-nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); toggleMenu(); });
-            document.getElementById('mobile-nav-other-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('otherMoviesPage'); toggleMenu(); });
+            document.getElementById('mobile-nav-otherMovies').addEventListener('click', (e) => { e.preventDefault(); showPage('otherMoviesPage'); toggleMenu(); });
 
             backToSeasonsBtn.addEventListener('click', () => {
                 mainVideoPlayer.pause();
@@ -517,12 +620,7 @@
                 moviePlayerIframe.src = "https://www.tokyvideo.com/embed/409976";
                 showPage('moviePlayerPage');
             });
-
-            otherMovieCard.addEventListener('click', () => {
-                otherMovieVideoPlayer.src = "https://1a-1791.com/video/fww1/ab/s8/2/o/e/2/s/oe2sy.gaa.mp4";
-                showPage('otherMoviePlayerPage');
-            });
-
+            
             // --- Lógica de Transmissão ---
             webCastButton.addEventListener('click', () => {
                 if (currentEpisodeUrl) {
@@ -538,8 +636,10 @@
             });
 
             webCastOtherMovieBtn.addEventListener('click', () => {
-                if(otherMovieVideoPlayer.src) {
-                    const url = `wvc-x-callback://open?url=${encodeURIComponent(otherMovieVideoPlayer.src)}&title=${encodeURIComponent("O Segredo dos Animais")}`;
+                const movieUrl = webCastOtherMovieBtn.getAttribute('data-url');
+                const movieTitle = webCastOtherMovieBtn.getAttribute('data-title');
+                if(movieUrl) {
+                    const url = `wvc-x-callback://open?url=${encodeURIComponent(movieUrl)}&title=${encodeURIComponent(movieTitle)}`;
                     window.location.href = url;
                 }
             });
@@ -560,7 +660,9 @@
             }
             
             loadSeasons();
-            showPage('seasonsPage'); // Define a página inicial
+            loadOtherMovies();
+            loadHighlights();
+            showPage('highlightsPage'); // Define a página inicial
         });
     </script>
 </body>
