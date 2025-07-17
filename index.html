@@ -68,6 +68,11 @@
         .swiper-pagination-bullet-active {
             background-color: white !important;
         }
+        .swiper-slide {
+            background-size: 100% 100%; /* Estica a imagem para preencher */
+            background-position: center;
+            background-repeat: no-repeat;
+        }
     </style>
 </head>
 <body class="bg-[#081526]">
@@ -105,10 +110,6 @@
                     Filmes
                     <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
                 </a>
-                <a href="#" id="nav-otherMovies" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
-                    Outros Filmes
-                    <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
-                </a>
             </nav>
             <div class="flex items-center gap-4">
                  <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
@@ -126,7 +127,6 @@
              <a href="#" id="mobile-nav-highlights" class="mobile-nav-link text-white font-bold">Destaques</a>
              <a href="#" id="mobile-nav-drawings" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Desenhos</a>
              <a href="#" id="mobile-nav-movies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
-             <a href="#" id="mobile-nav-otherMovies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Outros Filmes</a>
         </nav>
         <button id="menu-close" class="absolute top-5 right-5 text-white p-2">
             <i data-feather="x" class="w-8 h-8"></i>
@@ -140,7 +140,7 @@
         <!-- PÁGINA: DESTAQUES (CARROSSEL) -->
         <div id="highlightsPage" class="content-page">
             <!-- Swiper -->
-            <div class="swiper h-[40vh] sm:h-[50vh] rounded-lg">
+            <div class="swiper h-[35vh] md:h-[50vh] rounded-lg">
                 <div class="swiper-wrapper" id="highlights-carousel">
                     <!-- Slides serão inseridos aqui pelo JavaScript -->
                 </div>
@@ -163,33 +163,11 @@
         <!-- PÁGINA: FILMES -->
         <div id="moviesPage" class="content-page hidden">
             <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Filmes</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-                <!-- Card do Filme -->
-                <div id="movie-card" class="movie-card group cursor-pointer" title="Pica-Pau: O Filme (2017)">
-                    <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
-                        <img src="https://br.web.img2.acsta.net/pictures/17/08/25/19/04/419991.jpg" alt="Capa de Pica-Pau: O Filme" class="w-full h-auto aspect-[2/3] object-cover">
-                        <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
-                             <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">Pica-Pau: O Filme</h4>
-                             <p class="text-xs text-slate-300">2017</p>
-                        </div>
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
-                                <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="moviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                <!-- Cards de filmes serão inseridos aqui pelo JavaScript -->
             </div>
         </div>
         
-        <!-- PÁGINA: OUTROS FILMES -->
-        <div id="otherMoviesPage" class="content-page hidden">
-            <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Outros Filmes</h2>
-            <div id="otherMoviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-                <!-- Cards de outros filmes serão inseridos aqui pelo JavaScript -->
-            </div>
-        </div>
-
         <!-- PÁGINA DE DETALHES (para temporadas e filmes) -->
         <div id="detailsPage" class="content-page hidden">
             <!-- Conteúdo será gerado dinamicamente -->
@@ -209,22 +187,15 @@
             </div>
             <div class="mt-4 flex justify-between items-center">
                 <h2 id="episodeTitle" class="text-xl sm:text-2xl font-bold text-yellow-400"></h2>
-                <button id="webCastButton" class="bg-orange-500 hover:bg-orange-600 text-white font-bold p-2 sm:p-3 rounded-full flex-shrink-0 transition-colors duration-300" title="Transmitir com Web Video Caster">
-                    <i data-feather="cast" class="w-5 h-5"></i>
-                </button>
             </div>
         </div>
 
         <!-- PÁGINA DO PLAYER DE FILME (IFRAME) -->
-        <div id="moviePlayerPage" class="content-page hidden">
+        <div id="iframePlayerPage" class="content-page hidden">
             <div class="flex items-center gap-4 mb-6">
-                 <button id="backToMoviesBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
+                 <button id="backToMoviesFromIframe" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
                     <i data-feather="arrow-left" class="w-5 h-5"></i>
                     Voltar
-                </button>
-                <button id="webCastMovieBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300" title="Transmitir com Web Video Caster">
-                    <i data-feather="cast" class="w-5 h-5"></i>
-                    Transmitir
                 </button>
             </div>
             <div class="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
@@ -235,20 +206,16 @@
             </p>
         </div>
         
-        <!-- PÁGINA DO PLAYER DE OUTROS FILMES (Inicialmente oculta) -->
-        <div id="otherMoviePlayerPage" class="content-page hidden">
+        <!-- PÁGINA DO PLAYER DE FILME (VIDEO) -->
+        <div id="videoPlayerPage" class="content-page hidden">
              <div class="flex items-center gap-4 mb-6">
-                <button id="backToOtherMoviesBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
+                <button id="backToMoviesFromVideo" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
                     <i data-feather="arrow-left" class="w-5 h-5"></i>
                     Voltar
                 </button>
-                <button id="webCastOtherMovieBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300" title="Transmitir com Web Video Caster">
-                    <i data-feather="cast" class="w-5 h-5"></i>
-                    Transmitir
-                </button>
             </div>
             <div class="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
-                <video id="otherMovieVideoPlayer" class="w-full h-full" controls autoplay controlsList="nodownload">
+                <video id="videoPlayer" class="w-full h-full" controls autoplay controlsList="nodownload">
                     <source src="" type="video/mp4">
                 </video>
             </div>
@@ -271,7 +238,6 @@
                 startScreen.addEventListener('transitionend', () => {
                     startScreen.style.display = 'none';
                     mainContent.classList.remove('hidden');
-                    // Inicializa o Swiper DEPOIS que o conteúdo principal estiver visível
                     initSwiper(); 
                 }, { once: true });
             });
@@ -319,25 +285,26 @@
                         ]
                     }
                 ],
-                otherMovies: [
-                    { id: "other-movie-1", title: "O Segredo dos Animais", year: "2006", cover: "https://i.ibb.co/Txc5mmKp/f2fe6431067e73e3d4dd5c30a5dcaf0f6e8fb6e087d6a6038d7a20451535f49a.jpg", videoUrl: "https://1a-1791.com/video/fww1/ab/s8/2/o/e/2/s/oe2sy.gaa.mp4", description: "Quando o fazendeiro está fora, todos os animais da fazenda cantam, dançam e se divertem. Mas um dia, um novo bezerro chamado Otis chega e perturba a paz." },
-                    { id: "other-movie-2", title: "A Nova Onda do Imperador", year: "2000", cover: "https://image.tmdb.org/t/p/original/qqnnA0mnokmgt5dtzYz5WlLka22.jpg", videoUrl: "https://1a-1791.com/video/fwe1/8b/s8/2/k/P/h/x/kPhxy.caa.mp4", description: "O arrogante imperador Kuzco é transformado em uma lhama por sua poderosa conselheira, Yzma. Perdido na selva, a única chance de Kuzco de voltar para casa e reconquistar seu trono repousa em um bondoso camponês chamado Pacha." },
-                    { id: "other-movie-3", title: "Orion e o Escuro", year: "2024", cover: "https://image.tmdb.org/t/p/original/qSN76JBBTZ3JjhFYVhvrgGLvjsq.jpg", videoUrl: "https://1a-1791.com/video/fww1/ae/s8/2/4/B/G/w/4BGwy.gaa.mp4", description: "Um garoto com uma imaginação ativa enfrenta seus medos em uma jornada inesquecível pela noite com seu novo amigo: uma criatura gigante e sorridente chamada Escuro." },
-                    { id: "other-movie-4", title: "Patos!", year: "2023", cover: "https://i.ibb.co/6ccXQW8v/d-Mm-BIb-NA2qt-Wau-Gc-Mo-SJav-Fi-Dv2.jpg", videoUrl: "https://1a-1791.com/video/fww1/26/s8/2/G/0/G/w/G0Gwy.gaa.mp4", description: "Uma família de patos tenta convencer seu pai superprotetor a embarcar nas férias de suas vidas e migrar para o sul durante o inverno." },
-                    { id: "other-movie-5", title: "WiFi Ralph", year: "2018", cover: "https://i.ibb.co/VpWmFd17/88po-TBTaf-MXaz73v-Yi3c74g0y2k.jpg", videoUrl: "https://1a-1791.com/video/fww1/45/s8/2/6/1/J/w/61Jwy.gaa.mp4", description: "Seis anos após os eventos de 'Detona Ralph', Ralph e Vanellope, agora amigos, descobrem um roteador wi-fi em seu fliperama, levando-os a uma nova aventura." },
-                    { id: "other-movie-6", title: "Detona Ralph", year: "2012", cover: "https://image.tmdb.org/t/p/original/hEIyL9G7QpXKEonUx2HAHRZ1Yqc.jpg", videoUrl: "https://1a-1791.com/video/fww1/b0/s8/2/0/1/J/w/01Jwy.gaa.mp4", description: "Um vilão de videogame quer provar que pode ser um herói e parte em uma jornada por diferentes jogos, causando estragos por onde passa." },
-                    { id: "other-movie-7", title: "Enrolados", year: "2010", cover: "https://image.tmdb.org/t/p/original/mUQBWnG6zDeoD0TfAq0InjQRmSm.jpg", videoUrl: "https://1a-1791.com/video/fww1/5f/s8/2/g/J/K/t/gJKty.gaa.mp4", description: "A espirituosa e fugitiva Rapunzel, com seu cabelo mágico de 21 metros de comprimento, se esconde em uma torre. Ela faz um acordo com o charmoso ladrão Flynn Rider para explorar o mundo exterior." },
-                    { id: "other-movie-8", title: "Elementos", year: "2023", cover: "https://image.tmdb.org/t/p/original/67kvbJTMhqneAfRHbukdjAKuS76.jpg", videoUrl: "https://1a-1791.com/video/fww1/eb/s8/2/c/y/v/u/cyvuy.gaa.mp4", description: "Em uma cidade onde os residentes de fogo, água, terra e ar vivem juntos, uma jovem impetuosa de fogo e um rapaz tranquilo que segue o fluxo descobrem algo elementar: o quanto eles realmente têm em comum." },
-                    { id: "other-movie-9", title: "Moana 2", year: "2024", cover: "https://image.tmdb.org/t/p/original/e7W9DlmFQkIvqxPZOIEjH2t34Mt.jpg", videoUrl: "https://1a-1791.com/video/fwe2/04/s8/2/s/x/t/s/sxtsy.gaa.mp4", description: "Moana embarca em uma nova e expansiva jornada com Maui e uma nova tripulação de marinheiros improváveis. Depois de receber um chamado inesperado de seus ancestrais, Moana deve viajar para os mares distantes da Oceania." }
+                movies: [
+                    { id: "movie-pica-pau", playerType: 'iframe', title: "Pica-Pau: O Filme", year: "2017", cover: "https://br.web.img2.acsta.net/pictures/17/08/25/19/04/419991.jpg", iframeUrl: "https://www.tokyvideo.com/embed/409976", castUrl: "https://www.tokyvideo.com/video/pica-pau-o-filme-2017-comedia-infantil-1h-34m", description: "O Pica-Pau está metido em mais uma de suas brigas por território. Os inimigos da vez são o vigarista Lance Walters e sua namorada Vanessa." },
+                    { id: "other-movie-1", playerType: 'video', title: "O Segredo dos Animais", year: "2006", cover: "https://i.ibb.co/Txc5mmKp/f2fe6431067e73e3d4dd5c30a5dcaf0f6e8fb6e087d6a6038d7a20451535f49a.jpg", videoUrl: "https://1a-1791.com/video/fww1/ab/s8/2/o/e/2/s/oe2sy.gaa.mp4", description: "Quando o fazendeiro está fora, todos os animais da fazenda cantam, dançam e se divertem. Mas um dia, um novo bezerro chamado Otis chega e perturba a paz." },
+                    { id: "other-movie-2", playerType: 'video', title: "A Nova Onda do Imperador", year: "2000", cover: "https://image.tmdb.org/t/p/original/qqnnA0mnokmgt5dtzYz5WlLka22.jpg", videoUrl: "https://1a-1791.com/video/fwe1/8b/s8/2/k/P/h/x/kPhxy.caa.mp4", description: "O arrogante imperador Kuzco é transformado em uma lhama por sua poderosa conselheira, Yzma. Perdido na selva, a única chance de Kuzco de voltar para casa e reconquistar seu trono repousa em um bondoso camponês chamado Pacha." },
+                    { id: "other-movie-3", playerType: 'video', title: "Orion e o Escuro", year: "2024", cover: "https://image.tmdb.org/t/p/original/qSN76JBBTZ3JjhFYVhvrgGLvjsq.jpg", videoUrl: "https://1a-1791.com/video/fww1/ae/s8/2/4/B/G/w/4BGwy.gaa.mp4", description: "Um garoto com uma imaginação ativa enfrenta seus medos em uma jornada inesquecível pela noite com seu novo amigo: uma criatura gigante e sorridente chamada Escuro." },
+                    { id: "other-movie-4", playerType: 'video', title: "Patos!", year: "2023", cover: "https://i.ibb.co/6ccXQW8v/d-Mm-BIb-NA2qt-Wau-Gc-Mo-SJav-Fi-Dv2.jpg", videoUrl: "https://1a-1791.com/video/fww1/26/s8/2/G/0/G/w/G0Gwy.gaa.mp4", description: "Uma família de patos tenta convencer seu pai superprotetor a embarcar nas férias de suas vidas e migrar para o sul durante o inverno." },
+                    { id: "other-movie-5", playerType: 'video', title: "WiFi Ralph", year: "2018", cover: "https://i.ibb.co/VpWmFd17/88po-TBTaf-MXaz73v-Yi3c74g0y2k.jpg", videoUrl: "https://1a-1791.com/video/fww1/45/s8/2/6/1/J/w/61Jwy.gaa.mp4", description: "Seis anos após os eventos de 'Detona Ralph', Ralph e Vanellope, agora amigos, descobrem um roteador wi-fi em seu fliperama, levando-os a uma nova aventura." },
+                    { id: "other-movie-6", playerType: 'video', title: "Detona Ralph", year: "2012", cover: "https://image.tmdb.org/t/p/original/hEIyL9G7QpXKEonUx2HAHRZ1Yqc.jpg", videoUrl: "https://1a-1791.com/video/fww1/b0/s8/2/0/1/J/w/01Jwy.gaa.mp4", description: "Um vilão de videogame quer provar que pode ser um herói e parte em uma jornada por diferentes jogos, causando estragos por onde passa." },
+                    { id: "other-movie-7", playerType: 'video', title: "Enrolados", year: "2010", cover: "https://image.tmdb.org/t/p/original/mUQBWnG6zDeoD0TfAq0InjQRmSm.jpg", videoUrl: "https://1a-1791.com/video/fww1/5f/s8/2/g/J/K/t/gJKty.gaa.mp4", description: "A espirituosa e fugitiva Rapunzel, com seu cabelo mágico de 21 metros de comprimento, se esconde em uma torre. Ela faz um acordo com o charmoso ladrão Flynn Rider para explorar o mundo exterior." },
+                    { id: "other-movie-8", playerType: 'video', title: "Elementos", year: "2023", cover: "https://image.tmdb.org/t/p/original/67kvbJTMhqneAfRHbukdjAKuS76.jpg", videoUrl: "https://1a-1791.com/video/fww1/eb/s8/2/c/y/v/u/cyvuy.gaa.mp4", description: "Em uma cidade onde os residentes de fogo, água, terra e ar vivem juntos, uma jovem impetuosa de fogo e um rapaz tranquilo que segue o fluxo descobrem algo elementar: o quanto eles realmente têm em comum." },
+                    { id: "other-movie-9", playerType: 'video', title: "Moana 2", year: "2024", cover: "https://image.tmdb.org/t/p/original/e7W9DlmFQkIvqxPZOIEjH2t34Mt.jpg", videoUrl: "https://1a-1791.com/video/fwe2/04/s8/2/s/x/t/s/sxtsy.gaa.mp4", description: "Moana embarca em uma nova e expansiva jornada com Maui e uma nova tripulação de marinheiros improváveis. Depois de receber um chamado inesperado de seus ancestrais, Moana deve viajar para os mares distantes da Oceania." }
                 ]
             };
 
             const contentPages = document.querySelectorAll('.content-page');
             const backToDetailsBtn = document.getElementById('backToDetailsBtn');
-            const backToMoviesBtn = document.getElementById('backToMoviesBtn');
-            const backToOtherMoviesBtn = document.getElementById('backToOtherMoviesBtn');
+            const backToMoviesBtn = document.getElementById('backToMoviesFromIframe');
+            const backToOtherMoviesBtn = document.getElementById('backToMoviesFromVideo');
             const seasonsGrid = document.getElementById('seasonsGrid');
-            const otherMoviesGrid = document.getElementById('otherMoviesGrid');
+            const moviesGrid = document.getElementById('moviesGrid');
             const highlightsCarousel = document.getElementById('highlights-carousel');
             const detailsPage = document.getElementById('detailsPage');
             
@@ -345,12 +312,9 @@
             const episodeTitle = document.getElementById('episodeTitle');
             const webCastButton = document.getElementById('webCastButton');
 
-            const movieCard = document.getElementById('movie-card');
             const moviePlayerIframe = document.getElementById('movie_player_iframe');
-            const webCastMovieBtn = document.getElementById('webCastMovieBtn');
             
-            const otherMovieVideoPlayer = document.getElementById('otherMovieVideoPlayer');
-            const webCastOtherMovieBtn = document.getElementById('webCastOtherMovieBtn');
+            const videoPlayer = document.getElementById('videoPlayer');
 
             // Nav Links
             const navLinks = document.querySelectorAll('.nav-link');
@@ -362,7 +326,7 @@
 
             function updateNavActiveState(activePageId) {
                 let activeId = activePageId;
-                 if (['episodesPage', 'detailsPage', 'moviePlayerPage', 'otherMoviePlayerPage'].includes(activePageId)) {
+                 if (['episodesPage', 'detailsPage', 'iframePlayerPage', 'videoPlayerPage'].includes(activePageId)) {
                     activeId = lastPage;
                  }
                 
@@ -430,17 +394,17 @@
                 });
             }
 
-            function loadOtherMovies() {
-                otherMoviesGrid.innerHTML = '';
-                db.otherMovies.forEach(movie => {
+            function loadMovies() {
+                moviesGrid.innerHTML = '';
+                db.movies.forEach(movie => {
                     const card = createCard(movie, () => showDetailsPage('movie', movie.id));
-                    otherMoviesGrid.appendChild(card);
+                    moviesGrid.appendChild(card);
                 });
             }
 
             function loadHighlights() {
                 highlightsCarousel.innerHTML = '';
-                const highlights = [...db.seasons, ...db.otherMovies.slice(0, 3)];
+                const highlights = [...db.seasons, ...db.movies.slice(0, 3)];
 
                 highlights.forEach(item => {
                     const isSeason = !!item.episodes;
@@ -467,7 +431,7 @@
                 if (type === 'season') {
                     item = db.seasons.find(s => s.id === id);
                 } else {
-                    item = db.otherMovies.find(m => m.id === id);
+                    item = db.movies.find(m => m.id === id);
                 }
                 if (!item) return;
 
@@ -482,9 +446,14 @@
                             <div class="flex-grow text-center sm:text-left">
                                 <h2 class="text-3xl sm:text-5xl font-bold text-white">${item.title}</h2>
                                 <p class="text-slate-300 mt-2">${item.description || ''}</p>
-                                <button id="playDetailsBtn" class="mt-6 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg flex items-center gap-2 mx-auto sm:mx-0">
-                                    <i data-feather="play"></i>Assistir
-                                </button>
+                                <div class="mt-6 flex items-center justify-center sm:justify-start gap-4">
+                                    <button id="playDetailsBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg flex items-center gap-2">
+                                        <i data-feather="play"></i>Assistir
+                                    </button>
+                                    <button id="transmitDetailsBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold p-3 rounded-full" title="Transmitir com Web Video Caster">
+                                        <i data-feather="cast"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         ${type === 'season' ? `
@@ -521,8 +490,24 @@
                     if (type === 'season') {
                         playEpisode(item.id, 0);
                     } else {
-                        playOtherMovie(item.videoUrl, item.title);
+                        if (item.playerType === 'iframe') {
+                            playIframeMovie(item);
+                        } else {
+                            playVideoMovie(item);
+                        }
                     }
+                });
+                
+                document.getElementById('transmitDetailsBtn').addEventListener('click', () => {
+                    let urlToCast;
+                    let titleToCast = item.title;
+                    if (type === 'season') {
+                        urlToCast = item.episodes[0].videoUrl;
+                    } else {
+                        urlToCast = item.playerType === 'iframe' ? item.castUrl : item.videoUrl;
+                    }
+                    const url = `wvc-x-callback://open?url=${encodeURIComponent(urlToCast)}&title=${encodeURIComponent(titleToCast)}`;
+                    window.location.href = url;
                 });
 
                 document.getElementById('backFromDetails').addEventListener('click', () => showPage(lastPage, false));
@@ -553,23 +538,24 @@
                 showPage('episodesPage', false);
             }
 
-            function playOtherMovie(url, title) {
-                otherMovieVideoPlayer.src = url;
-                webCastOtherMovieBtn.setAttribute('data-url', url);
-                webCastOtherMovieBtn.setAttribute('data-title', title);
-                showPage('otherMoviePlayerPage', true);
+            function playIframeMovie(movie) {
+                moviePlayerIframe.src = movie.iframeUrl;
+                showPage('iframePlayerPage', true);
+            }
+
+            function playVideoMovie(movie) {
+                videoPlayer.src = movie.videoUrl;
+                showPage('videoPlayerPage', true);
             }
 
             // Event Listeners
             document.getElementById('nav-highlights').addEventListener('click', (e) => { e.preventDefault(); showPage('highlightsPage'); });
             document.getElementById('nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); });
             document.getElementById('nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); });
-            document.getElementById('nav-otherMovies').addEventListener('click', (e) => { e.preventDefault(); showPage('otherMoviesPage'); });
             
             document.getElementById('mobile-nav-highlights').addEventListener('click', (e) => { e.preventDefault(); showPage('highlightsPage'); toggleMenu(); });
             document.getElementById('mobile-nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); toggleMenu(); });
             document.getElementById('mobile-nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); toggleMenu(); });
-            document.getElementById('mobile-nav-otherMovies').addEventListener('click', (e) => { e.preventDefault(); showPage('otherMoviesPage'); toggleMenu(); });
 
             document.getElementById('backToDetailsBtn').addEventListener('click', () => {
                  mainVideoPlayer.pause();
@@ -583,37 +569,9 @@
             });
 
             backToOtherMoviesBtn.addEventListener('click', () => {
-                otherMovieVideoPlayer.pause();
-                otherMovieVideoPlayer.src = '';
-                showPage('otherMoviesPage', false);
-            });
-
-            movieCard.addEventListener('click', () => {
-                moviePlayerIframe.src = "https://www.tokyvideo.com/embed/409976";
-                showPage('moviePlayerPage', true);
-            });
-            
-            // --- Lógica de Transmissão ---
-            webCastButton.addEventListener('click', () => {
-                if (currentEpisodeUrl) {
-                    const url = `wvc-x-callback://open?url=${encodeURIComponent(currentEpisodeUrl)}&title=${encodeURIComponent(currentEpisodeTitle)}`;
-                    window.location.href = url;
-                }
-            });
-            
-            webCastMovieBtn.addEventListener('click', () => {
-                const tokyVideoPageUrl = "https://www.tokyvideo.com/video/pica-pau-o-filme-2017-comedia-infantil-1h-34m";
-                const url = `wvc-x-callback://open?url=${encodeURIComponent(tokyVideoPageUrl)}&title=${encodeURIComponent("Pica-Pau: O Filme")}`;
-                window.location.href = url;
-            });
-
-            webCastOtherMovieBtn.addEventListener('click', () => {
-                const movieUrl = webCastOtherMovieBtn.getAttribute('data-url');
-                const movieTitle = webCastOtherMovieBtn.getAttribute('data-title');
-                if(movieUrl) {
-                    const url = `wvc-x-callback://open?url=${encodeURIComponent(movieUrl)}&title=${encodeURIComponent(movieTitle)}`;
-                    window.location.href = url;
-                }
+                videoPlayer.pause();
+                videoPlayer.src = '';
+                showPage('moviesPage', false);
             });
             
             highlightsCarousel.addEventListener('click', (e) => {
@@ -644,7 +602,7 @@
             }
 
             loadSeasons();
-            loadOtherMovies();
+            loadMovies();
             loadHighlights();
             feather.replace();
             
