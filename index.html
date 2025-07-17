@@ -140,7 +140,7 @@
         <!-- PÁGINA: DESTAQUES (CARROSSEL) -->
         <div id="highlightsPage" class="content-page">
             <!-- Swiper -->
-            <div class="swiper h-[45vh] md:h-[60vh] rounded-lg">
+            <div class="swiper h-[40vh] sm:h-[50vh] rounded-lg">
                 <div class="swiper-wrapper" id="highlights-carousel">
                     <!-- Slides serão inseridos aqui pelo JavaScript -->
                 </div>
@@ -445,7 +445,7 @@
                 highlights.forEach(item => {
                     const isSeason = !!item.episodes;
                     const slide = document.createElement('div');
-                    slide.className = 'swiper-slide flex items-end p-4 sm:p-8 bg-cover bg-no-repeat bg-center text-white rounded-lg';
+                    slide.className = 'swiper-slide flex items-end p-4 sm:p-8 bg-cover bg-center text-white rounded-lg';
                     slide.style.backgroundImage = `url(${item.cover})`;
 
                     slide.innerHTML = `
