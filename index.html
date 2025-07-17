@@ -93,6 +93,10 @@
                     Filmes
                     <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
                 </a>
+                <a href="#" id="nav-other-movies" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 relative">
+                    Outros Filmes
+                    <span class="active-indicator absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-1 bg-red-500 rounded-full opacity-0 transition-opacity"></span>
+                </a>
             </nav>
             <div class="flex items-center gap-4">
                  <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
@@ -109,6 +113,7 @@
         <nav class="flex flex-col items-center justify-center h-full space-y-8 text-xl">
              <a href="#" id="mobile-nav-drawings" class="mobile-nav-link text-white font-bold">Desenhos</a>
              <a href="#" id="mobile-nav-movies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
+             <a href="#" id="mobile-nav-other-movies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Outros Filmes</a>
         </nav>
         <button id="menu-close" class="absolute top-5 right-5 text-white p-2">
             <i data-feather="x" class="w-8 h-8"></i>
@@ -148,6 +153,28 @@
                 </div>
             </div>
         </div>
+        
+        <!-- PÁGINA: OUTROS FILMES -->
+        <div id="otherMoviesPage" class="content-page hidden">
+            <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Outros Filmes</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+                <!-- Card do Filme "O Segredo dos Animais" -->
+                <div id="other-movie-card" class="movie-card group cursor-pointer" title="O Segredo dos Animais">
+                    <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
+                        <img src="https://i.ibb.co/Txc5mmKp/f2fe6431067e73e3d4dd5c30a5dcaf0f6e8fb6e087d6a6038d7a20451535f49a.jpg" alt="Capa de O Segredo dos Animais" class="w-full h-auto aspect-[2/3] object-cover">
+                        <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
+                             <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">O Segredo dos Animais</h4>
+                             <p class="text-xs text-slate-300">2006</p>
+                        </div>
+                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                                <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- PÁGINA DE EPISÓDIOS (Inicialmente oculta) -->
         <div id="episodesPage" class="content-page hidden">
@@ -164,9 +191,12 @@
                     </div>
                     <div class="mt-4 bg-slate-800/50 rounded-lg p-4 sm:p-5">
                         <h2 id="episodeTitle" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-yellow-400 mb-3">Pica-Pau Ataca Novamente</h2>
-                        <div class="flex items-start gap-4">
+                        <div class="flex items-center gap-4">
                             <p id="episodeDescription" class="text-slate-300 flex-grow text-sm">Acompanhe as travessuras do Pica-Pau...</p>
-                            <div class="relative">
+                            <div class="relative flex items-center gap-2">
+                                <button id="webCastButton" class="bg-orange-500 hover:bg-orange-600 text-white font-bold p-2 sm:p-3 rounded-full flex-shrink-0 transition-colors duration-300" title="Transmitir com Web Video Caster">
+                                    <i data-feather="cast" class="w-5 h-5"></i>
+                                </button>
                                 <button id="castButton" class="bg-slate-700 hover:bg-slate-600 text-white font-bold p-2 sm:p-3 rounded-full flex-shrink-0 transition-colors duration-300" title="Transmitir para a TV">
                                     <i data-feather="cast" class="w-5 h-5"></i>
                                 </button>
@@ -189,16 +219,41 @@
 
         <!-- PÁGINA DO PLAYER DE FILME (Inicialmente oculta) -->
         <div id="moviePlayerPage" class="content-page hidden">
-             <button id="backToMoviesBtn" class="mb-6 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
-                <i data-feather="arrow-left" class="w-5 h-5"></i>
-                Voltar para Filmes
-            </button>
+            <div class="flex items-center gap-4 mb-6">
+                 <button id="backToMoviesBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
+                    <i data-feather="arrow-left" class="w-5 h-5"></i>
+                    Voltar
+                </button>
+                <button id="webCastMovieBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300" title="Transmitir com Web Video Caster">
+                    <i data-feather="cast" class="w-5 h-5"></i>
+                    Transmitir
+                </button>
+            </div>
             <div class="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
                 <iframe id="movie_player_iframe" class="w-full h-full absolute top-0 left-0" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen scrolling="no"></iframe>
             </div>
              <p class="text-center text-sm text-slate-400 mt-4">
                 Filme fornecido por <a href="https://www.tokyvideo.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">tokyvideo.com</a>
             </p>
+        </div>
+        
+        <!-- PÁGINA DO PLAYER DE OUTROS FILMES (Inicialmente oculta) -->
+        <div id="otherMoviePlayerPage" class="content-page hidden">
+             <div class="flex items-center gap-4 mb-6">
+                <button id="backToOtherMoviesBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
+                    <i data-feather="arrow-left" class="w-5 h-5"></i>
+                    Voltar
+                </button>
+                <button id="webCastOtherMovieBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300" title="Transmitir com Web Video Caster">
+                    <i data-feather="cast" class="w-5 h-5"></i>
+                    Transmitir
+                </button>
+            </div>
+            <div class="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
+                <video id="otherMovieVideoPlayer" class="w-full h-full" controls autoplay controlsList="nodownload">
+                    <source src="" type="video/mp4">
+                </video>
+            </div>
         </div>
     </main>
 
@@ -256,7 +311,9 @@
                             { videoUrl: "https://files.catbox.moe/ainphs.mp4", title: "O Pica-Pau Come Fora", description: "Pica-Pau tenta almoçar em um restaurante chique, mas é impedido pelo garçom." },
                             { videoUrl: "https://files.catbox.moe/tj1f0o.mp4", title: "O Famoso Diplomata", description: "O Pica-Pau se passa por um diplomata para conseguir comida e abrigo." },
                             { videoUrl: "https://files.catbox.moe/z9vbpa.mp4", title: "O Biruta à Solta", description: "As travessuras do Pica-Pau levam o Leôncio à loucura." },
-                            { videoUrl: "https://files.catbox.moe/ha4ilo.mp4", title: "Quem Cozinha Quem", description: "Pica-Pau e Zeca Urubu disputam para ver quem será o prato principal." }
+                            { videoUrl: "https://files.catbox.moe/ha4ilo.mp4", title: "Quem Cozinha Quem", description: "Pica-Pau e Zeca Urubu disputam para ver quem será o prato principal." },
+                            { videoUrl: "https://files.catbox.moe/b79gdf.mp4", title: "A Hora do Banho", description: "Pica-Pau só quer tomar um banho, mas o prédio não tem água." },
+                            { videoUrl: "https://files.catbox.moe/6czmzf.mp4", title: "Motorista Desleixado", description: "Pica-Pau decide tirar a carteira de motorista e enlouquece o instrutor." }
                         ]
                     }
                 ]
@@ -265,6 +322,7 @@
             const contentPages = document.querySelectorAll('.content-page');
             const backToSeasonsBtn = document.getElementById('backToSeasonsBtn');
             const backToMoviesBtn = document.getElementById('backToMoviesBtn');
+            const backToOtherMoviesBtn = document.getElementById('backToOtherMoviesBtn');
             const seasonsGrid = document.getElementById('seasonsGrid');
             
             const mainVideoPlayer = document.getElementById('mainVideoPlayer');
@@ -273,26 +331,34 @@
             const episodeList = document.getElementById('episodeList');
             const episodeListTitle = document.getElementById('episodeListTitle');
             const castButton = document.getElementById('castButton');
+            const webCastButton = document.getElementById('webCastButton');
             const castError = document.getElementById('castError');
 
             const movieCard = document.getElementById('movie-card');
             const moviePlayerIframe = document.getElementById('movie_player_iframe');
-
+            const webCastMovieBtn = document.getElementById('webCastMovieBtn');
+            
+            const otherMovieCard = document.getElementById('other-movie-card');
+            const otherMovieVideoPlayer = document.getElementById('otherMovieVideoPlayer');
+            const webCastOtherMovieBtn = document.getElementById('webCastOtherMovieBtn');
 
             // Nav Links
             const navLinks = document.querySelectorAll('.nav-link');
             const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
             let currentSeasonId = null;
+            let currentEpisodeUrl = null;
+            let currentEpisodeTitle = null;
 
             function updateNavActiveState(activePageId) {
                 let activeId = activePageId;
                 if (activePageId === 'episodesPage') activeId = 'seasonsPage';
                 if (activePageId === 'moviePlayerPage') activeId = 'moviesPage';
+                if (activePageId === 'otherMoviePlayerPage') activeId = 'otherMoviesPage';
                 
                 navLinks.forEach(link => {
                     const indicator = link.querySelector('.active-indicator');
-                    if (link.id === `nav-${activeId.replace('Page', 's')}`) {
+                    if (link.id === `nav-${activeId.replace('Page', 's').replace('other-m','other-m')}`) {
                         link.classList.add('active');
                     } else {
                         link.classList.remove('active');
@@ -300,7 +366,7 @@
                 });
 
                  mobileNavLinks.forEach(link => {
-                    if (link.id === `mobile-nav-${activeId.replace('Page', 's')}`) {
+                    if (link.id === `mobile-nav-${activeId.replace('Page', 's').replace('other-m','other-m')}`) {
                         link.classList.add('text-white', 'font-bold');
                         link.classList.remove('text-slate-300');
                     } else {
@@ -397,6 +463,9 @@
                 const episodeData = season?.episodes[index];
                 if (!episodeData) return;
 
+                currentEpisodeUrl = episodeData.videoUrl;
+                currentEpisodeTitle = episodeData.title;
+
                 document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
                 const activeItem = document.querySelector(`.episode-item[data-index='${index}']`);
                 if (activeItem) {
@@ -404,15 +473,13 @@
                     activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
 
-                mainVideoPlayer.src = episodeData.videoUrl;
-                episodeTitle.textContent = episodeData.title;
+                mainVideoPlayer.src = currentEpisodeUrl;
+                episodeTitle.textContent = currentEpisodeTitle;
                 episodeDescription.textContent = episodeData.description;
                 
                 const playPromise = mainVideoPlayer.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(error => {
-                        // A interrupção do play() por uma nova carga é normal.
-                        // Ignoramos o AbortError para evitar poluir o console.
                         if (error.name !== 'AbortError') {
                             console.error("Erro ao tentar reproduzir o vídeo:", error);
                         }
@@ -420,16 +487,14 @@
                 }
             }
 
-            function playMovie() {
-                moviePlayerIframe.src = "https://www.tokyvideo.com/embed/409976";
-                showPage('moviePlayerPage');
-            }
-
             // Event Listeners
             document.getElementById('nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); });
             document.getElementById('nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); });
+            document.getElementById('nav-other-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('otherMoviesPage'); });
+            
             document.getElementById('mobile-nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); toggleMenu(); });
             document.getElementById('mobile-nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); toggleMenu(); });
+            document.getElementById('mobile-nav-other-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('otherMoviesPage'); toggleMenu(); });
 
             backToSeasonsBtn.addEventListener('click', () => {
                 mainVideoPlayer.pause();
@@ -438,12 +503,45 @@
             });
 
             backToMoviesBtn.addEventListener('click', () => {
-                moviePlayerIframe.src = ''; // Para a reprodução e limpa o iframe
+                moviePlayerIframe.src = ''; 
                 showPage('moviesPage');
             });
 
+            backToOtherMoviesBtn.addEventListener('click', () => {
+                otherMovieVideoPlayer.pause();
+                otherMovieVideoPlayer.src = '';
+                showPage('otherMoviesPage');
+            });
+
             movieCard.addEventListener('click', () => {
-                playMovie();
+                moviePlayerIframe.src = "https://www.tokyvideo.com/embed/409976";
+                showPage('moviePlayerPage');
+            });
+
+            otherMovieCard.addEventListener('click', () => {
+                otherMovieVideoPlayer.src = "https://1a-1791.com/video/fww1/ab/s8/2/o/e/2/s/oe2sy.gaa.mp4";
+                showPage('otherMoviePlayerPage');
+            });
+
+            // --- Lógica de Transmissão ---
+            webCastButton.addEventListener('click', () => {
+                if (currentEpisodeUrl) {
+                    const url = `wvc-x-callback://open?url=${encodeURIComponent(currentEpisodeUrl)}&title=${encodeURIComponent(currentEpisodeTitle)}`;
+                    window.location.href = url;
+                }
+            });
+            
+            webCastMovieBtn.addEventListener('click', () => {
+                const tokyVideoPageUrl = "https://www.tokyvideo.com/video/pica-pau-o-filme-2017-comedia-infantil-1h-34m";
+                const url = `wvc-x-callback://open?url=${encodeURIComponent(tokyVideoPageUrl)}&title=${encodeURIComponent("Pica-Pau: O Filme")}`;
+                window.location.href = url;
+            });
+
+            webCastOtherMovieBtn.addEventListener('click', () => {
+                if(otherMovieVideoPlayer.src) {
+                    const url = `wvc-x-callback://open?url=${encodeURIComponent(otherMovieVideoPlayer.src)}&title=${encodeURIComponent("O Segredo dos Animais")}`;
+                    window.location.href = url;
+                }
             });
             
             if (castButton && 'remote' in mainVideoPlayer) {
