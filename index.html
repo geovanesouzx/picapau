@@ -1,614 +1,291 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pica-Pau - O Desenho</title>
-    <!-- Tailwind CSS -->
+    <title>CineVerse - Explore Universos Cinematográficos</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Ícones (Feather Icons) -->
-    <script src="https://unpkg.com/feather-icons"></script>
-    <!-- Swiper.js CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        /* Estilo base para a fonte */
+        :root {
+            --background: #0c0a09; --text-primary: #e5e7eb; --text-secondary: #9ca3af;
+            --card-bg: #1f2937; --header-bg: rgba(12, 10, 9, 0.7);
+            --overlay-bg: rgba(12, 10, 9, 0.95);
+            --card-hover-bg: #374151; /* gray-700 */
+            --accent-color: #a855f7; /* purple-500 */
+        }
+        html.light {
+            --background: #f3f4f6; --text-primary: #1f2937; --text-secondary: #4b5563;
+            --card-bg: #ffffff; --header-bg: rgba(255, 255, 255, 0.7);
+            --overlay-bg: rgba(243, 244, 246, 0.95);
+            --card-hover-bg: #e5e7eb; /* gray-200 */
+            --accent-color: #8b5cf6; /* violet-500 */
+        }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #081526; /* Um azul mais escuro e profundo */
-            color: #e0e0e0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
         }
-        /* Fonte especial para o título/logo */
-        .font-logo {
-            font-family: 'Luckiest Guy', cursive;
-        }
-        /* Estilo para o item ativo na lista de episódios */
-        .episode-item.active {
-            background-color: #1e40af; /* Azul mais vibrante para destaque */
-            border-color: #facc15; /* Amarelo para a borda ativa */
-        }
-        /* Estilização da barra de rolagem para a lista de episódios */
-        #episodeList::-webkit-scrollbar {
-            width: 8px;
-        }
-        #episodeList::-webkit-scrollbar-track {
-            background: #1e293b;
-            border-radius: 10px;
-        }
-        #episodeList::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 10px;
-        }
-        #episodeList::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
-        }
-        /* Efeito de gradiente no card da temporada */
-        .season-card .overlay, .movie-card .overlay {
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%);
-        }
-        /* Animação para a tela de início */
-        #startScreen.fade-out {
-            opacity: 0;
-            transition: opacity 0.5s ease-out;
-        }
-        /* Estilo para o link de navegação ativo */
-        .nav-link.active {
-            color: white;
-            background-color: rgba(239, 68, 68, 0.8); /* Vermelho com transparência */
-        }
-        /* Estilos do Carrossel (Swiper) */
-        .swiper-button-next, .swiper-button-prev {
-            color: white !important;
-        }
-        .swiper-pagination-bullet-active {
-            background-color: white !important;
-        }
-        .swiper-slide {
-            background-size: contain; /* Mostra a imagem inteira */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #000; /* Fundo preto para as bordas */
-        }
+        .hero-gradient-bottom { background-image: linear-gradient(to top, var(--background) 10%, rgba(12, 10, 9, 0) 100%); }
+        .hero-gradient-left { background-image: linear-gradient(to right, var(--background) 20%, transparent 100%); }
+        .carousel-container { scrollbar-width: none; }
+        .carousel-container::-webkit-scrollbar { display: none; }
+        .modal { transition: opacity 0.3s, visibility 0.3s; visibility: hidden; opacity: 0; }
+        .modal.active { visibility: visible; opacity: 1; }
+        #mobile-nav { transition: transform 0.3s ease-in-out; }
+        .hoverable-item:hover { background-color: var(--card-hover-bg); }
     </style>
 </head>
-<body class="bg-[#081526]">
+<body class="pb-20 md:pb-0">
 
-    <!-- TELA DE INÍCIO (SPLASH SCREEN) -->
-    <div id="startScreen" class="fixed inset-0 bg-[#081526] z-50 flex flex-col items-center justify-center p-4">
-        <div class="text-center">
-            <h1 class="font-logo text-6xl sm:text-8xl font-bold text-red-500" style="text-shadow: 3px 3px 0 #fff, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 5px 5px 8px rgba(0,0,0,0.4);">
-                Pica-Pau
-            </h1>
-            <p class="text-yellow-400 text-lg sm:text-2xl mt-2 font-semibold">O Desenho</p>
-            <button id="enterButton" class="mt-12 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-10 rounded-full text-lg tracking-wider transform hover:scale-105 transition-all duration-300 shadow-lg shadow-red-500/30">
-                Entrar
-            </button>
-        </div>
-    </div>
-
-    <!-- Cabeçalho -->
-    <header class="fixed top-0 left-0 right-0 bg-[#081526]/80 backdrop-blur-lg z-40 border-b border-slate-700/50">
-        <div class="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
-            <h1 class="font-logo text-2xl sm:text-4xl font-bold tracking-wider text-red-500" style="text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 3px 3px 5px rgba(0,0,0,0.3);">
-                Pica-Pau
-            </h1>
-            <!-- Navegação para Desktop -->
-            <nav class="hidden md:flex space-x-2 items-center text-sm font-medium">
-                 <a href="#" id="nav-highlights" class="nav-link text-slate-300 hover:text-white transition-all duration-300 relative px-4 py-2 rounded-md">Destaques</a>
-                <a href="#" id="nav-drawings" class="nav-link text-slate-300 hover:text-white transition-all duration-300 relative px-4 py-2 rounded-md">Desenhos</a>
-                <a href="#" id="nav-movies" class="nav-link text-slate-300 hover:text-white transition-all duration-300 relative px-4 py-2 rounded-md">Filmes</a>
-            </nav>
-            <div class="flex items-center gap-4">
-                 <img src="https://placehold.co/40x40/dc2626/ffffff?text=P" alt="Avatar do Utilizador" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-red-500/80 hover:border-red-400 transition-all duration-300">
-                 <!-- Botão do Menu Hambúrguer para Mobile -->
-                 <button id="menu-toggle" class="md:hidden text-white p-2">
-                    <i data-feather="menu" class="w-6 h-6"></i>
-                 </button>
-            </div>
-        </div>
-    </header>
-    
-    <!-- Menu Mobile (Overlay) -->
-    <div id="mobile-menu" class="hidden fixed inset-0 bg-[#081526]/95 backdrop-blur-md z-30 md:hidden">
-        <nav class="flex flex-col items-center justify-center h-full space-y-8 text-xl">
-             <a href="#" id="mobile-nav-highlights" class="mobile-nav-link text-white font-bold">Destaques</a>
-             <a href="#" id="mobile-nav-drawings" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Desenhos</a>
-             <a href="#" id="mobile-nav-movies" class="mobile-nav-link text-slate-300 hover:text-white transition-colors duration-300">Filmes</a>
-        </nav>
-        <button id="menu-close" class="absolute top-5 right-5 text-white p-2">
-            <i data-feather="x" class="w-8 h-8"></i>
-        </button>
-    </div>
-
-
-    <!-- Conteúdo Principal (Inicialmente oculto) -->
-    <main id="main-content" class="hidden container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-10 max-w-7xl">
-        
-        <!-- PÁGINA: DESTAQUES (CARROSSEL) -->
-        <div id="highlightsPage" class="content-page">
-            <div class="max-w-5xl mx-auto">
-                <!-- Swiper -->
-                <div class="swiper h-[30vh] md:h-[45vh] rounded-lg">
-                    <div class="swiper-wrapper" id="highlights-carousel">
-                        <!-- Slides serão inseridos aqui pelo JavaScript -->
+    <!-- Cabeçalho (Desktop) -->
+    <header class="fixed top-0 left-0 right-0 bg-opacity-70 backdrop-blur-md z-40" style="background-color: var(--header-bg);">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-8">
+                    <a href="#" class="text-2xl font-bold"><span class="text-blue-500">Cine</span><span class="text-purple-500">Verse</span></a>
+                </div>
+                <div class="hidden lg:flex items-center space-x-4">
+                    <div class="relative" id="profile-dropdown-container">
+                        <button id="profile-button" class="w-9 h-9 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full overflow-hidden" title="Perfil"><img src="https://placehold.co/40x40/ffffff/333333?text=A" alt="Avatar do Utilizador" class="w-full h-full object-cover"></button>
+                        <div id="profile-menu" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 hidden" style="background-color: var(--card-bg)">
+                            <button id="theme-toggle" class="w-full text-left px-4 py-2 text-sm hoverable-item flex items-center justify-between">Tema <i data-lucide="sun" class="w-4 h-4"></i></button>
+                        </div>
                     </div>
-                    <!-- Add Pagination -->
-                    <div class="swiper-pagination"></div>
-                    <!-- Add Navigation -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
+                </div>
+                <div class="lg:hidden">
+                    <button id="hamburger-button"><i data-lucide="menu" class="w-7 h-7"></i></button>
                 </div>
             </div>
         </div>
+    </header>
 
-        <!-- PÁGINA: SELEÇÃO DE TEMPORADAS -->
-        <div id="seasonsPage" class="content-page hidden">
-            <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Temporadas</h2>
-            <div id="seasonsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-                <!-- Cards das temporadas serão inseridos aqui pelo JavaScript -->
+    <!-- Painel de Navegação Mobile -->
+    <div id="mobile-nav" class="fixed top-0 left-0 h-full w-full z-50 transform -translate-x-full lg:hidden" style="background-color: var(--background)">
+        <div class="p-4">
+            <div class="flex justify-between items-center mb-8">
+                <a href="#" class="text-2xl font-bold"><span class="text-blue-500">Cine</span><span class="text-purple-500">Verse</span></a>
+                <button id="close-mobile-nav"><i data-lucide="x" class="w-7 h-7"></i></button>
             </div>
+            <nav class="flex flex-col space-y-4 text-lg">
+                <a href="#" class="p-2 rounded-md hoverable-item">Início</a>
+                <a href="#" class="p-2 rounded-md hoverable-item">Filmes</a>
+                <a href="#" class="p-2 rounded-md hoverable-item">Séries</a>
+            </nav>
         </div>
+    </div>
 
-        <!-- PÁGINA: FILMES -->
-        <div id="moviesPage" class="content-page hidden">
-            <h2 class="text-2xl sm:text-4xl font-bold text-yellow-400 mb-6 sm:mb-8 tracking-wide">Filmes</h2>
-            <div id="moviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-                <!-- Cards de filmes serão inseridos aqui pelo JavaScript -->
-            </div>
-        </div>
-        
-        <!-- PÁGINA DE DETALHES (para temporadas e filmes) -->
-        <div id="detailsPage" class="content-page hidden">
-            <!-- Conteúdo será gerado dinamicamente -->
-        </div>
+    <main class="overflow-x-hidden">
+        <section id="hero-section" class="relative min-h-[60vh] md:min-h-[90vh] flex items-center">
+            <!-- Conteúdo do Herói será populado por JS -->
+        </section>
 
-
-        <!-- PÁGINA DE EPISÓDIOS (PLAYER) -->
-        <div id="episodesPage" class="content-page hidden">
-            <button id="backToDetailsBtn" class="mb-6 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
-                <i data-feather="arrow-left" class="w-5 h-5"></i>
-                Voltar
-            </button>
-            <div class="aspect-w-16 aspect-h-9 bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
-                <video id="mainVideoPlayer" class="w-full h-full" controls autoplay controlsList="nodownload">
-                    <source src="" type="video/mp4">
-                </video>
-            </div>
-            <div class="mt-4 flex justify-between items-center">
-                <h2 id="episodeTitle" class="text-xl sm:text-2xl font-bold text-yellow-400"></h2>
-            </div>
-        </div>
-
-        <!-- PÁGINA DO PLAYER DE FILME (IFRAME) -->
-        <div id="iframePlayerPage" class="content-page hidden">
-            <div class="flex items-center gap-4 mb-6">
-                 <button id="backToMoviesFromIframe" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
-                    <i data-feather="arrow-left" class="w-5 h-5"></i>
-                    Voltar
-                </button>
-            </div>
-            <div class="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
-                <iframe id="movie_player_iframe" class="w-full h-full absolute top-0 left-0" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen scrolling="no"></iframe>
-            </div>
-             <p class="text-center text-sm text-slate-400 mt-4">
-                Filme fornecido por <a href="https://www.tokyvideo.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">tokyvideo.com</a>
-            </p>
-        </div>
-        
-        <!-- PÁGINA DO PLAYER DE FILME (VIDEO) -->
-        <div id="videoPlayerPage" class="content-page hidden">
-             <div class="flex items-center gap-4 mb-6">
-                <button id="backToMoviesFromVideo" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-300">
-                    <i data-feather="arrow-left" class="w-5 h-5"></i>
-                    Voltar
-                </button>
-            </div>
-            <div class="relative aspect-video bg-black rounded-xl overflow-hidden shadow-2xl shadow-black/50">
-                <video id="videoPlayer" class="w-full h-full" controls autoplay controlsList="nodownload">
-                    <source src="" type="video/mp4">
-                </video>
-            </div>
+        <div id="carousels-container" class="py-8 md:py-12 space-y-12 md:space-y-16">
+            <!-- Carrosséis serão populados por JS -->
         </div>
     </main>
+    
+    <!-- Modal de Detalhes -->
+    <div id="details-modal" class="modal fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 p-4">
+        <div id="details-modal-content" class="rounded-lg relative w-full max-w-4xl max-h-[90vh] overflow-y-auto" style="background-color: var(--card-bg);">
+            <!-- Conteúdo do Modal de Detalhes será inserido aqui -->
+        </div>
+    </div>
+    
+    <!-- Modal do Leitor de Vídeo -->
+    <div id="player-modal" class="modal fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-[51]">
+        <div class="p-4 rounded-lg relative w-11/12 md:w-2/3 lg:w-3/4" style="background-color: var(--card-bg)">
+            <button id="close-player-modal" class="absolute -top-3 -right-3 bg-white text-black rounded-full p-1"><i data-lucide="x"></i></button>
+            <div id="player-container" class="aspect-video">
+                <!-- Leitor de vídeo (iframe ou video) será inserido aqui -->
+            </div>
+        </div>
+    </div>
 
-    <!-- Swiper.js JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <div id="loading-spinner" class="fixed inset-0 flex justify-center items-center z-[60]" style="background-color: var(--background);"><div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-purple-500"></div></div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const startScreen = document.getElementById('startScreen');
-            const enterButton = document.getElementById('enterButton');
-            const mainContent = document.getElementById('main-content');
-            const menuToggle = document.getElementById('menu-toggle');
-            const menuClose = document.getElementById('menu-close');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            enterButton.addEventListener('click', () => {
-                startScreen.classList.add('fade-out');
-                startScreen.addEventListener('transitionend', () => {
-                    startScreen.style.display = 'none';
-                    mainContent.classList.remove('hidden');
-                    initSwiper(); 
-                }, { once: true });
-            });
-            
-            const toggleMenu = () => mobileMenu.classList.toggle('hidden');
-            menuToggle.addEventListener('click', toggleMenu);
-            menuClose.addEventListener('click', toggleMenu);
-
+        document.addEventListener('DOMContentLoaded', function() {
             const db = {
-                seasons: [
-                    {
-                        id: "season-1940",
-                        title: "Pica-Pau 1940",
-                        cover: "https://media.themoviedb.org/t/p/w600_and_h900_bestv2/aXgyvCWLPkbZUCYR822KLsKZXgt.jpg",
-                        description: "A primeira temporada do Pica-Pau, com suas travessuras clássicas e inesquecíveis.",
-                        episodes: [
-                            { videoUrl: "https://files.catbox.moe/mj23l1.mp4", title: "Pica-Pau Ataca Novamente" },
-                            { videoUrl: "https://files.catbox.moe/1onuvg.mp4", title: "O Pica-Pau Biruta" },
-                            { videoUrl: "https://files.catbox.moe/fm8er6.mp4", title: "O Biruta" },
-                            { videoUrl: "https://files.catbox.moe/3vlf67.mp4", title: "Pânico na Cozinha" },
-                            { videoUrl: "https://files.catbox.moe/opgp7j.mp4", title: "O Matador de Hollywood" },
-                            { videoUrl: "https://files.catbox.moe/13r6tn.mp4", title: "Um Ás de Mais" },
-                            { videoUrl: "https://files.catbox.moe/2tsdpm.mp4", title: "A Loja do Prego" },
-                            { videoUrl: "https://files.catbox.moe/eg8s85.mp4", title: "Beisebol Maluco" },
-                            { videoUrl: "https://files.catbox.moe/3lths3.mp4", title: "O Acrobata Maluco" },
-                            { videoUrl: "https://files.catbox.moe/35fv2h.mp4", title: "O Afanador de Gasolina" }
-                        ]
-                    },
-                    {
-                        id: "season-1944",
-                        title: "Pica-Pau 1944",
-                        cover: "https://media.fstatic.com/ZBAcWLThxObHAMWudFtlQhJEP_w=/322x478/smart/filters:format(webp)/media/movies/covers/2013/07/o-show-do-pica-pau-2a-temporada_t1283.jpg",
-                        description: "Mais aventuras malucas do Pica-Pau, agora com novos personagens e situações hilárias.",
-                        episodes: [
-                            { videoUrl: "https://files.catbox.moe/04glch.mp4", title: "O Barbeiro de Sevilha" },
-                            { videoUrl: "https://files.catbox.moe/0w74ed.mp4", title: "O Doido da Praia" },
-                            { videoUrl: "https://files.catbox.moe/rxt33w.mp4", title: "Ski Para Dois" },
-                            { videoUrl: "https://files.catbox.moe/2jn2cq.mp4", title: "Uma Dama Muito Fina" },
-                            { videoUrl: "https://files.catbox.moe/ainphs.mp4", title: "O Pica-Pau Come Fora" },
-                            { videoUrl: "https://files.catbox.moe/tj1f0o.mp4", title: "O Famoso Diplomata" },
-                            { videoUrl: "https://files.catbox.moe/z9vbpa.mp4", title: "O Biruta à Solta" },
-                            { videoUrl: "https://files.catbox.moe/ha4ilo.mp4", title: "Quem Cozinha Quem" },
-                            { videoUrl: "https://files.catbox.moe/b79gdf.mp4", title: "A Hora do Banho" },
-                            { videoUrl: "https://files.catbox.moe/6czmzf.mp4", title: "Motorista Desleixado" }
-                        ]
-                    }
-                ],
                 movies: [
-                    { id: "movie-pica-pau", playerType: 'iframe', title: "Pica-Pau: O Filme", year: "2017", cover: "https://br.web.img2.acsta.net/pictures/17/08/25/19/04/419991.jpg", iframeUrl: "https://www.tokyvideo.com/embed/409976", castUrl: "https://www.tokyvideo.com/video/pica-pau-o-filme-2017-comedia-infantil-1h-34m", description: "O Pica-Pau está metido em mais uma de suas brigas por território. Os inimigos da vez são o vigarista Lance Walters e sua namorada Vanessa." },
-                    { id: "other-movie-1", playerType: 'video', title: "O Segredo dos Animais", year: "2006", cover: "https://i.ibb.co/Txc5mmKp/f2fe6431067e73e3d4dd5c30a5dcaf0f6e8fb6e087d6a6038d7a20451535f49a.jpg", videoUrl: "https://1a-1791.com/video/fww1/ab/s8/2/o/e/2/s/oe2sy.gaa.mp4", description: "Quando o fazendeiro está fora, todos os animais da fazenda cantam, dançam e se divertem. Mas um dia, um novo bezerro chamado Otis chega e perturba a paz." },
-                    { id: "other-movie-2", playerType: 'video', title: "A Nova Onda do Imperador", year: "2000", cover: "https://image.tmdb.org/t/p/original/qqnnA0mnokmgt5dtzYz5WlLka22.jpg", videoUrl: "https://1a-1791.com/video/fwe1/8b/s8/2/k/P/h/x/kPhxy.caa.mp4", description: "O arrogante imperador Kuzco é transformado em uma lhama por sua poderosa conselheira, Yzma. Perdido na selva, a única chance de Kuzco de voltar para casa e reconquistar seu trono repousa em um bondoso camponês chamado Pacha." },
-                    { id: "other-movie-3", playerType: 'video', title: "Orion e o Escuro", year: "2024", cover: "https://image.tmdb.org/t/p/original/qSN76JBBTZ3JjhFYVhvrgGLvjsq.jpg", videoUrl: "https://1a-1791.com/video/fww1/ae/s8/2/4/B/G/w/4BGwy.gaa.mp4", description: "Um garoto com uma imaginação ativa enfrenta seus medos em uma jornada inesquecível pela noite com seu novo amigo: uma criatura gigante e sorridente chamada Escuro." },
-                    { id: "other-movie-4", playerType: 'video', title: "Patos!", year: "2023", cover: "https://i.ibb.co/6ccXQW8v/d-Mm-BIb-NA2qt-Wau-Gc-Mo-SJav-Fi-Dv2.jpg", videoUrl: "https://1a-1791.com/video/fww1/26/s8/2/G/0/G/w/G0Gwy.gaa.mp4", description: "Uma família de patos tenta convencer seu pai superprotetor a embarcar nas férias de suas vidas e migrar para o sul durante o inverno." },
-                    { id: "other-movie-5", playerType: 'video', title: "WiFi Ralph", year: "2018", cover: "https://i.ibb.co/VpWmFd17/88po-TBTaf-MXaz73v-Yi3c74g0y2k.jpg", videoUrl: "https://1a-1791.com/video/fww1/45/s8/2/6/1/J/w/61Jwy.gaa.mp4", description: "Seis anos após os eventos de 'Detona Ralph', Ralph e Vanellope, agora amigos, descobrem um roteador wi-fi em seu fliperama, levando-os a uma nova aventura." },
-                    { id: "other-movie-6", playerType: 'video', title: "Detona Ralph", year: "2012", cover: "https://image.tmdb.org/t/p/original/hEIyL9G7QpXKEonUx2HAHRZ1Yqc.jpg", videoUrl: "https://1a-1791.com/video/fww1/b0/s8/2/0/1/J/w/01Jwy.gaa.mp4", description: "Um vilão de videogame quer provar que pode ser um herói e parte em uma jornada por diferentes jogos, causando estragos por onde passa." },
-                    { id: "other-movie-7", playerType: 'video', title: "Enrolados", year: "2010", cover: "https://image.tmdb.org/t/p/original/mUQBWnG6zDeoD0TfAq0InjQRmSm.jpg", videoUrl: "https://1a-1791.com/video/fww1/5f/s8/2/g/J/K/t/gJKty.gaa.mp4", description: "A espirituosa e fugitiva Rapunzel, com seu cabelo mágico de 21 metros de comprimento, se esconde em uma torre. Ela faz um acordo com o charmoso ladrão Flynn Rider para explorar o mundo exterior." },
-                    { id: "other-movie-8", playerType: 'video', title: "Elementos", year: "2023", cover: "https://image.tmdb.org/t/p/original/67kvbJTMhqneAfRHbukdjAKuS76.jpg", videoUrl: "https://1a-1791.com/video/fww1/eb/s8/2/c/y/v/u/cyvuy.gaa.mp4", description: "Em uma cidade onde os residentes de fogo, água, terra e ar vivem juntos, uma jovem impetuosa de fogo e um rapaz tranquilo que segue o fluxo descobrem algo elementar: o quanto eles realmente têm em comum." },
-                    { id: "other-movie-9", playerType: 'video', title: "Moana 2", year: "2024", cover: "https://image.tmdb.org/t/p/original/e7W9DlmFQkIvqxPZOIEjH2t34Mt.jpg", videoUrl: "https://1a-1791.com/video/fwe2/04/s8/2/s/x/t/s/sxtsy.gaa.mp4", description: "Moana embarca em uma nova e expansiva jornada com Maui e uma nova tripulação de marinheiros improváveis. Depois de receber um chamado inesperado de seus ancestrais, Moana deve viajar para os mares distantes da Oceania." }
+                    { id: 2, title: "Pica-Pau: O Filme", year: "2017", rating: 3.8, genres: ["Comédia", "Animação", "Aventura"], director: "Alex Zamm", cast: ["Timothy Omundson", "Thaila Ayala"], synopsis: "O Pica-Pau está metido em mais uma de suas brigas por território. Os inimigos da vez são o vigarista Lance Walters e sua namorada Vanessa.", poster: "https://br.web.img2.acsta.net/pictures/17/08/25/19/04/419991.jpg", backdrop: "https://www.themoviedb.org/t/p/original/rS3uTcmmS8b0Yw3aLp4iS2B2T21.jpg", playerType: 'iframe', url: "https://www.tokyvideo.com/embed/409976" },
+                    { id: 3, title: "O Segredo dos Animais", year: "2006", rating: 4.1, genres: ["Comédia", "Animação"], director: "Steve Oedekerk", cast: ["Kevin James", "Courteney Cox"], synopsis: "Quando o fazendeiro está fora, todos os animais da fazenda cantam, dançam e se divertem. Mas um dia, um novo bezerro chamado Otis chega e perturba a paz.", poster: "https://i.ibb.co/Txc5mmKp/f2fe6431067e73e3d4dd5c30a5dcaf0f6e8fb6e087d6a6038d7a20451535f49a.jpg", backdrop: "https://www.themoviedb.org/t/p/original/uN9HAmca70S2bM1t2G2xW33a5S2.jpg", playerType: 'video', url: "https://1a-1791.com/video/fww1/ab/s8/2/o/e/2/s/oe2sy.gaa.mp4" },
+                    { id: 4, title: "A Nova Onda do Imperador", year: "2000", rating: 4.7, genres: ["Comédia", "Animação", "Aventura"], director: "Mark Dindal", cast: ["David Spade", "John Goodman"], synopsis: "O arrogante imperador Kuzco é transformado em uma lhama por sua poderosa conselheira, Yzma. Perdido na selva, a única chance de Kuzco de voltar para casa e reconquistar seu trono repousa em um bondoso camponês chamado Pacha.", poster: "https://image.tmdb.org/t/p/original/qqnnA0mnokmgt5dtzYz5WlLka22.jpg", backdrop: "https://www.themoviedb.org/t/p/original/tH1S52i2BH3t0bA41GoiG8I0a2.jpg", playerType: 'video', url: "https://1a-1791.com/video/fwe1/8b/s8/2/k/P/h/x/kPhxy.caa.mp4" },
+                    { id: 5, title: "Orion e o Escuro", year: "2024", rating: 4.6, genres: ["Animação", "Aventura", "Fantasia"], director: "Sean Charmatz", cast: ["Jacob Tremblay", "Paul Walter Hauser"], synopsis: "Um garoto com uma imaginação ativa enfrenta seus medos em uma jornada inesquecível pela noite com seu novo amigo: uma criatura gigante e sorridente chamada Escuro.", poster: "https://image.tmdb.org/t/p/original/qSN76JBBTZ3JjhFYVhvrgGLvjsq.jpg", backdrop: "https://www.themoviedb.org/t/p/original/ehumqaSROy2aN4zJ4n022yL2gA.jpg", playerType: 'video', url: "https://1a-1791.com/video/fww1/ae/s8/2/4/B/G/w/4BGwy.gaa.mp4" },
+                    { id: 6, title: "Patos!", year: "2023", rating: 4.4, genres: ["Animação", "Aventura", "Comédia"], director: "Benjamin Renner", cast: ["Kumail Nanjiani", "Elizabeth Banks"], synopsis: "Uma família de patos tenta convencer seu pai superprotetor a embarcar nas férias de suas vidas e migrar para o sul durante o inverno.", poster: "https://i.ibb.co/6ccXQW8v/d-Mm-BIb-NA2qt-Wau-Gc-Mo-SJav-Fi-Dv2.jpg", backdrop: "https://www.themoviedb.org/t/p/original/ Meyvn5y4n0d6rS2Sj4T2KiqbL0b.jpg", playerType: 'video', url: "https://1a-1791.com/video/fww1/26/s8/2/G/0/G/w/G0Gwy.gaa.mp4" },
+                    { id: 7, title: "WiFi Ralph", year: "2018", rating: 4.3, genres: ["Animação", "Comédia", "Aventura"], director: "Rich Moore", cast: ["John C. Reilly", "Sarah Silverman"], synopsis: "Seis anos após os eventos de 'Detona Ralph', Ralph e Vanellope, agora amigos, descobrem um roteador wi-fi em seu fliperama, levando-os a uma nova aventura.", poster: "https://i.ibb.co/VpWmFd17/88po-TBTaf-MXaz73v-Yi3c74g0y2k.jpg", backdrop: "https://www.themoviedb.org/t/p/original/88poTBTafMXaz73vYi3c74g0y2k.jpg", playerType: 'video', url: "https://1a-1791.com/video/fww1/45/s8/2/6/1/J/w/61Jwy.gaa.mp4" },
+                    { id: 8, title: "Detona Ralph", year: "2012", rating: 4.5, genres: ["Animação", "Comédia", "Aventura"], director: "Rich Moore", cast: ["John C. Reilly", "Sarah Silverman"], synopsis: "Um vilão de videogame quer provar que pode ser um herói e parte em uma jornada por diferentes jogos, causando estragos por onde passa.", poster: "https://image.tmdb.org/t/p/original/hEIyL9G7QpXKEonUx2HAHRZ1Yqc.jpg", backdrop: "https://www.themoviedb.org/t/p/original/3GgS22uQWJbT32t22L83WnZl9lQ.jpg", playerType: 'video', url: "https://1a-1791.com/video/fww1/b0/s8/2/0/1/J/w/01Jwy.gaa.mp4" },
+                    { id: 9, title: "Enrolados", year: "2010", rating: 4.8, genres: ["Animação", "Aventura", "Romance"], director: "Nathan Greno", cast: ["Mandy Moore", "Zachary Levi"], synopsis: "A espirituosa e fugitiva Rapunzel, com seu cabelo mágico de 21 metros de comprimento, se esconde em uma torre. Ela faz um acordo com o charmoso ladrão Flynn Rider para explorar o mundo exterior.", poster: "https://image.tmdb.org/t/p/original/mUQBWnG6zDeoD0TfAq0InjQRmSm.jpg", backdrop: "https://www.themoviedb.org/t/p/original/53YkP2K5j6eI4PvyH4sS1kYd5Y.jpg", playerType: 'video', url: "https://1a-1791.com/video/fww1/5f/s8/2/g/J/K/t/gJKty.gaa.mp4" },
+                    { id: 10, title: "Elementos", year: "2023", rating: 4.6, genres: ["Animação", "Comédia", "Fantasia", "Romance"], director: "Peter Sohn", cast: ["Leah Lewis", "Mamoudou Athie"], synopsis: "Em uma cidade onde os residentes de fogo, água, terra e ar vivem juntos, uma jovem impetuosa de fogo e um rapaz tranquilo que segue o fluxo descobrem algo elementar: o quanto eles realmente têm em comum.", poster: "https://image.tmdb.org/t/p/original/67kvbJTMhqneAfRHbukdjAKuS76.jpg", backdrop: "https://www.themoviedb.org/t/p/original/96SvkxPe2M22om2q0a92xKNflxQ.jpg", playerType: 'video', url: "https://1a-1791.com/video/fww1/eb/s8/2/c/y/v/u/cyvuy.gaa.mp4" },
+                    { id: 11, title: "Moana 2", year: "2024", rating: 4.9, genres: ["Animação", "Aventura", "Fantasia"], director: "David G. Derrick Jr.", cast: ["Auli'i Cravalho", "Dwayne Johnson"], synopsis: "Moana embarca em uma nova e expansiva jornada com Maui e uma nova tripulação de marinheiros improváveis. Depois de receber um chamado inesperado de seus ancestrais, Moana deve viajar para os mares distantes da Oceania.", poster: "https://image.tmdb.org/t/p/original/e7W9DlmFQkIvqxPZOIEjH2t34Mt.jpg", backdrop: "https://www.themoviedb.org/t/p/original/5AK5zru2s4I402e82Q2rF21a24.jpg", playerType: 'video', url: "https://1a-1791.com/video/fwe2/04/s8/2/s/x/t/s/sxtsy.gaa.mp4" }
+                ],
+                carousels: [
+                    { title: "Populares na CineVerse", filter: (m) => m.rating >= 4.5 },
+                    { title: "Animações Imperdíveis", filter: (m) => m.genres.includes("Animação") },
+                    { title: "Comédias para Rir à Vontade", filter: (m) => m.genres.includes("Comédia") },
+                    { title: "Aventuras Épicas", filter: (m) => m.genres.includes("Aventura") }
                 ]
             };
 
-            const contentPages = document.querySelectorAll('.content-page');
-            const backToDetailsBtn = document.getElementById('backToDetailsBtn');
-            const backToMoviesFromIframe = document.getElementById('backToMoviesFromIframe');
-            const backToMoviesFromVideo = document.getElementById('backToMoviesFromVideo');
-            const seasonsGrid = document.getElementById('seasonsGrid');
-            const moviesGrid = document.getElementById('moviesGrid');
-            const highlightsCarousel = document.getElementById('highlights-carousel');
-            const detailsPage = document.getElementById('detailsPage');
-            
-            const mainVideoPlayer = document.getElementById('mainVideoPlayer');
-            const episodeTitle = document.getElementById('episodeTitle');
-            
-            const moviePlayerIframe = document.getElementById('movie_player_iframe');
-            
-            const videoPlayer = document.getElementById('videoPlayer');
+            const DOMElements = {
+                html: document.documentElement, loadingSpinner: document.getElementById('loading-spinner'), themeToggle: document.getElementById('theme-toggle'), profileBtn: document.getElementById('profile-button'), profileMenu: document.getElementById('profile-menu'), profileDropdownContainer: document.getElementById('profile-dropdown-container'), hamburgerBtn: document.getElementById('hamburger-button'), mobileNav: document.getElementById('mobile-nav'), closeMobileNav: document.getElementById('close-mobile-nav'), playerModal: { container: document.getElementById('player-modal'), closeBtn: document.getElementById('close-player-modal'), playerContainer: document.getElementById('player-container') }, detailsModal: { container: document.getElementById('details-modal'), content: document.getElementById('details-modal-content') }, carouselsContainer: document.getElementById('carousels-container'), heroSection: document.getElementById('hero-section')
+            };
 
-            // Nav Links
-            const navLinks = document.querySelectorAll('.nav-link');
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-            let lastPage = 'highlightsPage';
-
-            function updateNavActiveState(activePageId) {
-                let activeId = activePageId;
-                 if (['episodesPage', 'detailsPage', 'iframePlayerPage', 'videoPlayerPage'].includes(activePageId)) {
-                    activeId = lastPage;
-                 }
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.id === `nav-${activeId.replace('Page', '')}`) {
-                        link.classList.add('active');
-                    }
-                });
-
-                 mobileNavLinks.forEach(link => {
-                    if (link.id === `mobile-nav-${activeId.replace('Page', '')}`) {
-                        link.classList.add('text-white', 'font-bold');
-                        link.classList.remove('text-slate-300');
-                    } else {
-                        link.classList.remove('text-white', 'font-bold');
-                        link.classList.add('text-slate-300');
-                    }
-                });
-            }
-
-            function showPage(pageId, rememberLastPage = true) {
-                if (rememberLastPage) {
-                    const currentPage = Array.from(contentPages).find(p => !p.classList.contains('hidden'));
-                    if (currentPage) {
-                        lastPage = currentPage.id;
-                    }
-                }
-                contentPages.forEach(page => {
-                    page.classList.toggle('hidden', page.id !== pageId);
-                });
-                updateNavActiveState(pageId);
-                window.scrollTo(0, 0); 
-            }
-
-            function createCard(item, clickHandler) {
-                const card = document.createElement('div');
-                card.className = 'movie-card group cursor-pointer';
-                card.title = item.title;
-                card.innerHTML = `
-                    <div class="relative rounded-lg overflow-hidden shadow-lg transition-transform transform-gpu group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-red-500/20 duration-300">
-                        <img src="${item.cover}" alt="Capa de ${item.title}" class="w-full h-auto aspect-[2/3] object-cover">
-                        <div class="absolute inset-0 overlay flex flex-col justify-end p-3 sm:p-4">
-                            <h4 class="font-bold text-white text-base sm:text-lg tracking-tight">${item.title}</h4>
-                            ${item.year ? `<p class="text-xs text-slate-300">${item.year}</p>` : ''}
-                        </div>
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/80 rounded-full flex items-center justify-center">
-                                <i data-feather="play" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
+            function renderHero() {
+                const heroMovie = db.movies[0];
+                DOMElements.heroSection.innerHTML = `
+                    <div class="absolute inset-0"><img src="${heroMovie.backdrop}" alt="${heroMovie.title}" class="w-full h-full object-cover"><div class="absolute inset-0 hero-gradient-left"></div><div class="absolute inset-0 hero-gradient-bottom"></div></div>
+                    <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="max-w-xl">
+                            <h1 class="text-4xl md:text-6xl font-extrabold my-3 text-white">${heroMovie.title}</h1>
+                            <p class="text-lg md:text-xl mb-6 leading-relaxed text-gray-200">${heroMovie.synopsis}</p>
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                                <button class="details-btn flex items-center justify-center bg-white text-black font-bold py-3.5 px-8 rounded-md transition hover:bg-gray-300" data-movie-id="${heroMovie.id}"><i data-lucide="info" class="mr-2"></i>Mais Informações</button>
                             </div>
                         </div>
+                    </div>`;
+            }
+
+            function renderAllCarousels() {
+                DOMElements.carouselsContainer.innerHTML = '';
+                db.carousels.forEach(carouselConfig => {
+                    const movies = db.movies.filter(carouselConfig.filter);
+                    if (movies.length > 0) {
+                        DOMElements.carouselsContainer.innerHTML += createCarouselHTML(carouselConfig.title, movies);
+                    }
+                });
+            }
+
+            function createCarouselHTML(title, movies) {
+                return `
+                    <section class="container mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4">${title}</h2>
+                        <div class="relative"><div class="carousel-container flex overflow-x-auto space-x-4 py-4 -mx-4 px-4">${movies.map(createMovieCardHTML).join('')}</div></div>
+                    </section>`;
+            }
+
+            function createMovieCardHTML(movie) {
+                return `
+                    <div class="details-btn flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/5 lg:w-1/6 rounded-lg transform hover:-translate-y-2 transition-transform duration-300 cursor-pointer group" data-movie-id="${movie.id}">
+                        <div class="relative rounded-lg overflow-hidden aspect-[2/3]" style="background-color: var(--card-bg);">
+                            <img loading="lazy" src="${movie.poster}" alt="Pôster de ${movie.title}" class="w-full h-full object-cover">
+                        </div>
+                    </div>`;
+            }
+            
+            function showDetailsModal(movieId) {
+                const movie = db.movies.find(m => m.id == movieId);
+                if (!movie) return;
+                
+                DOMElements.detailsModal.content.innerHTML = `
+                    <div class="relative">
+                        <img src="${movie.backdrop}" alt="${movie.title}" class="w-full h-48 md:h-72 object-cover rounded-t-lg">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[var(--card-bg)] to-transparent"></div>
+                        <button id="close-details-modal" class="absolute top-3 right-3 bg-black/50 rounded-full p-1.5"><i data-lucide="x"></i></button>
                     </div>
-                `;
-                card.addEventListener('click', clickHandler);
-                return card;
-            }
-
-            function loadSeasons() {
-                seasonsGrid.innerHTML = '';
-                db.seasons.forEach(season => {
-                    const card = createCard(season, () => showDetailsPage('season', season.id));
-                    seasonsGrid.appendChild(card);
-                });
-            }
-
-            function loadMovies() {
-                moviesGrid.innerHTML = '';
-                db.movies.forEach(movie => {
-                    const card = createCard(movie, () => showDetailsPage('movie', movie.id));
-                    moviesGrid.appendChild(card);
-                });
-            }
-
-            function loadHighlights() {
-                highlightsCarousel.innerHTML = '';
-                const highlights = [...db.seasons, ...db.movies.slice(0, 3)];
-
-                highlights.forEach(item => {
-                    const isSeason = !!item.episodes;
-                    const slide = document.createElement('div');
-                    slide.className = 'swiper-slide flex items-end p-4 sm:p-8 bg-cover bg-center text-white rounded-lg';
-                    slide.style.backgroundImage = `url(${item.cover})`;
-
-                    slide.innerHTML = `
-                        <div class="z-10 w-full">
-                            <h3 class="text-xl lg:text-4xl font-bold" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">${item.title}</h3>
-                            <button class="play-highlight-btn mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-5 rounded-full transition-transform transform hover:scale-105 flex items-center gap-2 text-sm sm:text-base" data-type="${isSeason ? 'season' : 'movie'}" data-id="${item.id}">
-                                <i data-feather="play" class="w-4 h-4"></i>
-                                Assistir
-                            </button>
+                    <div class="p-4 md:p-6">
+                        <h2 class="text-3xl font-bold">${movie.title} (${movie.year})</h2>
+                        <div class="flex items-center my-2 space-x-4 text-sm" style="color: var(--text-secondary)">
+                            <div class="flex items-center text-yellow-400">${'★'.repeat(Math.round(movie.rating))}${'☆'.repeat(5 - Math.round(movie.rating))} <span class="ml-2" style="color: var(--text-primary);">${movie.rating}</span></div>
+                            <span>${movie.genres.join(', ')}</span>
                         </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent rounded-lg"></div>
-                    `;
-                    highlightsCarousel.appendChild(slide);
-                });
+                        <p class="my-4">${movie.synopsis}</p>
+                        <div class="text-sm space-y-1">
+                            <p><strong style="color: var(--text-primary)">Diretor:</strong> ${movie.director}</p>
+                            <p><strong style="color: var(--text-primary)">Elenco:</strong> ${movie.cast.join(', ')}</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3 mt-6">
+                            <button class="watch-btn flex-1 flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-5 rounded-lg transition" data-movie-id="${movie.id}"><i data-lucide="play" class="mr-2"></i>Assistir</button>
+                            <button onclick="alert('Funcionalidade de transmissão em desenvolvimento!')" class="flex-1 flex items-center justify-center border font-bold py-3 px-5 rounded-lg transition hoverable-item" style="border-color: var(--text-secondary);"><i data-lucide="cast" class="mr-2"></i>Transmitir</button>
+                            <button onclick="alert('Funcionalidade de download em desenvolvimento!')" class="flex-1 flex items-center justify-center border font-bold py-3 px-5 rounded-lg transition hoverable-item" style="border-color: var(--text-secondary);"><i data-lucide="download" class="mr-2"></i>Baixar</button>
+                        </div>
+                    </div>`;
+                
+                DOMElements.detailsModal.container.classList.add('active');
+                lucide.createIcons();
+                document.getElementById('close-details-modal').onclick = () => DOMElements.detailsModal.container.classList.remove('active');
+            }
+
+            function openPlayerModal(movieId) {
+                const movie = db.movies.find(m => m.id == movieId);
+                if (!movie) return;
+                
+                const playerContainer = DOMElements.playerModal.playerContainer;
+                playerContainer.innerHTML = (movie.playerType === 'iframe')
+                    ? `<iframe class="w-full h-full" src="${movie.url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`
+                    : `<video class="w-full h-full" src="${movie.url}" controls autoplay></video>`;
+                
+                DOMElements.playerModal.container.classList.add('active');
+            }
+
+            function closePlayerModal() {
+                DOMElements.playerModal.playerContainer.innerHTML = '';
+                DOMElements.playerModal.container.classList.remove('active');
+            }
+
+            function toggleTheme() {
+                DOMElements.html.classList.toggle('light');
+                DOMElements.html.classList.toggle('dark');
+                localStorage.setItem('theme', DOMElements.html.classList.contains('dark') ? 'dark' : 'light');
+                updateThemeIcons();
             }
             
-            function showDetailsPage(type, id) {
-                let item;
-                if (type === 'season') {
-                    item = db.seasons.find(s => s.id === id);
-                } else {
-                    item = db.movies.find(m => m.id === id);
+            function updateThemeIcons() {
+                const isLight = DOMElements.html.classList.contains('light');
+                const newIconName = isLight ? 'moon' : 'sun';
+                const btn = DOMElements.themeToggle;
+                if (btn) {
+                    const icon = btn.querySelector('i, svg');
+                    if (icon) {
+                         const newIconEl = document.createElement('i');
+                         newIconEl.setAttribute('data-lucide', newIconName);
+                         for (const attr of icon.attributes) if (attr.name !== 'data-lucide') newIconEl.setAttribute(attr.name, attr.value);
+                         icon.parentNode.replaceChild(newIconEl, icon);
+                    }
                 }
-                if (!item) return;
+                lucide.createIcons();
+            }
 
-                detailsPage.innerHTML = `
-                    <div class="relative -mx-4 -mt-20 sm:-mt-24 h-[40vh] md:h-[50vh]">
-                        <div class="absolute inset-0 bg-contain bg-no-repeat bg-center" style="background-image: url(${item.cover}); background-color: #000;"></div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#081526] via-[#081526]/80 to-transparent"></div>
-                    </div>
-                    <div class="relative px-4">
-                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-8 items-center -mt-24 sm:-mt-32">
-                            <img src="${item.cover}" class="w-32 sm:w-48 aspect-[2/3] object-cover rounded-lg shadow-lg flex-shrink-0">
-                            <div class="flex-grow text-center sm:text-left">
-                                <h2 class="text-3xl sm:text-5xl font-bold text-white">${item.title}</h2>
-                                <p class="text-slate-300 mt-2">${item.description || ''}</p>
-                                <div class="mt-6 flex items-center justify-center sm:justify-start gap-4">
-                                    <button id="playDetailsBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full text-lg flex items-center gap-2">
-                                        <i data-feather="play"></i>Assistir
-                                    </button>
-                                    <button id="transmitDetailsBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold p-3 rounded-full" title="Transmitir com Web Video Caster">
-                                        <i data-feather="cast"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        ${type === 'season' ? `
-                            <div class="mt-12">
-                                <h3 class="text-2xl font-bold text-yellow-400 mb-4">Episódios</h3>
-                                <div id="detailsEpisodeList" class="space-y-2"></div>
-                            </div>
-                        ` : ''}
-                    </div>
-                    <button id="backFromDetails" class="mt-8 bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2">
-                        <i data-feather="arrow-left" class="w-5 h-5"></i>
-                        Voltar
-                    </button>
-                `;
-
-                if (type === 'season') {
-                    const detailsEpisodeList = document.getElementById('detailsEpisodeList');
-                    item.episodes.forEach((ep, index) => {
-                        const epItem = document.createElement('div');
-                        epItem.className = 'episode-item flex items-center gap-4 p-3 rounded-lg hover:bg-slate-800/50 cursor-pointer';
-                        epItem.innerHTML = `
-                            <span class="text-slate-400 font-mono text-lg">${index + 1}</span>
-                            <div class="flex-grow">
-                                <h4 class="font-semibold text-slate-100">${ep.title}</h4>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <a href="${ep.videoUrl}" download="${ep.title}.mp4" class="download-btn text-slate-400 hover:text-white" title="Fazer Download" onclick="event.stopPropagation();">
-                                   <i data-feather="download" class="w-5 h-5"></i>
-                                </a>
-                                <button class="cast-episode-btn text-slate-400 hover:text-white" title="Transmitir" data-url="${ep.videoUrl}" data-title="${ep.title}" onclick="event.stopPropagation();">
-                                   <i data-feather="cast" class="w-5 h-5"></i>
-                                </button>
-                                <i data-feather="play-circle" class="text-slate-400"></i>
-                            </div>
-                        `;
-                        epItem.addEventListener('click', () => playEpisode(item.id, index));
-                        detailsEpisodeList.appendChild(epItem);
-                    });
-                }
+            function setupEventListeners() {
+                DOMElements.profileBtn.onclick = (e) => { e.stopPropagation(); DOMElements.profileMenu.classList.toggle('hidden'); };
+                DOMElements.themeToggle.onclick = toggleTheme;
+                DOMElements.hamburgerBtn.onclick = () => DOMElements.mobileNav.classList.remove('-translate-x-full');
+                DOMElements.closeMobileNav.onclick = () => DOMElements.mobileNav.classList.add('-translate-x-full');
                 
-                document.getElementById('playDetailsBtn').addEventListener('click', () => {
-                    if (type === 'season') {
-                        playEpisode(item.id, 0);
-                    } else {
-                        if (item.playerType === 'iframe') {
-                            playIframeMovie(item);
-                        } else {
-                            playVideoMovie(item);
-                        }
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.details-btn')) {
+                        showDetailsModal(e.target.closest('.details-btn').dataset.movieId);
+                    }
+                    if (e.target.closest('.watch-btn')) {
+                        openPlayerModal(e.target.closest('.watch-btn').dataset.movieId);
+                    }
+                    if (!DOMElements.profileDropdownContainer.contains(e.target)) {
+                        DOMElements.profileMenu.classList.add('hidden');
                     }
                 });
-                
-                document.getElementById('transmitDetailsBtn').addEventListener('click', () => {
-                    let urlToCast;
-                    let titleToCast = item.title;
-                    if (type === 'season') {
-                        urlToCast = item.episodes[0].videoUrl;
-                    } else {
-                        urlToCast = item.playerType === 'iframe' ? item.castUrl : item.videoUrl;
-                    }
-                    const url = `wvc-x-callback://open?url=${encodeURIComponent(urlToCast)}&title=${encodeURIComponent(titleToCast)}`;
-                    window.location.href = url;
-                });
 
-                document.getElementById('backFromDetails').addEventListener('click', () => showPage(lastPage, false));
-
-                feather.replace();
-                showPage('detailsPage', true);
+                DOMElements.playerModal.closeBtn.onclick = closePlayerModal;
+                DOMElements.playerModal.container.onclick = (e) => { if (e.target === DOMElements.playerModal.container) closePlayerModal(); };
             }
-
-            function playEpisode(seasonId, index) {
-                const season = db.seasons.find(s => s.id === seasonId);
-                const episodeData = season?.episodes[index];
-                if (!episodeData) return;
-
-                mainVideoPlayer.src = episodeData.videoUrl;
-                episodeTitle.textContent = episodeData.title;
-                
-                const playPromise = mainVideoPlayer.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        if (error.name !== 'AbortError') {
-                            console.error("Erro ao tentar reproduzir o vídeo:", error);
-                        }
-                    });
-                }
-                showPage('episodesPage', false);
-            }
-
-            function playIframeMovie(movie) {
-                moviePlayerIframe.src = movie.iframeUrl;
-                showPage('iframePlayerPage', true);
-            }
-
-            function playVideoMovie(movie) {
-                videoPlayer.src = movie.videoUrl;
-                showPage('videoPlayerPage', true);
-            }
-
-            // Event Listeners
-            document.getElementById('nav-highlights').addEventListener('click', (e) => { e.preventDefault(); showPage('highlightsPage'); });
-            document.getElementById('nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); });
-            document.getElementById('nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); });
             
-            document.getElementById('mobile-nav-highlights').addEventListener('click', (e) => { e.preventDefault(); showPage('highlightsPage'); toggleMenu(); });
-            document.getElementById('mobile-nav-drawings').addEventListener('click', (e) => { e.preventDefault(); showPage('seasonsPage'); toggleMenu(); });
-            document.getElementById('mobile-nav-movies').addEventListener('click', (e) => { e.preventDefault(); showPage('moviesPage'); toggleMenu(); });
-
-            document.getElementById('backToDetailsBtn').addEventListener('click', () => {
-                 mainVideoPlayer.pause();
-                 mainVideoPlayer.src = '';
-                 showPage('detailsPage', false);
-            });
-
-            backToMoviesFromIframe.addEventListener('click', () => {
-                moviePlayerIframe.src = ''; 
-                showPage('moviesPage', false);
-            });
-
-            backToMoviesFromVideo.addEventListener('click', () => {
-                videoPlayer.pause();
-                videoPlayer.src = '';
-                showPage('moviesPage', false);
-            });
-            
-            detailsPage.addEventListener('click', (e) => {
-                const castButton = e.target.closest('.cast-episode-btn');
-                if (castButton) {
-                    const urlToCast = castButton.dataset.url;
-                    const titleToCast = castButton.dataset.title;
-                    const url = `wvc-x-callback://open?url=${encodeURIComponent(urlToCast)}&title=${encodeURIComponent(titleToCast)}`;
-                    window.location.href = url;
-                }
-            });
-
-            highlightsCarousel.addEventListener('click', (e) => {
-                const button = e.target.closest('.play-highlight-btn');
-                if (button) {
-                    const type = button.dataset.type;
-                    const id = button.dataset.id;
-                    showDetailsPage(type, id);
-                }
-            });
-            
-            function initSwiper() {
-                 new Swiper('.swiper', {
-                    loop: true,
-                    autoplay: {
-                        delay: 5000,
-                        disableOnInteraction: false,
-                    },
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                });
+            function init() {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'light') DOMElements.html.classList.replace('dark', 'light');
+                updateThemeIcons();
+                renderHero();
+                renderAllCarousels();
+                setupEventListeners();
+                lucide.createIcons();
+                DOMElements.loadingSpinner.classList.add('hidden');
             }
 
-            loadSeasons();
-            loadMovies();
-            loadHighlights();
-            feather.replace();
-            
-            showPage('highlightsPage'); // Define a página inicial
+            init();
         });
     </script>
 </body>
